@@ -79,8 +79,6 @@ def get_product(product_id):
 @jwt_required()
 def add_products():
     
-    # current_user = get_jwt_identity()
-    # # user = User.query.filter_by(email=current_user).first()
     body = request.get_json()
     product = Products.query.filter_by(name=body["name"]).first()
     category = ProductCategory.query.filter_by(category_name=body["category_name"]).first()
@@ -93,6 +91,8 @@ def add_products():
         product = Products(
         name = body['name'],
         description = body['description'],
+        price = body['price'],
+        stock = body['stock'],
         category_id = category_info['id']
         )
         db.session.add(product)
@@ -106,38 +106,40 @@ def add_products():
     else:
         return jsonify({"msg": "product already exists with this name"}), 401
 
-# @api.route('/update_products/<int:product_id>', methods =['PUT'])
-# @jwt_required()
-# def update_products(product_id):
-#     body = request.get_json()
-#     update_product = Products.query.filter_by(id=product_id).first()
-#     category = ProductCategory.query.filter_by(category_name=body["category_name"]).first()
-#     category_info = category.serialize()
+@api.route('/update_products/<int:product_id>', methods =['PUT'])
+@jwt_required()
+def update_products(product_id):
+    body = request.get_json()
+    update_product = Products.query.filter_by(id=product_id).first()
+    category = ProductCategory.query.filter_by(category_name=body["category_name"]).first()
+    category_info = category.serialize()
    
-#     if body['name']: update_product.name = body['name']
-#     if body['description']: update_product.description = body['description']
-#     if body['category_name']: update_product.category_id = category_info['id']
+    if body['name']: update_product.name = body['name']
+    if body['price']: update_product.price = body['price']
+    if body['stock']: update_product.stock = body['stock']
+    if body['description']: update_product.description = body['description']
+    if body['category_name']: update_product.category_id = category_info['id']
 
-#     db.session.commit()
+    db.session.commit()
 
-#     response_body = {
-#         "message": "Product updated"
-#     }
+    response_body = {
+        "message": "Product updated"
+    }
       
-#     return jsonify(response_body), 200
+    return jsonify(response_body), 200
 
-# @api.route('/delete_product/<int:product_id>', methods =['DELETE'])
-# def delete_product(product_id):
-#     delete_product = Products.query.filter_by(id=product_id).first()
+@api.route('/delete_product/<int:product_id>', methods =['DELETE'])
+def delete_product(product_id):
+    delete_product = Products.query.filter_by(id=product_id).first()
 
-#     db.session.delete(delete_product)
-#     db.session.commit()
+    db.session.delete(delete_product)
+    db.session.commit()
 
-#     response_body = {
-#         "message": "Product deleted"
-#     }
+    response_body = {
+        "message": "Product deleted"
+    }
       
-#     return jsonify(response_body), 200
+    return jsonify(response_body), 200
 
 @api.route('/get_category', methods=['GET'])
 def get_category():

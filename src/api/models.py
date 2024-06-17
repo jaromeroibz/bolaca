@@ -90,6 +90,8 @@ class Products(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
+            "price": self.price,
+            "stock": self.stock
         }    
        
 class OrderStatus(Enum): 
