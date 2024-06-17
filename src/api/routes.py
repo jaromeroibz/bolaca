@@ -40,23 +40,23 @@ def admin_login():
     access_token = create_access_token(identity=email)
     return jsonify(access_token=access_token)
 
-@api.route("/admin_signup", methods=["POST"])
-def admin_signup():
-    body = request.get_json()
-    user = User.query.filter_by(email=body["email"]).first()
+# @api.route("/admin_signup", methods=["POST"])
+# def admin_signup():
+#     body = request.get_json()
+#     user = User.query.filter_by(email=body["email"]).first()
 
-    if user == None:
-        user = User(name=body["name"], email=body["email"], password=body["password"], is_active=True)
+#     if user == None:
+#         user = User(name=body["name"], email=body["email"], password=body["password"], is_active=True)
 
-        db.session.add(user)
-        db.session.commit()
-        user_info = user.serialize()
-        access_token = create_access_token(identity=user_info["id"])
-        user_info['access_token']=access_token
+#         db.session.add(user)
+#         db.session.commit()
+#         user_info = user.serialize()
+#         access_token = create_access_token(identity=user_info["id"])
+#         user_info['access_token']=access_token
 
-        return jsonify(user_info), 200
-    else:
-        return jsonify({"msg": "user already exists with this email address"}), 401
+#         return jsonify(user_info), 200
+#     else:
+#         return jsonify({"msg": "user already exists with this email address"}), 401
     
 @api.route('/get_all_products', methods=['GET'])
 def get_all_products():
@@ -75,34 +75,36 @@ def get_product(product_id):
 
 # Admin Page
 
-# @api.route('/add_products', methods=['POST'])
-# @jwt_required()
-# def add_products():
+@api.route('/add_products', methods=['POST'])
+@jwt_required()
+def add_products():
     
-#     current_user = get_jwt_identity()
-#     user = User.query.filter_by(email=current_user).first()
-#     body = request.get_json()
-#     product = Products.query.filter_by(name=body["name"]).first()
-#     category = ProductCategory.query.filter_by(category_name=body["category_name"]).first()
-#     category_info = category.serialize()
+    # current_user = get_jwt_identity()
+    # # user = User.query.filter_by(email=current_user).first()
+    body = request.get_json()
+    product = Products.query.filter_by(name=body["name"]).first()
+    category = ProductCategory.query.filter_by(category_name=body["category_name"]).first()
+    print(category)
+    category_info = category.serialize()
+    print(category_info)
 
-#     if product == None:
+    if product == None:
 
-#         product = Products(
-#         name = body['name'],
-#         description = body['description'],
-#         category_id = category_info['id']
-#         )
-#         db.session.add(product)
-#         db.session.commit()
+        product = Products(
+        name = body['name'],
+        description = body['description'],
+        category_id = category_info['id']
+        )
+        db.session.add(product)
+        db.session.commit()
 
-#         response_body = {
-#             "message": "Product created"
-#         }
+        response_body = {
+            "message": "Product created"
+        }
 
-#         return jsonify(response_body), 200
-#     else:
-#         return jsonify({"msg": "product already exists with this name"}), 401
+        return jsonify(response_body), 200
+    else:
+        return jsonify({"msg": "product already exists with this name"}), 401
 
 # @api.route('/update_products/<int:product_id>', methods =['PUT'])
 # @jwt_required()
