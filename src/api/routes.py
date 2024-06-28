@@ -106,7 +106,8 @@ def add_products():
     else:
         return jsonify({"msg": "product already exists with this name"}), 401
 
-@api.route('/update_products/<int:product_id>', methods =['PUT'])
+@api.route('/update_products/<int:product_id>', methods =['PUT']) 
+# User needs to enter a value, otherwise there will be an Error
 @jwt_required()
 def update_products(product_id):
     body = request.get_json()
@@ -151,58 +152,61 @@ def get_category():
 
 # Admin Page
 
-# @api.route('/add_category', methods=['POST'])
-# @jwt_required()
-# def add_category():
+@api.route('/add_category', methods=['POST'])
+@jwt_required()
+def add_category():
     
-#     current_user = get_jwt_identity()
-#     user = User.query.filter_by(email=current_user).first()
-#     body = request.get_json()
-#     category = ProductCategory.query.filter_by(category_name=body["category_name"]).first()
+    body = request.get_json()
+    category = ProductCategory.query.filter_by(category_name=body["category_name"]).first()
+    print(category)
 
-#     if user.is_admin is True and category == None:
+    if category == None:
 
-#         category = ProductCategory(category_name = body['category_name'])
-#         db.session.add(category)
-#         db.session.commit()
+        category = ProductCategory(
+        category_name = body['category_name']
+        )
+        db.session.add(category)
+        db.session.commit()
 
-#         response_body = {
-#             "message": "Category created"
-#         }
+        response_body = {
+            "message": "Category created"
+        }
 
-#         return jsonify(response_body), 200
-#     else:
-#         return jsonify({"msg": "Category already exists with this name"}), 401
+        return jsonify(response_body), 200
+    else:
+        return jsonify({"msg": "Category already exists with this name"}), 401
 
-# @api.route('/update_category/<int:category_id>', methods =['PUT'])
-# @jwt_required()
-# def update_category(category_id):
-#     body = request.get_json()
-#     update_category = ProductCategory.query.filter_by(id=category_id).first()
-#     print(update_category)
-#     print(body)
-#     if body['category_name']: update_category.category_name = body['category_name']
+@api.route('/update_category/<int:category_id>', methods =['PUT']) 
+# User needs to enter a value, otherwise there will be an Error
+@jwt_required()
+def update_category(category_id):
+    body = request.get_json()
+    update_category = ProductCategory.query.filter_by(id=category_id).first()
+    
+    if body['category_name']: update_category.category_name = body['category_name']
 
-#     db.session.commit()
+    db.session.commit()
 
-#     response_body = {
-#         "message": "Category updated"
-#     }
+    response_body = {
+        "message": "Product category updated"
+    }
       
-#     return jsonify(response_body), 200
+    return jsonify(response_body), 200
 
-# @api.route('/delete_category/<int:category_id>', methods =['DELETE'])
-# def delete_category(category_id):
-#     delete_category = ProductCategory.query.filter_by(id=category_id).first()
+@api.route('/delete_category/<int:category_id>', methods =['DELETE'])
+def delete_category(category_id):
+    delete_category = ProductCategory.query.filter_by(id=category_id).first()
 
-#     db.session.delete(delete_category)
-#     db.session.commit()
+    db.session.delete(delete_category)
+    db.session.commit()
 
-#     response_body = {
-#         "message": "Product category deleted"
-#     }
+    response_body = {
+        "message": "Product category deleted"
+    }
       
-#     return jsonify(response_body), 200
+    return jsonify(response_body), 200
+
+# Hatsa aquí todas las rutas funcionan
 
 @api.route('/get_payment_type', methods=['GET'])
 def get_payment_type():
