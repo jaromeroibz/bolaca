@@ -40,23 +40,23 @@ def admin_login():
     access_token = create_access_token(identity=email)
     return jsonify(access_token=access_token)
 
-# @api.route("/admin_signup", methods=["POST"])
-# def admin_signup():
-#     body = request.get_json()
-#     user = User.query.filter_by(email=body["email"]).first()
+@api.route("/admin_signup", methods=["POST"])
+def admin_signup():
+    body = request.get_json()
+    user = User.query.filter_by(email=body["email"]).first()
 
-#     if user == None:
-#         user = User(name=body["name"], email=body["email"], password=body["password"], is_active=True)
+    if user == None:
+        user = User(name=body["name"], email=body["email"], password=body["password"], is_active=True)
 
-#         db.session.add(user)
-#         db.session.commit()
-#         user_info = user.serialize()
-#         access_token = create_access_token(identity=user_info["id"])
-#         user_info['access_token']=access_token
+        db.session.add(user)
+        db.session.commit()
+        user_info = user.serialize()
+        access_token = create_access_token(identity=user_info["id"])
+        user_info['access_token']=access_token
 
-#         return jsonify(user_info), 200
-#     else:
-#         return jsonify({"msg": "user already exists with this email address"}), 401
+        return jsonify(user_info), 200
+    else:
+        return jsonify({"msg": "user already exists with this email address"}), 401
     
 @api.route('/get_all_products', methods=['GET'])
 def get_all_products():
@@ -72,8 +72,6 @@ def get_product(product_id):
     product = Products.query.filter_by(id=product_id).first()
 
     return jsonify(product.serialize())
-
-# Admin Page
 
 @api.route('/add_products', methods=['POST'])
 @jwt_required()
@@ -143,14 +141,19 @@ def delete_product(product_id):
     return jsonify(response_body), 200
 
 @api.route('/get_category', methods=['GET'])
-def get_category():
+def get_all_categories():
     
     all_categories = ProductCategory.query.all()
     result = list(map(lambda item: item.serialize(), all_categories))
 
     return jsonify(result) 
 
-# Admin Page
+@api.route('/get_category/<int:category_id>', methods=['GET'])
+def get_category(category_id):
+    
+    category = ProductCategory.query.filter_by(id=category_id).first()
+
+    return jsonify(category.serialize())
 
 @api.route('/add_category', methods=['POST'])
 @jwt_required()
@@ -206,66 +209,70 @@ def delete_category(category_id):
       
     return jsonify(response_body), 200
 
-# Hatsa aquí todas las rutas funcionan
-
 @api.route('/get_payment_type', methods=['GET'])
-def get_payment_type():
+def get_all_payment_types():
     
     all_payment_types = PaymentType.query.all()
     result = list(map(lambda item: item.serialize(), all_payment_types))
 
     return jsonify(result) 
 
-# admin page
-
-# @api.route('/add_payment_type', methods=['POST'])
-# @jwt_required()
-# def add_payment_type():
+@api.route('/get_payment_type/<int:payment_type_id>', methods=['GET'])
+def get_payment_type(payment_type_id):
     
-#     current_user = get_jwt_identity()
-#     user = User.query.filter_by(email=current_user).first()
-#     body = request.get_json()
-#     payment_type = PaymentType.query.filter_by(payment_type=body["payment_type"]).first()
+    payment_type = PaymentType.query.filter_by(id=payment_type_id).first()
 
-#     if user.is_admin is True and payment_type == None:
+    return jsonify(payment_type.serialize())
 
-#         payment_type = PaymentType(payment_type = body['payment_type'])
-#         db.session.add(payment_type)
-#         db.session.commit()
 
-#         response_body = {
-#             "message": "Payment type created"
-#         }
-
-#         return jsonify(response_body), 200
-#     else:
-#         return jsonify({"msg": "Payment type already exists with this name"}), 401
+@api.route('/add_payment_type', methods=['POST'])
+@jwt_required()
+def add_payment_type():
     
-# @api.route('/update_payment_type/<int:payment_type_id>', methods =['PUT'])
-# @jwt_required()
-# def update_payment_type(payment_type_id):
-#     body = request.get_json()
-#     update_payment_type = PaymentType.query.filter_by(id=payment_type_id).first()
+    body = request.get_json()
+    payment_type = PaymentType.query.filter_by(payment_type=body["payment_type"]).first()
 
-#     if body['payment_type']: update_payment_type.payment_type = body['payment_type']
+    if payment_type == None:
 
-#     db.session.commit()
+        payment_type = PaymentType(payment_type = body['payment_type'])
+        db.session.add(payment_type)
+        db.session.commit()
 
-#     response_body = {
-#         "message": "Payment type updated"
-#     }
+        response_body = {
+            "message": "Payment type created"
+        }
+
+        return jsonify(response_body), 200
+    else:
+        return jsonify({"msg": "Payment type already exists with this name"}), 401
+    
+@api.route('/update_payment_type/<int:payment_type_id>', methods =['PUT'])
+@jwt_required()
+def update_payment_type(payment_type_id):
+    body = request.get_json()
+    update_payment_type = PaymentType.query.filter_by(id=payment_type_id).first()
+
+    if body['payment_type']: update_payment_type.payment_type = body['payment_type']
+
+    db.session.commit()
+
+    response_body = {
+        "message": "Payment type updated"
+    }
       
-#     return jsonify(response_body), 200
+    return jsonify(response_body), 200
 
-# @api.route('/delete_payment_type/<int:payment_type_id>', methods =['DELETE'])
-# def delete_payment_type(payment_type_id):
-#     delete_payment_type = PaymentType.query.filter_by(id=payment_type_id).first()
+@api.route('/delete_payment_type/<int:payment_type_id>', methods =['DELETE'])
+def delete_payment_type(payment_type_id):
+    delete_payment_type = PaymentType.query.filter_by(id=payment_type_id).first()
 
-#     db.session.delete(delete_payment_type)
-#     db.session.commit()
+    db.session.delete(delete_payment_type)
+    db.session.commit()
 
-#     response_body = {
-#         "message": "Payment type deleted"
-#     }
+    response_body = {
+        "message": "Payment type deleted"
+    }
       
-#     return jsonify(response_body), 200
+    return jsonify(response_body), 200
+
+# Hasta aquí las rutas funcionan
