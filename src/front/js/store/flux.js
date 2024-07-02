@@ -16,7 +16,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			products: []
+			products: [],
+			categories: [],
+			productDetails: [],
+			category:[]
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -49,6 +52,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+			signUpAdmin: (name,email,password) => {
+				console.log('Signup desde flux')
+				console.log(name,email,password)
+				const requestOptions = {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json', 'Origin': '*',
+					'Access-Control-Allow-Headers': '*',
+					'Access-Control-Allow-Origin': '*' },
+					body: JSON.stringify({
+
+						"name": name,
+						"email": email,
+						"password": password
+					})
+				}
+				const isLogin = fetch(process.env.BACKEND_URL +'/api/admin_signup', requestOptions)
+					.then((response) => {
+						if(response.status === 200){
+							setStore({auth: true});
+						}
+						return response.json()
+					})
+					.then((data) =>{
+						console.log(data)
+						setStore({ users: data })
+						localStorage.setItem("token", data.access_token)
+						localStorage.setItem("auth", true)
+						return true
+						}
+					)
+					return isLogin
 			},
 			loginAdmin: async (email, password) => {
 				console.log('Login desde flux')
@@ -83,7 +118,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getProducts: async () => {
 
 				try {
-				   const store = getStore();
 				   const response = await fetch(process.env.BACKEND_URL+'/api/get_all_products')	
 				   const data = await response.json()
 				   
@@ -96,7 +130,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 		    },
 			getProductDetails: async (result) => {
 				try {
-					const store = getStore()	
 					const idToDisplay = result.id				
 					const response = await fetch(process.env.BACKEND_URL+'/api/get_product/'+idToDisplay)
 					const data = await response.json()
@@ -112,7 +145,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			addProduct: async (result) => {
 				
 				console.log(result)
-				const store = getStore();
+
 				let token = localStorage.getItem("token")
 
 				const requestOptions = {
@@ -173,12 +206,58 @@ const getState = ({ getStore, getActions, setStore }) => {
 					
 				getActions().getProducts();	
 			},
+			getCategories: async () => {
 
+				try {
 
+				   const response = await fetch(process.env.BACKEND_URL+'/api/get_category')	
+				   const data = await response.json()
+				   
+				   if(response.ok){
+					   setStore({ categories: data})
+				   }
+				} catch (error) {
+				   console.log(error)
+				}
+		    },
+			getCategory: async (result) => {
 
+				try {
 
+					const idToDisplay = result.id				
+					const response = await fetch(process.env.BACKEND_URL+'/api/get_category/'+idToDisplay)
+					const data = await response.json()
+
+					if(response.ok){
+						setStore({ category: data})
+					}
+				} catch (error) {
+					console.log(error)
+					
+				}
+			},
+			addCategory: async (result) => {
+				
+				console.log(result)
+
+				let token = localStorage.getItem("token")
+
+				const requestOptions = {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json',
+								'Authorization': `Bearer ${token}`},
+					body: JSON.stringify(data)
+				}
+
+				let response = await fetch(process.env.BACKEND_URL +'/api/add_category', requestOptions)
+				let data = await response.json();
+				if (response.ok === 200){
+					getActions().getCategories()
+				}
+				console.log(data) 
 		}
-	};
+		}
+	}
 };
 
 export default getState;
