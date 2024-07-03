@@ -37,6 +37,7 @@ export const Navbar = () => {
 							<a className="nav-link" href="#">Contacto</a>
 							</li>
 						</ul>
+						<span></span>
 					</div>
 				</div>
 			</nav>
