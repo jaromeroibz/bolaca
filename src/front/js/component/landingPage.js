@@ -11,28 +11,25 @@ export const LandingPage = () => {
         <div className="container">
             <div className="landing-page">
                 <div className="carrousel">
-                    <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
+                    <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
                         <ol className="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active"></li>
+                            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+                            <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
                         </ol>
                         <div className="carousel-inner">
                             <div className="carousel-item active">
-                            <img className="d-block w-25" src="https://acdn.mitiendanube.com/stores/001/374/086/products/ayuda-a-joe-11-983e4167513967aeb416699958466795-1024-1024.webp" width={250} height={250} alt="First slide"></img>
+                                <img className="d-block w-100" src="https://i.pinimg.com/originals/10/c4/59/10c4599608f4a944743d0cba662669b0.jpg" alt="Second slide"></img>
                             </div>
                             <div className="carousel-item">
-                            <img className="d-block w-100" src="..." alt="Second slide"></img>
-                            </div>
-                            <div className="carousel-item">
-                            <img className="d-block w-100" src="..." alt="Third slide"></img>
+                                <img className="d-block w-100" src="https://i.pinimg.com/originals/e0/d3/1a/e0d31ad8a73edddb23573374f68c3a84.jpg" alt="Third slide"></img>
                             </div>
                         </div>
-                        <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
                             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span className="sr-only">Previous</span>
                         </a>
-                        <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
                             <span className="carousel-control-next-icon" aria-hidden="true"></span>
                             <span className="sr-only">Next</span>
                         </a>

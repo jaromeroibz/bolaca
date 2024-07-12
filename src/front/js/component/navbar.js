@@ -6,7 +6,10 @@ export const Navbar = () => {
 	return (
 		<>
 		<div className="container">
-			<nav className="navbar navbar-expand-lg navbar-light">
+			<div className="d-flex justify-content-center align-items-center header">
+				<p>Envío gratis a todo chile</p>
+			</div>
+			<nav className="navbar navbar-expand-sm navbar-light">
 				<a className="navbar-brand mb-0 h1" href="#">
 					<img className="d-inline-block" src={bolacaLogo} width={200} height={200}></img>
 				</a>
