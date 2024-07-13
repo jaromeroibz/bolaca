@@ -13,6 +13,11 @@ import { Footer } from "./component/footer";
 import { AdminPage } from "./component/adminPage";
 import { AdminSignUp } from "./component/adminSignUp";
 import { LandingPage } from "./component/landingPage";
+import { Productos } from "./component/productos";
+import { detalleProductos } from "./component/detalleProducto";
+
+
+
 import { Header } from "./component/header";
 
 
@@ -30,7 +35,9 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route element={<LandingPage />} path="/" />                       
+                        <Route element={<LandingPage />} path="/" />
+                        <Route element={<Productos />} path="/productos" />
+                        <Route element={<detalleProductos />} path="/detalle-productos" />                                             
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<adminPage />} path="/single/:theid" />

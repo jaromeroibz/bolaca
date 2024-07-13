@@ -77,7 +77,7 @@ class Products(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(80), unique=False, nullable=False)
     description = db.Column(db.String(120), unique=False, nullable=False)
-    price = db.Column(db.Integer, unique=False, nullable=False)
+    price = db.Column(db.String(10), unique=False, nullable=False)
     stock = db.Column(db.Integer, unique=False, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('product_category.id', ondelete="CASCADE"))
     product_category = db.relationship(ProductCategory, back_populates="products")

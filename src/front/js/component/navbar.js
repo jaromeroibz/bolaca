@@ -1,50 +1,63 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import bolacaLogo from "../../img/bolaca-sin-borde.jpg";
+import bolacaLogo from "../../img/bolaca-sin-borde-pequeña.jpg";
 
 export const Navbar = () => {
 	return (
 		<>
-		<div className="container">
-			<div className="d-flex justify-content-center align-items-center header">
-				<p>Envío gratis a todo chile</p>
-			</div>
-			<nav className="navbar navbar-expand-sm navbar-light">
-				<a className="navbar-brand mb-0 h1" href="#">
-					<img className="d-inline-block" src={bolacaLogo} width={200} height={200}></img>
+		<nav className="navbar navbar-expand-lg fixed-top">
+			<div className="container">
+				<a className="navbar-brand" href="#">
+					<img src={bolacaLogo} width={200} height={110}></img>
 				</a>
-				<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-					<span className="navbar-toggler-icon"></span>
+				{/* Toggler Button */}
+				<button className="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+				<span className="navbar-toggler-icon"></span>
 				</button>
-				<div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-					<div className="navbar-nav px-5">
-						<ul className="navbar-nav px-5">
-							<li className="nav-item active px-3">
-							<a className="nav-link" href="#">Home</a>
-							</li>
-							<li className="nav-item dropdown px-3">
-							<a href="#" className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Productos</a>
-							<ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a className="dropdown_item" href="#">Libros </a></li>
-								<li><a className="dropdown_item" href="#">Juegos de mesa </a></li>
-								<li><a className="dropdown_item" href="#">Cartas didacticas </a></li>
-							</ul>
-							</li>
-							<li className="nav-item active px-3">
-							<a className="nav-link" href="#">Servicios</a>
-							</li>
-							<li className="nav-item active px-3">
-							<a className="nav-link" href="#">Nosotros</a>
-							</li>
-							<li className="nav-item active px-3">
-							<a className="nav-link" href="#">Contacto</a>
-							</li>
-						</ul>
-						<span></span>
-					</div>
+				{/* Side Bar */}
+				<div className="sidebar offcanvas offcanvas-start" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+				{/* Side Bar Header */}
+
+				<div className="offcanvas-header border-bottom">
+					<h5 className="offcanvas-title" id="offcanvasNavbarLabel">BOLACA</h5>
+					<button type="button" className="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 				</div>
-			</nav>
-		</div>
+				{/* Sidebar Body */}
+				<div className="offcanvas-body">
+					<ul className="navbar-nav justify-content-center align-items-center  flex-grow-1 pe-3">
+						<li className="nav-item">
+							<a className="nav-link active" aria-current="page" href="#Home">HOME</a>
+						</li>
+						<li className="nav-item dropdown">
+							<a className="nav-link dropdown-toggle active px-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							PRODUCTOS
+							</a>
+							<ul className="dropdown-menu">
+								<li><a className="dropdown-item" href="#">LIBROS</a></li>
+								<li><a className="dropdown-item" href="#">JUEGOS DE MESA</a></li>
+								<li><a className="dropdown-item" href="#">CARTAS DIDACTICAS</a></li>
+							</ul>
+						</li>
+						<li className="nav-item">
+							<a className="nav-link active px-3" aria-current="page" href="#Servicios">SERVICIOS</a>
+						</li>
+						<li className="nav-item">
+							<a className="nav-link active px-3" aria-current="page" href="#Nosotros">NOSOTROS</a>
+						</li>
+						<li className="nav-item">
+							<a className="nav-link active px-3" aria-current="page" href="#Contacto">CONTACTO</a>
+						</li>
+					</ul>
+					<form className="d-flex mt-3 my-3" role="search">
+						<input className="form-control me-2 shadow-none" type="search" aria-label="Search"></input>
+						<button className="btn border-0 shadow-none" type="submit">
+							<i className="fa-solid fa-magnifying-glass" style={{color: "black"}}></i>
+						</button>
+					</form>
+				</div>
+				</div>
+			</div>
+		</nav>
 		</>
 	);
 };
