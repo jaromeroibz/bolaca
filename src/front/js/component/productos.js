@@ -21,13 +21,13 @@ export const Productos = () =>{
                     <div className="col-9">
                         <div className="cards">
                             {store.products.map((item) => 
-                            <div className="card" style={{width: 284, height: 477}}>
+                            <div className="card" style={{width: 284, height: 477}} key= {item.id}>
                                 <img className="card-img-top" src="https://picsum.photos/200/200" alt="Card image cap"></img>
                                 <div className="card-body">
                                     <h5 className="card-title">{item.name}</h5>
                                     <p className="card-text">${item.price}</p>
                                     <div className="d-flex">
-                                        <Link to="/detalle-productos" style={{textDecoration: 'none' }}>
+                                        <Link to={`/detalleproductos/${item.id}`} style={{textDecoration: 'none' }}>
                                             <button className="card-button d-inline">Ver más</button>
                                         </Link>
                                         <button onClick={agregarCarrito} className="card-button">Agregar al carrito</button>
