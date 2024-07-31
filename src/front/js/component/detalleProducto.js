@@ -12,29 +12,13 @@ export const DetalleProductos = () =>{
     const { store, actions } = useContext(Context);
     const theid = useParams().theid
     const result = store.products.find((item) => item.id == theid )
-    console.log(result)
+  
+    const [currentImage, setCurrentImage] = useState(0);
+    const productImages = [Onecursiva,Twocursiva,Threecursiva,Fourcursiva] // cambiar esto para que tome en cuenta las imagenes llamadas desde AWS
 
     useEffect(() => {
         actions.getProductDetails()
     }, [])
-
-    var img = document.querySelectorAll('.image')
-    var imgCard = document.querySelector('.imgcard')
-    var currentIndex = 0;
-    var interValId;
-
-    function changeSlide (index){
-        currentIndex = index;
-        imgCard.style.backgroundImage =  `url(${img[currentIndex].src})`
-
-    }
-
-    img.forEach((image, index) => {
-        image.addEventListener('click', function(){
-            changeSlide(index)
-        })
-
-    })
 
     function agregarCarrito (){
         
@@ -49,26 +33,31 @@ export const DetalleProductos = () =>{
                     <div className="card" style={{width: 1200, height: 1200}}>
                         <div className="row">
                             <div className="col-1 smallimages">
-                                <img src={Onecursiva} alt="" className="image"></img>
-                                <img src={Twocursiva} alt="" className="image"></img>
-                                <img src={Threecursiva} alt="" className="image"></img>
-                                <img src={Fourcursiva} alt="" className="image"></img>
+                                <img src={productImages[0]} onClick={e => (setCurrentImage(0))} alt="product image" className="image"></img>
+                                <img src={productImages[1]} onClick={e => (setCurrentImage(1))} alt="product image" className="image"></img>
+                                <img src={productImages[2]} onClick={e => (setCurrentImage(2))} alt="product image" className="image"></img>
+                                <img src={productImages[3]} onClick={e => (setCurrentImage(3))} alt="product image" className="image"></img>
                             </div>
                             <div className="col-7">
-                                <div className="imgcard"></div>
+                                <img src = {productImages[currentImage]} height={600} width={600} ></img>
                                 <hr></hr>
                             </div>
-                            <div className="col-4">
-                                <div className="card" style={{width: '18rem'}}>
+                            <div className="col-4 product-info">
+                                <div className="card" >
                                     <div className="card-body">
-                                        <h5 className="card-title">{result.name}</h5>
-                                        <h5 className="card-price">{result.price}</h5>
-                                        <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                        <div className="d-flex">
-                                            <Link to="/finalizar-pedido" style={{textDecoration: 'none' }}>
-                                                <button className="card-button d-inline">Comprar ahora</button>
-                                            </Link>
-                                            <button onClick={agregarCarrito} className="card-button">Agregar al carrito</button>
+                                        <h4 className="card-title">{result.name}</h4>
+                                        <h1 className="card-price">${result.price}</h1>
+                                        <h4 className="card-body">Mismo precio en 3 cuotas de {result.price} / 3 </h4>
+                                        { result.name === 1 ? <h4>¡Última unidad disponible!</h4> : result.name === 0 ? <h4>Sin Stock</h4> : <h4>¡Pocas unidades disponibles!</h4>}
+                                        <div className="py-5">
+                                            <div>
+                                                <Link to="/finalizar-pedido" style={{textDecoration: 'none' }}>
+                                                    <button className="buy-now-button">Comprar ahora</button>
+                                                </Link>
+                                            </div>
+                                            <div className="px-3">
+                                                <button onClick={agregarCarrito} className="add-cart-details-button">Agregar al carrito</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
