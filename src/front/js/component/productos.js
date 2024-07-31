@@ -27,10 +27,14 @@ export const Productos = () =>{
                                     <h5 className="card-title">{item.name}</h5>
                                     <p className="card-text">${item.price}</p>
                                     <div className="d-flex">
-                                        <Link to={`/detalleproductos/${item.id}`} style={{textDecoration: 'none' }}>
-                                            <button className="card-button d-inline">Ver más</button>
-                                        </Link>
-                                        <button onClick={agregarCarrito} className="card-button">Agregar al carrito</button>
+                                        <div>
+                                            <Link to={`/detalleproductos/${item.id}`} style={{textDecoration: 'none' }}>
+                                                <button className="see-more-button d-inline">Ver Más</button>
+                                            </Link>
+                                        </div>
+                                        <div className="px-3">
+                                            <button onClick={agregarCarrito} className="add-cart-button">Agregar al carrito</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
