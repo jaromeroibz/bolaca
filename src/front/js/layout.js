@@ -15,7 +15,7 @@ import { AdminSignUp } from "./component/adminSignUp";
 import { LandingPage } from "./component/landingPage";
 import { Productos } from "./component/productos";
 import { DetalleProductos } from "./component/detalleProducto";
-
+import { ShoppingCart } from "./component/shoppingCart";
 
 
 import { Header } from "./component/header";
@@ -41,7 +41,7 @@ const Layout = () => {
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<adminPage />} path="/single/:theid" />
-
+                        <Route element={<ShoppingCart />} path="/cart" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

@@ -1,8 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import bolacaLogo from "../../img/bolaca-sin-borde-pequeña.jpg";
+import { DetalleProductos } from "./detalleProducto";
 
-export const Navbar = () => {
+export const Navbar = (props) => {
+
+
 	return (
 		<>
 		<nav className="navbar navbar-expand-lg fixed-top">
@@ -54,6 +57,11 @@ export const Navbar = () => {
 							<i className="fa-solid fa-magnifying-glass" style={{color: "black"}}></i>
 						</button>
 					</form>
+					<Link to="/cart">
+						<button className="btn border-0 shadow-none">
+							<i className="fa-solid fa-cart-shopping" style={{color: "black"}}></i>
+						</button>
+					</Link>
 				</div>
 				</div>
 			</div>

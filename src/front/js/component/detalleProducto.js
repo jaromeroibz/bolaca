@@ -1,29 +1,35 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom"
+import React, { useState, useEffect, useContext, useSyncExternalStore } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { Context } from "../store/appContext";
 import Onecursiva from "../../img/1-CURSIVA.jpg";
 import Twocursiva from "../../img/2-CURSIVA.jpg";
 import Threecursiva from "../../img/3-CURSIVA.jpg";
 import Fourcursiva from "../../img/4-CURSIVA.jpg";
-
+import { Navbar } from "./navbar";
+import { ShoppingCart } from "./shoppingCart";
 
 export const DetalleProductos = () =>{
 
     const { store, actions } = useContext(Context);
     const theid = useParams().theid
-    const result = store.products.find((item) => item.id == theid )
-  
+    const product = store.products.find((item) => item.id == theid ) 
+    const navigate = useNavigate();
+    const [cart, setCart] = useState([]);
+    const [page, Setpage] = useState('products');
     const [currentImage, setCurrentImage] = useState(0);
     const productImages = [Onecursiva,Twocursiva,Threecursiva,Fourcursiva] // cambiar esto para que tome en cuenta las imagenes llamadas desde AWS
 
     useEffect(() => {
-        actions.getProductDetails()
+        actions.getProducts()
     }, [])
 
-    function agregarCarrito (){
-        
-    }
+    const addToCart = (product) => {
+        setCart([...cart, product])
+        };
+    
+    <ShoppingCart data = {cart}></ShoppingCart>
 
+    console.log(cart)
     return(
         <>
         <div className="container">
@@ -45,18 +51,29 @@ export const DetalleProductos = () =>{
                             <div className="col-4 product-info">
                                 <div className="card" >
                                     <div className="card-body">
-                                        <h4 className="card-title">{result.name}</h4>
-                                        <h1 className="card-price">${result.price}</h1>
-                                        <h4 className="card-body">Mismo precio en 3 cuotas de {result.price} / 3 </h4>
-                                        { result.name === 1 ? <h4>¡Última unidad disponible!</h4> : result.name === 0 ? <h4>Sin Stock</h4> : <h4>¡Pocas unidades disponibles!</h4>}
+                                        <h4 className="card-title">{product.name}</h4>
+                                        <h1 className="card-price">${product.price}</h1>
+                                        <h4 className="card-body">Mismo precio en 3 cuotas de {product.price} / 3 </h4>
+                                        { product.name === 1 ? <h4>¡Última unidad disponible!</h4> : product.stock === 0 ? <h4>Sin Stock</h4> : <h4>¡Pocas unidades disponibles!</h4>}
                                         <div className="py-5">
+                                        {/* <form onSubmit={selectQty}>
+                                        <select className="form-select" aria-label="Default select example">
+                                            <option value="1" selected>1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                            
+                                        </form> */}
                                             <div>
                                                 <Link to="/finalizar-pedido" style={{textDecoration: 'none' }}>
                                                     <button className="buy-now-button">Comprar ahora</button>
                                                 </Link>
                                             </div>
                                             <div className="px-3">
-                                                <button onClick={agregarCarrito} className="add-cart-details-button">Agregar al carrito</button>
+                                                <button onClick={() => addToCart(product)} className="add-cart-details-button">Agregar al carrito</button>
                                             </div>
                                         </div>
                                     </div>
