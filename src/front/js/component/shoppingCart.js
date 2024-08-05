@@ -4,18 +4,14 @@ import { DetalleProductos } from "./detalleProducto";
 
 export const ShoppingCart = (props) =>{
     console.log('estoy en el cart')
-    console.log(props.data)
+    console.log(this.props)
 
     return(
         <>
-        {props.data.map((item,index) =>
+        <div>
+            Hola
+        </div>
+        </>
+    )
 
-            <div>
-                {item.name}
-            </div>
-    
-        )
-    }</>
-
-    ) 
 }

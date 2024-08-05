@@ -26,12 +26,13 @@ export const DetalleProductos = () =>{
     const addToCart = (product) => {
         setCart([...cart, product])
         };
-    
-    <ShoppingCart data = {cart}></ShoppingCart>
 
     console.log(cart)
     return(
         <>
+        <div>
+            <ShoppingCart cart='1'></ShoppingCart>
+        </div>
         <div className="container">
             <div className="detalle-producto">
                 <Link to="/productos">Volver al listado</Link>

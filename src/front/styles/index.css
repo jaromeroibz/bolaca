@@ -26,35 +26,18 @@
     padding-top: 100px;
 }
 
-.carousel {
+.hero-carousel {
     height: calc(75vh - 3.5rem);
-    /* height: 80vh;; */
 }
 
-.carousel-inner,
-.carousel-item {
-    height: 100%;
+.c-item{
+    height:480px;
 }
-
-.carousel-item img {
-    height: 100%;
+.c-img{
+    height:100%;
     object-fit: cover;
-    object-position: center;
 }
 
-.carousel-item{
-    height: 32rem;
-    background: #777;
-    color: white;
-    position: relative;
-}
-.carrousel-container{
-    position: asbolute;
-    bottom: 0;
-    left:0;
-    right:0;
-    padding-bottom: 50px;
-}
 li::marker{font-size:0;}
 .productos, .detalle-producto{
     padding-top: 150px;
