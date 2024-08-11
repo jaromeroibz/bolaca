@@ -1,24 +1,61 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 import  Carousel1 from "../../img/Carousel1.png"
 import  Carousel2 from "../../img/Carousel2.png"
 import  Carousel3 from "../../img/Carousel3.png"
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 export const LandingPage = () => {
 
-    const { store, actions } = useContext(Context);
     useEffect(() => {
         actions.getProducts()
-        getFilteredProducts()
     }, [])
 
-    function getFilteredProducts() {
-        const result = store.products.find( (item) => item.name === "Product 3")
-        console.log(result)
-    }
+    const { store, actions } = useContext(Context);
+    console.log(store.products)
+    const result = store.products.filter( (item) => item.isDestacado == true)
+    console.log(result)
+
+    // var settings = {
+    //     dots: true,
+    //     infinite: false,
+    //     speed: 500,
+    //     slidesToShow: 3,
+    //     slidesToScroll: 3,
+    //     initialSlide: 0,
+    //     autoplay: true,
+    //     autoplaySpeed: 2000,
+    //     responsive: [
+    //       {
+    //         breakpoint: 1024,
+    //         settings: {
+    //           slidesToShow: 3,
+    //           slidesToScroll: 3,
+    //           infinite: true,
+    //           dots: true
+    //         }
+    //       },
+    //       {
+    //         breakpoint: 600,
+    //         settings: {
+    //           slidesToShow: 2,
+    //           slidesToScroll: 2,
+    //           initialSlide: 2
+    //         }
+    //       },
+    //       {
+    //         breakpoint: 480,
+    //         settings: {
+    //           slidesToShow: 1,
+    //           slidesToScroll: 1
+    //         }
+    //       }
+    //     ]
+    //   };
 
     return(
         <>
@@ -51,12 +88,23 @@ export const LandingPage = () => {
                         </button>
                     </div>
                 </div>
-                <div className="container">
-                    <h1 className="Titulos mx-auto">Destacados</h1> 
+                <div className="container mx-auto">
+                    <h1 className="Titulos text-center">Destacados</h1>
+                    <h6 className="text-center"><Link to="/productos" style={{textDecoration: 'none' }}>Ir a todos los productos</Link></h6>
+                    {/* <Slider {...settings}> */}
+                    {result.map((item) =>
+                        <div className="py-5"> 
+                            <div className="card" style={{width: 200, height: 230}} key= {item.id}>
+                            <img className="card-img-top" src="https://picsum.photos/200/200" alt="Card image cap"></img>
+                                <div className="card-body">
+                                    <h5 className="card-title">{item.name}</h5>
+                                    <p className="card-text">${item.price}</p>
+                                </div>
+                            </div>
+                        </div>
                     
-
-                </div>
-                <div className="destacados">
+                    )}
+                    {/* </Slider>  */}
 
                 </div>
             </div>

@@ -37,7 +37,10 @@
     height:100%;
     object-fit: cover;
 }
-
+.destacados{
+    display: inline-block; 
+    vertical-align: middle;
+}
 li::marker{font-size:0;}
 .productos, .detalle-producto{
     padding-top: 150px;

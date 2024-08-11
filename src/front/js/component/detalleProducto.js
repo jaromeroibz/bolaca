@@ -1,21 +1,18 @@
-import React, { useState, useEffect, useContext, useSyncExternalStore } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom"
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useParams } from "react-router-dom"
 import { Context } from "../store/appContext";
 import Onecursiva from "../../img/1-CURSIVA.jpg";
 import Twocursiva from "../../img/2-CURSIVA.jpg";
 import Threecursiva from "../../img/3-CURSIVA.jpg";
 import Fourcursiva from "../../img/4-CURSIVA.jpg";
-import { Navbar } from "./navbar";
-import { ShoppingCart } from "./shoppingCart";
+
 
 export const DetalleProductos = () =>{
-
+    
     const { store, actions } = useContext(Context);
     const theid = useParams().theid
     const product = store.products.find((item) => item.id == theid ) 
-    const navigate = useNavigate();
     const [cart, setCart] = useState([]);
-    const [page, Setpage] = useState('products');
     const [currentImage, setCurrentImage] = useState(0);
     const productImages = [Onecursiva,Twocursiva,Threecursiva,Fourcursiva] // cambiar esto para que tome en cuenta las imagenes llamadas desde AWS
 
@@ -30,9 +27,6 @@ export const DetalleProductos = () =>{
     console.log(cart)
     return(
         <>
-        <div>
-            <ShoppingCart cart='1'></ShoppingCart>
-        </div>
         <div className="container">
             <div className="detalle-producto">
                 <Link to="/productos">Volver al listado</Link>
