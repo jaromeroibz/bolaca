@@ -1,12 +1,13 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useRef } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import  Carousel1 from "../../img/Carousel1.png"
 import  Carousel2 from "../../img/Carousel2.png"
 import  Carousel3 from "../../img/Carousel3.png"
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 
 
 export const LandingPage = () => {
@@ -15,48 +16,45 @@ export const LandingPage = () => {
         actions.getProducts()
     }, [])
 
+    let sliderRef = useRef(null);
+    const next = () => {
+      sliderRef.slickNext();
+    };
+    const previous = () => {
+      sliderRef.slickPrev();
+    };
+
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        responsive: [
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+                infinite: true,
+                dots: true
+              }
+            },
+            {
+              breakpoint: 768,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                initialSlide: 2
+              }
+            }
+          ]
+      };
+
     const { store, actions } = useContext(Context);
     console.log(store.products)
     const result = store.products.filter( (item) => item.isDestacado == true)
     console.log(result)
-
-    // var settings = {
-    //     dots: true,
-    //     infinite: false,
-    //     speed: 500,
-    //     slidesToShow: 3,
-    //     slidesToScroll: 3,
-    //     initialSlide: 0,
-    //     autoplay: true,
-    //     autoplaySpeed: 2000,
-    //     responsive: [
-    //       {
-    //         breakpoint: 1024,
-    //         settings: {
-    //           slidesToShow: 3,
-    //           slidesToScroll: 3,
-    //           infinite: true,
-    //           dots: true
-    //         }
-    //       },
-    //       {
-    //         breakpoint: 600,
-    //         settings: {
-    //           slidesToShow: 2,
-    //           slidesToScroll: 2,
-    //           initialSlide: 2
-    //         }
-    //       },
-    //       {
-    //         breakpoint: 480,
-    //         settings: {
-    //           slidesToShow: 1,
-    //           slidesToScroll: 1
-    //         }
-    //       }
-    //     ]
-    //   };
-
     return(
         <>
             <div className="landing-page">
@@ -88,24 +86,44 @@ export const LandingPage = () => {
                         </button>
                     </div>
                 </div>
-                <div className="container mx-auto">
+                <div className="container">
                     <h1 className="Titulos text-center">Destacados</h1>
                     <h6 className="text-center"><Link to="/productos" style={{textDecoration: 'none' }}>Ir a todos los productos</Link></h6>
-                    {/* <Slider {...settings}> */}
-                    {result.map((item) =>
-                        <div className="py-5"> 
-                            <div className="card" style={{width: 200, height: 230}} key= {item.id}>
-                            <img className="card-img-top" src="https://picsum.photos/200/200" alt="Card image cap"></img>
-                                <div className="card-body">
-                                    <h5 className="card-title">{item.name}</h5>
-                                    <p className="card-text">${item.price}</p>
+                    <div className="container">
+                        <div className="container" style={{maxWidth: 50}}>
+                            <button className="leftarrow" onClick={previous} >
+                            <SlArrowLeft />
+                            </button>
+                        </div>
+                        <div className="container" style={{maxWidth: 500}}>
+                        <Slider {...settings} ref={slider => {sliderRef = slider;}}>
+                            {result.map((item) =>
+                            <div className="py-5"> 
+                                <div className="card" style={{width: 256, height: 350, margin: 0}} key= {item.id}>
+                                <img className="card-img-top" src="https://picsum.photos/200/200" alt="Card image cap"></img>
+                                    <div className="card-body">
+                                        <h5 className="card-title">{item.name}</h5>
+                                        <p className="card-text">${item.price}</p>
+                                    </div>
                                 </div>
                             </div>
+                            )}
+                        </Slider>
                         </div>
-                    
-                    )}
-                    {/* </Slider>  */}
-
+                        <div className="container" style={{maxWidth: 500}}>
+                            <button className="rightarrow" onClick={next} >
+                            <SlArrowRight />
+                            </button>
+                        </div>
+                    {/* <div className="py-5" style={{ textAlign: "center" }} >
+                        <button className="leftarrow" onClick={previous} >
+                        <SlArrowLeft />
+                        </button>
+                        <button className="rightarrow" onClick={next}>
+                        <SlArrowRight />
+                        </button>
+                    </div> */}
+                    </div>
                 </div>
             </div>
         </>
