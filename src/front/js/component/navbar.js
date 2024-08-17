@@ -59,7 +59,7 @@ export const Navbar = (props) => {
 					</form>
 					<Link to="/cart">
 						<button className="btn border-0 shadow-none">
-							<i className="fa-solid fa-cart-shopping" style={{color: "black"}}></i>
+							<i className="fa-solid fa-cart-shopping"></i>
 						</button>
 					</Link>
 				</div>

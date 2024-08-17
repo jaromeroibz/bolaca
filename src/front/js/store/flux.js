@@ -142,6 +142,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 					
 				}
 			},
+			getProductByCategory: async (theid) => {
+				try {
+					const response = await fetch(process.env.BACKEND_URL+'/api/get_product_by_category/'+theid)
+					const data = await response.json()
+
+					if(response.ok){
+						setStore({ productsByCategory: data})
+					}
+				} catch (error) {
+					console.log(error)
+					
+				}
+			},
 			addProduct: async (result) => {
 				
 				console.log(result)

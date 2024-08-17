@@ -11,6 +11,7 @@
     position: fixed;
     top: 0;
     z-index: 9999;
+    height: 110px;
 }
 
 @media(max-width: 991px){
@@ -21,6 +22,12 @@
 }
 .dropdown-item{
     font-size: 85%;
+}
+.fa-cart-shopping{
+    position: absolute;
+    top: 49px;
+    color: black;
+
 }
 .landing-page{
     padding-top: 100px;
@@ -133,6 +140,16 @@ li::marker{font-size:0;}
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
+}
+.leftarrow {
+    position: absolute;
+    top: 875px;
+    left: 250px; 
+}
+.rightarrow{
+    position: absolute;
+    top: 875px;
+    right: 250px; 
 }
 .slick-slider {
     margin-inline: -30px !important;

@@ -73,6 +73,15 @@ def get_product(product_id):
 
     return jsonify(product.serialize())
 
+@api.route('/get_product_by_category/<int:category_id>', methods=['GET'])
+def get_product_by_category(category_id):
+    
+    products = Products.query.filter_by(category_id=category_id).all()
+    result = list(map(lambda item: item.serialize(), products))
+
+
+    return jsonify(result)
+
 @api.route('/add_products', methods=['POST'])
 @jwt_required()
 def add_products():

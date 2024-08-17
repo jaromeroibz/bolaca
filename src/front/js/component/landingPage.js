@@ -1,9 +1,10 @@
 import React, { useEffect, useContext, useRef } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import  Carousel1 from "../../img/Carousel1.png"
 import  Carousel2 from "../../img/Carousel2.png"
 import  Carousel3 from "../../img/Carousel3.png"
+import Cursiva1 from "../../img/1-CURSIVA-small.jpg"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -12,9 +13,17 @@ import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 
 export const LandingPage = () => {
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         actions.getProducts()
+        actions.getCategories()
     }, [])
+
+    function filterProducts (item) {
+        actions.getProductByCategory(item)
+        navigate('/productos')
+    }
 
     let sliderRef = useRef(null);
     const next = () => {
@@ -52,9 +61,7 @@ export const LandingPage = () => {
       };
 
     const { store, actions } = useContext(Context);
-    console.log(store.products)
     const result = store.products.filter( (item) => item.isDestacado == true)
-    console.log(result)
     return(
         <>
             <div className="landing-page">
@@ -86,44 +93,47 @@ export const LandingPage = () => {
                         </button>
                     </div>
                 </div>
-                <div className="container">
+                <div className="container py-4">
                     <h1 className="Titulos text-center">Destacados</h1>
                     <h6 className="text-center"><Link to="/productos" style={{textDecoration: 'none' }}>Ir a todos los productos</Link></h6>
                     <div className="container">
-                        <div className="container" style={{maxWidth: 50}}>
-                            <button className="leftarrow" onClick={previous} >
-                            <SlArrowLeft />
-                            </button>
-                        </div>
-                        <div className="container" style={{maxWidth: 500}}>
-                        <Slider {...settings} ref={slider => {sliderRef = slider;}}>
-                            {result.map((item) =>
-                            <div className="py-5"> 
-                                <div className="card" style={{width: 256, height: 350, margin: 0}} key= {item.id}>
-                                <img className="card-img-top" src="https://picsum.photos/200/200" alt="Card image cap"></img>
-                                    <div className="card-body">
-                                        <h5 className="card-title">{item.name}</h5>
-                                        <p className="card-text">${item.price}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            )}
-                        </Slider>
-                        </div>
-                        <div className="container" style={{maxWidth: 500}}>
-                            <button className="rightarrow" onClick={next} >
-                            <SlArrowRight />
-                            </button>
-                        </div>
-                    {/* <div className="py-5" style={{ textAlign: "center" }} >
                         <button className="leftarrow" onClick={previous} >
                         <SlArrowLeft />
                         </button>
-                        <button className="rightarrow" onClick={next}>
+                        <div className="container" style={{maxWidth: 800}}>
+                            <Slider {...settings} ref={slider => {sliderRef = slider;}}>
+                                {result.map((item) =>
+                                <div className="py-5" key={item.id}> 
+                                    <div className="card" style={{width: 256, height: 350, margin: 0}} key= {item.id}>
+                                    <img className="card-img-top" src="https://picsum.photos/200/200" alt="Card image cap"></img>
+                                        <div className="card-body">
+                                            <h5 className="card-title">{item.name}</h5>
+                                            <p className="card-text">${item.price}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                )}
+                            </Slider>
+                        </div>
+                        <button className="rightarrow" onClick={next} >
                         <SlArrowRight />
                         </button>
-                    </div> */}
                     </div>
+                </div>
+                <div className="categorias py-4">
+                    <h1 className="Titulos text-center">Descubre nuestras categorías</h1>
+                    {store.categories.map((item) =>
+                    <>
+                    <div className="container" key={item.id}>
+                        <div className="d-inline">
+                            <Link to={'/productos/' + item.id}>
+                                <img src={Cursiva1} style={{height: "200px"}}alt="category image"></img>
+                                <p>{item.category_name}</p>
+                            </Link>
+                        </div> 
+                    </div> 
+                    </>   
+                    )}
                 </div>
             </div>
         </>

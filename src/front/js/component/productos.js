@@ -1,11 +1,16 @@
-import React, { useEffect, useContext } from "react";
-import { Link } from "react-router-dom"
+import React, { useEffect, useContext, useState } from "react";
+import { Link, useParams } from "react-router-dom"
 import { Context } from "../store/appContext";
+import { LandingPage } from "./landingPage";
 
 export const Productos = () =>{
+
     const { store, actions } = useContext(Context);
+    const theid = useParams().theid //id de categoría
+
     useEffect(() => {
         actions.getProducts()
+        actions.getProductByCategory(theid)
     }, [])
 
     function agregarCarrito (){
