@@ -19,7 +19,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			products: [],
 			categories: [],
 			productDetails: [],
-			category:[]
+			category:[],
+			productsByCategory: [],
+			cart: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -268,7 +270,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					getActions().getCategories()
 				}
 				console.log(data) 
-		}
+			},
+			addToCart: (item) => {
+				localStorage.setItem('item', JSON.stringify(item));
+				setStore({ cart: item })
+			}
 		}
 	}
 };

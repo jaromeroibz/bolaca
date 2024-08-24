@@ -12,6 +12,7 @@ export const DetalleProductos = () =>{
     const { store, actions } = useContext(Context);
     const theid = useParams().theid
     const product = store.products.find((item) => item.id == theid ) 
+    console.log(product)
     const [cart, setCart] = useState([]);
     const [currentImage, setCurrentImage] = useState(0);
     const productImages = [Onecursiva,Twocursiva,Threecursiva,Fourcursiva] // cambiar esto para que tome en cuenta las imagenes llamadas desde AWS
@@ -29,7 +30,7 @@ export const DetalleProductos = () =>{
         <>
         <div className="container">
             <div className="detalle-producto">
-                <Link to="/productos">Volver al listado</Link>
+                <Link to={`/productos/${product.category_id}`}>Volver al listado</Link>
                 <div className="product-card">
                     <div className="card" style={{width: 1200, height: 1200}}>
                         <div className="row">

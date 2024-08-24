@@ -1,11 +1,11 @@
-import React from "react";
-import { Link} from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import bolacaLogo from "../../img/bolaca-sin-borde-pequeña.jpg";
-import { DetalleProductos } from "./detalleProducto";
+import { Context } from "../store/appContext";
 
-export const Navbar = (props) => {
+export const Navbar = () => {
 
-
+	const { store, actions } = useContext(Context);
 	return (
 		<>
 		<nav className="navbar navbar-expand-lg fixed-top">
@@ -57,10 +57,15 @@ export const Navbar = (props) => {
 							<i className="fa-solid fa-magnifying-glass" style={{color: "black"}}></i>
 						</button>
 					</form>
-					<Link to="/cart">
+					<Link to="/cart" className="d-flex" style={{textDecoration: 'none'}}>
 						<button className="btn border-0 shadow-none">
 							<i className="fa-solid fa-cart-shopping"></i>
 						</button>
+						{store.cart.length ? (
+							<button className="btn border-0 shadow-none">{store.cart.length}</button>
+						):(
+							''
+						)}
 					</Link>
 				</div>
 				</div>
