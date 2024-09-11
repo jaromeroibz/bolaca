@@ -165,8 +165,13 @@ li::marker{font-size:0;}
     }
   }
 
-
 .footer-body{
     background: #FFA41D;
     height: 400px;
+}
+.cart{
+    padding-top: 200px;
+}
+.resumen-compra{
+    top: 0;
 }

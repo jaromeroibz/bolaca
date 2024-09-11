@@ -36,12 +36,12 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<LandingPage />} path="/" />
-                        <Route element={<Productos />} path="/productos/:theid" />
+                        <Route element={<Productos />} path="/productos/:theid"/>
                         <Route element={<DetalleProductos />} path="/detalleproductos/:theid" />                                             
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<adminPage />} path="/single/:theid" />
-                        <Route element={<ShoppingCart />} path="/cart" />
+                        <Route element={<ShoppingCart />} path="/cart"/>
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

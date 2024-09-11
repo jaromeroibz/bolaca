@@ -8,45 +8,11 @@ export const Productos = () =>{
     const theid = useParams().theid //id de categoría
     const allproductslength = store.products.length;
     const productslength = store.productsByCategory.length;
-    const [cartItems, setCartItems] = useState([]);
-
 
     useEffect(() => {
         actions.getProducts()
         actions.getProductByCategory(theid)
-    }, [])
-
-    const addToCart = (product) => {
-
-        const exist = cartItems.find((item) => item.id === product.id );
-        if (exist){
-            const newCartItems = cartItems.map((item) => 
-            item.id === product.id ? {...exist, qty: exist.qty + 1} : item
-        );
-            setCartItems(newCartItems);
-        } else {
-            const newCartItems = [...cartItems, { ...product, qty: 1 }];
-            setCartItems(newCartItems);
-        }
-        actions.addToCart(cartItems)
-    }
-
-    const removeFromCart = (product) => {
-        const exist = cartItems.find((item) => item.id === product.id);
-        if (exist.qty === 1){
-            const newCartItems = cartItems.filter((item) => item.id !== product.id);
-            setCartItems(newCartItems);
-            localStorage.setItem('cartItems', JSON.stringify(newCartItems));
-        } else {
-            const newCartItems = cartItems.map((item) => 
-            item.id === product.id ? { ...exist, qty: exist.qty -1 } : item
-        );
-        setCartItems(newCartItems);
-        localStorage.setItem('cartItems', JSON.stringify(newCartItems));
-
-        }
-
-    }
+    }, []);
 
     return(
         <>
@@ -70,7 +36,7 @@ export const Productos = () =>{
                                             </Link>
                                         </div>
                                         <div className="px-3">
-                                            <button onClick={() => addToCart(item)} className="add-cart-button">Agregar al carrito</button>
+                                            <button onClick={() => actions.addToCart(item)} className="add-cart-button">Agregar al carrito</button>
                                         </div>
                                     </div>
                                 </div>
@@ -90,7 +56,7 @@ export const Productos = () =>{
                                             </Link>
                                         </div>
                                         <div className="px-3">
-                                            <button onClick={() => addToCart(item)} className="add-cart-button">Agregar al carrito</button>
+                                            <button onClick={() => actions.addToCart(item)} className="add-cart-button">Agregar al carrito</button>
                                         </div>
                                     </div>
                                 </div>

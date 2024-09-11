@@ -103,15 +103,17 @@ export const LandingPage = () => {
                         <div className="container" style={{maxWidth: 800}}>
                             <Slider {...settings} ref={slider => {sliderRef = slider;}}>
                                 {result.map((item) =>
-                                <div className="py-5" key={item.id}> 
-                                    <div className="card" style={{width: 256, height: 350, margin: 0}} key= {item.id}>
-                                    <img className="card-img-top" src="https://picsum.photos/200/200" alt="Card image cap"></img>
-                                        <div className="card-body">
-                                            <h5 className="card-title">{item.name}</h5>
-                                            <p className="card-text">${item.price}</p>
+                                <Link to={`/detalleproductos/${item.id}`} style={{textDecoration: 'none' }}>
+                                    <div className="py-5" key={item.id}> 
+                                        <div className="card" style={{width: 256, height: 350, margin: 0}} key= {item.id}>
+                                        <img className="card-img-top" src="https://picsum.photos/200/200" alt="Card image cap"></img>
+                                            <div className="card-body">
+                                                <h5 className="card-title">{item.name}</h5>
+                                                <p className="card-text">${item.price}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                                 )}
                             </Slider>
                         </div>

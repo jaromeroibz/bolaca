@@ -271,9 +271,44 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				console.log(data) 
 			},
-			addToCart: (item) => {
-				localStorage.setItem('item', JSON.stringify(item));
-				setStore({ cart: item })
+			getShoppingCart: () => {
+
+				setStore ({ cart: localStorage.getItem('cart')
+					? JSON.parse(localStorage.getItem('cart'))
+					: []
+				})
+			},
+			addToCart: (product) => {
+
+				const store = getStore();
+				const exist = store.cart.find((item) => item.id === product.id );
+				if (exist){
+					const newCartItems = store.cart.map((item) => 
+					item.id === product.id ? {...exist, qty: exist.qty + 1} : item
+				);
+					setStore({ cart: newCartItems })
+					localStorage.setItem('cart', JSON.stringify(newCartItems));
+
+				} else {
+					const newCartItems = [...store.cart, { ...product, qty: 1}];
+					setStore({ cart: newCartItems })
+					localStorage.setItem('cart', JSON.stringify(newCartItems));
+				}
+			},
+			removeFromCart: (product) => {
+				const store = getStore();
+				const exist = store.cart.find((item) => item.id === product.id );
+				if (exist.qty === 1) {
+					const newCartItems = store.cart.filter((item) => item.id !== product.id)
+					setStore({ cart: newCartItems })
+					localStorage.setItem('cart', JSON.stringify(newCartItems));
+				} else{
+					const newCartItems = store.cart.map((item) => 
+					item.id === product.id ? { ...exist, qty: exist.qty -1} : item
+					);
+					setStore({ cart: newCartItems })
+					localStorage.setItem('cart', JSON.stringify(newCartItems));
+				}
 			}
 		}
 	}
