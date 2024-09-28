@@ -9,9 +9,9 @@ export const Navbar = () => {
 	return (
 		<>
 		<nav className="navbar navbar-expand-lg fixed-top">
-			<div className="container">
+			<div className="container-fluid px-5">
 				<a className="navbar-brand" href="#">
-					<img src={bolacaLogo} width={200} height={110}></img>
+					<img src={bolacaLogo} className="img-fluid" width={200} height={110}></img>
 				</a>
 				{/* Toggler Button */}
 				<button className="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">

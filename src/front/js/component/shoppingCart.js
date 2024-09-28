@@ -1,9 +1,37 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import { Productos } from "./productos";
 import { Context } from "../store/appContext";
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+import axios from "axios";
 
 
 export const ShoppingCart = () =>{
+
+    initMercadoPago('APP_USR-3e1ac3d8-e8e5-4c00-b592-aa48bd157a0a', {
+        locale: "es-CL"
+    });
+    const [preferenceId, setPreferenceId] = useState(null);
+    const createPreference = async () => {
+        try{
+            const response = await axios.post("https://effective-palm-tree-5ww6qprg57rfwv7-4000.app.github.dev/create_preference", {
+                title: "Producto 1",
+                quantity: 1,
+                price: 100,
+            });
+
+            const {id} =response.data;
+            return id;
+        } catch(error){
+            console.log(error);
+        }
+    };
+
+    const handleBuy = async () =>{
+        const id = await createPreference();
+        if (id) {
+            setPreferenceId(id);
+        }
+    };
 
     const { store, actions } = useContext(Context);
     const itemsPrice = store.cart.reduce((a,c) => a + c.qty * c.price, 0);
@@ -23,8 +51,8 @@ export const ShoppingCart = () =>{
                     <h3>Tu carrito</h3>
                         <div className="d-xl-inline-flex py-3">
                             <div className="card product-list">
-                                {store.cart.map((item) =>
-                                <div className="py-3">
+                                {store.cart.map((item, id) =>
+                                <div className="py-3" key={id}>
                                     <div className="cart-product" style={{width: 800, height: 100}}>
                                         <div className="d-flex">
                                             <div className="px-xs-2 px-sm-3 px-md-4 px-lg-5">
@@ -36,7 +64,7 @@ export const ShoppingCart = () =>{
                                                 <div>
                                                     <button className="qty-btn border-0 shadow-none" onClick={() => actions.removeFromCart(item)}>-</button>
                                                     <span className="p-1">{item.qty}</span>
-                                                    <button className="qty-btn border-0 shadow-none" onClick={() => actions.addToCart(item)}><i class="fa-regular fa-plus"></i></button>
+                                                    <button className="qty-btn border-0 shadow-none" onClick={() => actions.addToCart(item)}><i className="fa-regular fa-plus"></i></button>
                                                 </div>
                                             ) : (
                                                 <button onClick={() => actions.addToCart(item)}></button>
@@ -67,7 +95,8 @@ export const ShoppingCart = () =>{
                                         <p>Total:</p>
                                         <p>{totalPrice}</p>
                                     </div>
-                                    <button className="add-cart-button">Ir a pagar</button>
+                                    <button onClick={handleBuy} className="add-cart-button">Ir a pagar</button>
+                                    {preferenceId && <Wallet initialization={{ preferenceId: preferenceId }} customization={{ texts:{ valueProp: 'smart_option'}}} />}
                                 </div>
                             </div>
                         </div>

@@ -21,7 +21,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			productDetails: [],
 			category:[],
 			productsByCategory: [],
-			cart: []
+			cart: [],
+			preferenceId: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -309,6 +310,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ cart: newCartItems })
 					localStorage.setItem('cart', JSON.stringify(newCartItems));
 				}
+			},
+			createPreference: async (preferencia) => {
+
+				const requestOptions = {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json',
+					body: JSON.stringify(preferencia)
+				}
+			}
+				let response = await fetch(process.env.BACKEND_URL +'/api/add_preference', requestOptions)
+				let data = await response.json();
+				if (response.ok === 200){
+					setStore({preferenceId: data.id})
+				}
+				console.log(data.id) 
+
 			}
 		}
 	}
