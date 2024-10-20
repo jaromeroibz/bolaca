@@ -6,50 +6,30 @@ import mercadopago from 'mercadopago'
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 // Agrega credenciales
 const client = new MercadoPagoConfig({
-     accessToken: 'APP_USR-2737784651979747-092814-d7c525f85100ce091e87227a8129d124-2009384627'
+     accessToken: 'APP_USR-5613440642779718-101819-5bc290bc9c5d7d6ce529065a079e0d3d-2043548435'
      });
 
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
 
-// const corsOptions = {
-//     origin: 'https://effective-palm-tree-5ww6qprg57rfwv7-3000.app.github.dev', // Ensure this matches your frontend URL
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-//     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-//   };
+app.use(cors());
+app.use(express.json());
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://effective-palm-tree-5ww6qprg57rfwv7-3000.app.github.dev'); // Specific origin
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allowed methods
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
-    next();
-
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
-
-  next();
-});
-
-// app.use(cors(corsOptions)); 
-// app.use(express.json());
-// app.options('*', cors());
 
 app.get("/", (req, res) => {
-    res.send("Soy el server")
+    res.send("Soy el server");
 });
 
 app.post("/create_preference", async (req, res) => {
-    try{
+    try {
         const body = {
             items: [
                 {
                     title: req.body.title,
                     quantity: Number(req.body.quantity),
                     unit_price: Number(req.body.price),
-                    currency_id: "CLP",
-                }
+                    currency_id: "CLP"
+                },
             ],
             back_urls: {
                 success: "https://www.google.com",

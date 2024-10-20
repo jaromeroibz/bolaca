@@ -7,7 +7,7 @@ import axios from "axios";
 
 export const ShoppingCart = () =>{
 
-    initMercadoPago('APP_USR-3e1ac3d8-e8e5-4c00-b592-aa48bd157a0a', {
+    initMercadoPago('APP_USR-f83fb519-a60f-49aa-a55a-dba0f0357ac9', {
         locale: "es-CL"
     });
     const [preferenceId, setPreferenceId] = useState(null);

@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from .models import db, User, CustomerDetails, ProductCategory, Products, PaymentType, ShopOrder, OrderLine
+from .models import db, User, CustomerDetails, ProductCategory, Products, PaymentType, ShopOrder, OrderLine, Preferences
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
@@ -285,3 +285,18 @@ def delete_payment_type(payment_type_id):
     return jsonify(response_body), 200
 
 # Hasta aquí las rutas funcionan
+
+@api.route('/add_preference', methods=['POST'])
+def add_preference():
+    
+    body = request.get_json()
+
+    preference = Preferences(product_names = body['product_names'], total_price = body['total_price'])
+    db.session.add(preference)
+    db.session.commit()
+
+    response_body = {
+        "message": "Preference created"
+    }
+
+    return jsonify(response_body), 200

@@ -184,3 +184,20 @@ class OrderLine(db.Model):
 
         }
     
+class Preferences(db.Model):
+    __tablename__ = 'preferences'
+    id = db.Column(db.Integer, primary_key = True)
+    product_names = db.Column(db.String(80), nullable = True, unique = False)
+    total_price = db.Column(db.Integer, nullable = False, unique = False)
+
+    
+    def __repr__(self):
+        return f'<Preferences {self.id}>'
+    
+    def serialize(self):
+        return {
+
+            "id": self.id,
+            "product_names": self.product_names,
+            "total_price": self.total_price
+        }
