@@ -6,12 +6,14 @@ import axios from "axios";
 
 
 export const ShoppingCart = () =>{
+    const { store, actions } = useContext(Context);
 
     initMercadoPago('APP_USR-f83fb519-a60f-49aa-a55a-dba0f0357ac9', {
         locale: "es-CL"
     });
     const [preferenceId, setPreferenceId] = useState(null);
     const createPreference = async () => {
+        
         try{
             const response = await axios.post("https://effective-palm-tree-5ww6qprg57rfwv7-4000.app.github.dev/create_preference", {
                 title: "Producto 1",
@@ -33,7 +35,6 @@ export const ShoppingCart = () =>{
         }
     };
 
-    const { store, actions } = useContext(Context);
     const itemsPrice = store.cart.reduce((a,c) => a + c.qty * c.price, 0);
     // const shippingCost = {
     //     'Santiago Centro' : 3000,

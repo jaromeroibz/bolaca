@@ -166,7 +166,7 @@ li::marker{font-size:0;}
   }
 
 .footer-body{
-    background: #FFA41D;
+    background: #ef9453;
     height: 400px;
 }
 .cart{
@@ -222,3 +222,8 @@ hr.custom-hr {
     }
     }
 
+.fa-phone, .fa-instagram, .fa-facebook, .fa-whatsapp{
+
+    text-decoration: none;
+    color: black;
+}

@@ -30,7 +30,7 @@ export const DetalleProductos = () =>{
         <>
         <div className="container">
             <div className="detalle-producto">
-                <Link to={`/productos/${product.category_id}`}>Volver al listado</Link>
+                <Link to={`/productos/${product.category_id}`} style={{textDecoration: 'none' }} >Volver al listado</Link>
                 <div className="product-card">
                     <div className="card" style={{width: 1200, height: 1200}}>
                         <div className="row">

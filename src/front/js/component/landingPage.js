@@ -65,6 +65,7 @@ export const LandingPage = () => {
     return(
         <>
             <div className="landing-page">
+                <Link to="/productos/999">
                 <div className="hero-carousel">
                     <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                         <div className="carousel-indicators">
@@ -93,6 +94,7 @@ export const LandingPage = () => {
                         </button>
                     </div>
                 </div>
+                </Link>
                 <div className="container py-4">
                     <h1 className="Titulos text-center">Destacados</h1>
                     <h6 className="text-center"><Link to="/productos/999" style={{textDecoration: 'none' }}>Ir a todos los productos</Link></h6>
@@ -103,9 +105,9 @@ export const LandingPage = () => {
                         <div className="container" style={{maxWidth: 800}}>
                             <Slider {...settings} ref={slider => {sliderRef = slider;}}>
                                 {result.map((item) =>
-                                <Link to={`/detalleproductos/${item.id}`} style={{textDecoration: 'none' }}>
+                                <Link to={`/detalleproductos/${item.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                     <div className="py-5" key={item.id}> 
-                                        <div className="card" style={{width: 256, height: 350, margin: 0}} key= {item.id}>
+                                        <div className="card" style={{width: 256, height: 350, margin: 0}}>
                                         <img className="card-img-top" src="https://picsum.photos/200/200" alt="Card image cap"></img>
                                             <div className="card-body">
                                                 <h5 className="card-title">{item.name}</h5>
@@ -123,19 +125,19 @@ export const LandingPage = () => {
                     </div>
                 </div>
                 <div className="categorias py-4">
-                    <h1 className="Titulos text-center">Descubre nuestras categorías</h1>
+                    <h1 className="Titulos text-center py-4">Descubre nuestras categorías</h1>
+                    <div className="container d-flex justify-content-center align-items-center" style={{ flexWrap: "wrap" }} >
                     {store.categories.map((item) =>
                     <>
-                    <div className="container" key={item.id}>
-                        <div className="d-inline">
-                            <Link to={'/productos/' + item.id}>
-                                <img src={Cursiva1} style={{height: "200px"}}alt="category image"></img>
+                        <div className="d-inline text-center" key={item.id}>
+                            <Link to={'/productos/' + item.id} style={{textDecoration: 'none' }}>
+                                <img src={Cursiva1} style={{height: "300px"}} alt="category image"></img>
                                 <p>{item.category_name}</p>
                             </Link>
                         </div> 
-                    </div> 
                     </>   
                     )}
+                    </div> 
                 </div>
             </div>
         </>

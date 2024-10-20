@@ -17,6 +17,7 @@ import { Productos } from "./component/productos";
 import { DetalleProductos } from "./component/detalleProducto";
 import { ShoppingCart } from "./component/shoppingCart";
 import {Contacto} from "./component/contacto"
+import {Success} from "./component/success"
 
 
 import { Header } from "./component/header";
@@ -44,6 +45,7 @@ const Layout = () => {
                         <Route element={<adminPage />} path="/single/:theid" />
                         <Route element={<ShoppingCart />} path="/cart"/>
                         <Route element={<Contacto />} path="/contacto"/>
+                        <Route element={<Success />} path="/success"/>
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
