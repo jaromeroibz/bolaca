@@ -18,6 +18,8 @@ import { DetalleProductos } from "./component/detalleProducto";
 import { ShoppingCart } from "./component/shoppingCart";
 import {Contacto} from "./component/contacto"
 import {Success} from "./component/success"
+import {SearchBarResults} from "./component/searchBarResults"
+
 
 
 import { Header } from "./component/header";
@@ -46,6 +48,7 @@ const Layout = () => {
                         <Route element={<ShoppingCart />} path="/cart"/>
                         <Route element={<Contacto />} path="/contacto"/>
                         <Route element={<Success />} path="/success"/>
+                        <Route element={<SearchBarResults />} path="/searchbarresults"/>
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />

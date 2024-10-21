@@ -32,9 +32,9 @@ app.post("/create_preference", async (req, res) => {
                 },
             ],
             back_urls: {
-                success: "https://www.google.com",
-                failure: "https://www.google.com",
-                pending: "https://www.google.com",
+                success: "https://effective-palm-tree-5ww6qprg57rfwv7-3000.app.github.dev/success",
+                failure: "https://effective-palm-tree-5ww6qprg57rfwv7-3000.app.github.dev/failure",
+                pending: "https://effective-palm-tree-5ww6qprg57rfwv7-3000.app.github.dev/pending",
             },
             auto_return: "approved",
         };

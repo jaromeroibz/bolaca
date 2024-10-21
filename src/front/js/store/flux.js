@@ -22,7 +22,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			category:[],
 			productsByCategory: [],
 			cart: [],
-			preferenceId: []
+			preferenceId: [],
+			filteredProducts: [],
+			brands: [],
+			productsByBrands: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -272,6 +275,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				console.log(data) 
 			},
+			getBrands : async () => {
+				try {
+					const response = await fetch(process.env.BACKEND_URL+'/api/get_all_brands')	
+					const data = await response.json()
+					
+					if(response.ok){
+						setStore({ brands: data})
+					}
+				 } catch (error) {
+					console.log(error)
+				 }
+			},
+			getProductsByBrands: async (result) => {
+
+				try {
+
+				   const idToDisplay = result.id				
+				   const response = await fetch(process.env.BACKEND_URL+'/api/get_all_product_by_brand/' + idToDisplay)	
+				   const data = await response.json()
+				   
+				   if(response.ok){
+					   setStore({ productsByBrands: data})
+				   }
+				} catch (error) {
+				   console.log(error)
+				}
+		    },
 			getShoppingCart: () => {
 
 				setStore ({ cart: localStorage.getItem('cart')
@@ -326,7 +356,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				console.log(data.id) 
 
-			}
+			},
+            filterProducts: (query) => {
+                const store = getStore();
+                const lowerCaseQuery = query.toLowerCase();
+
+                const filtered = store.products.filter(product => {
+                    return (
+                        product.name.toLowerCase().includes(lowerCaseQuery) ||
+                        product.description.toLowerCase().includes(lowerCaseQuery) ||
+                        product.category_name.toLowerCase().includes(lowerCaseQuery)
+                    );
+                });
+
+                setStore({ filteredProducts: filtered });
+            }
 		}
 	}
 };

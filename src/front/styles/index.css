@@ -36,6 +36,9 @@
 .landing-page{
     padding-top: 100px;
 }
+.search-bar-results{
+    padding-top: 200px;
+}
 
 .hero-carousel {
     height: calc(75vh - 3.5rem);

@@ -1,11 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import bolacaLogo from "../../img/bolaca-sin-borde-pequeña.jpg";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
+
 
 export const Navbar = () => {
 
-	const { store } = useContext(Context);
+	const { store, actions } = useContext(Context);
+    const [searchQuery, setSearchQuery] = useState("");
+	const navigate = useNavigate();
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        // Ejecuta la acción para filtrar productos
+        actions.filterProducts(searchQuery);
+		navigate("/searchbarresults");
+    };
+	
 	return (
 		<>
 		<nav className="navbar navbar-expand-lg fixed-top">
@@ -52,12 +64,12 @@ export const Navbar = () => {
 							<Link to="/contacto" style={{textDecoration: 'none', color: 'black'}}>CONTACTO</Link>
 						</li>
 					</ul>
-					<form className="d-flex mt-3 my-3" role="search">
-						<input className="form-control me-2 shadow-none" type="search" aria-label="Search"></input>
+					<form className="d-flex mt-3 my-3" role="search" onSubmit={handleSearch}>
+						<input className="form-control me-2 px-5 shadow-none" type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} aria-label="Search" placeholder="NOMBRE, CATEGORÍA O MARCA" style={{fontSize: "xx-small"}}></input>
 						<button className="btn border-0 shadow-none" type="submit">
 							<i className="fa-solid fa-magnifying-glass" style={{color: "black"}}></i>
 						</button>
-					</form>
+					</form>	
 					<Link to="/cart" className="d-flex" style={{textDecoration: 'none'}}>
 						<button className="btn border-0 shadow-none">
 							<i className="fa-solid fa-cart-shopping"></i>

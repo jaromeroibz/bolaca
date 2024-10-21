@@ -65,7 +65,6 @@ export const LandingPage = () => {
     return(
         <>
             <div className="landing-page">
-                <Link to="/productos/999">
                 <div className="hero-carousel">
                     <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                         <div className="carousel-indicators">
@@ -75,13 +74,19 @@ export const LandingPage = () => {
                         </div>
                         <div className="carousel-inner">
                             <div className="carousel-item active">
-                            <img src={Carousel1} className="d-block w-100" alt="Carousel1"></img>
+                                <Link to="/productos/1">
+                                    <img src={Carousel1} className="d-block w-100" alt="Carousel1"></img>
+                                </Link>
                             </div>
                             <div className="carousel-item">
-                            <img src={Carousel2} className="d-block w-100" alt="Carousel2"></img>
+                                <Link to="/productos/2">
+                                    <img src={Carousel2} className="d-block w-100" alt="Carousel2"></img>
+                                </Link>
                             </div>
                             <div className="carousel-item">
-                            <img src={Carousel3} className="d-block w-100" alt="Carousel3"></img>
+                                <Link to="/productos/3">
+                                    <img src={Carousel3} className="d-block w-100" alt="Carousel3"></img>
+                                </Link>
                             </div>
                         </div>
                         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -94,7 +99,6 @@ export const LandingPage = () => {
                         </button>
                     </div>
                 </div>
-                </Link>
                 <div className="container py-4">
                     <h1 className="Titulos text-center">Destacados</h1>
                     <h6 className="text-center"><Link to="/productos/999" style={{textDecoration: 'none' }}>Ir a todos los productos</Link></h6>

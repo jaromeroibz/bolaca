@@ -71,12 +71,28 @@ class ProductCategory(db.Model):
             "category_name": self.category_name
         }
 
+class Brands(db.Model):
+    __tablename__ ="brands"
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(80), unique=False, nullable=False)
 
+    def __repr__(self):
+        return f'<Brands {self.id}>' 
+    
+    def serialize(self):
+        return{
+            "id": self.id,
+            "name": self.name
+        }    
+    
 class Products(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(80), unique=False, nullable=False)
     description = db.Column(db.String(120), unique=False, nullable=False)
+    brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'))
+    min_age = db.Column(db.Integer, unique=False, nullable=True)
+    max_age = db.Column(db.Integer, unique=False, nullable=True)
     price = db.Column(db.String(10), unique=False, nullable=False)
     stock = db.Column(db.Integer, unique=False, nullable=False)
     isDestacado = db.Column(db.Boolean(), unique=False, nullable=False)
@@ -91,11 +107,34 @@ class Products(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
+            "brand": self.brand_id,
             "price": self.price,
             "stock": self.stock,
-            "isDestacado": self.isDestacado
+            "isDestacado": self.isDestacado,
+            "category_id": self.category_id,
+            "category_name": self.product_category.category_name,
+            "min_age": self.min_age,
+            "max_age": self.max_age
         }    
-       
+        
+class ProductBrand(db.Model):
+    __tablename__ = 'product_brand'  
+    id = db.Column(db.Integer, primary_key = True)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+    brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'))
+    product = db.relationship(Products)
+    brand = db.relationship(Brands)
+
+    def __repr__(self):
+        return f'<ProductBrand {self.id}>' 
+    
+    def serialize(self):
+        return{
+            "id": self.id,
+            "product_id": self.product_id,
+            "brand_id": self.brand_id
+        }
+
 class OrderStatus(Enum): 
 
     ordered = 'ordered',

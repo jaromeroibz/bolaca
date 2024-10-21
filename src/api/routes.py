@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from .models import db, User, CustomerDetails, ProductCategory, Products, PaymentType, ShopOrder, OrderLine, Preferences
+from .models import db, User, CustomerDetails, ProductCategory, Products, PaymentType, ShopOrder, OrderLine, Preferences, Brands, ProductBrand
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
@@ -57,7 +57,46 @@ def admin_signup():
         return jsonify(user_info), 200
     else:
         return jsonify({"msg": "user already exists with this email address"}), 401
+
+@api.route('/get_all_brands', methods=['GET'])
+def get_all_brands():
     
+    all_brands = Brands.query.all()
+    result = list(map(lambda item: item.serialize(), all_brands))
+
+    return jsonify(result) 
+
+@api.route('/get_all_product_by_brand/<int:brand_id>', methods=['GET'])
+def get_all_product_by_brand(brand_id):
+    
+    product_id_by_brand = ProductBrand.query.filter_by(brand_id=brand_id).all()
+    id_result = list(map(lambda item: item.serialize()['product_id'], product_id_by_brand))
+    product_by_brand = Products.query.filter(Products.id.in_(id_result)).all()
+    serialized_products = list(map(lambda product: product.serialize(), product_by_brand))
+
+    return jsonify(serialized_products)
+
+# @api.route('/add_brands', methods=['POST'])
+# @jwt_required()
+# def add_brands():
+    
+#     body = request.get_json()
+#     brand = Brands.query.filter_by(name=body["name"]).first()
+
+#     if brand == None:
+
+#         brand = Brands(name = body['name'])
+#         db.session.add(brand)
+#         db.session.commit()
+
+#         response_body = {
+#             "message": "Brand created"
+#         }
+
+#         return jsonify(response_body), 200
+#     else:
+#         return jsonify({"msg": "brand already exists with this name"}), 401
+        
 @api.route('/get_all_products', methods=['GET'])
 def get_all_products():
     
