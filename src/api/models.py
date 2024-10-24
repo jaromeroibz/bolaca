@@ -75,6 +75,7 @@ class Brands(db.Model):
     __tablename__ ="brands"
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(80), unique=False, nullable=False)
+    products = db.relationship('Products', backref='brand', lazy=True)
 
     def __repr__(self):
         return f'<Brands {self.id}>' 
@@ -107,7 +108,7 @@ class Products(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "brand": self.brand_id,
+            "brand": self.brand.serialize() if self.brand else None,
             "price": self.price,
             "stock": self.stock,
             "isDestacado": self.isDestacado,
@@ -122,8 +123,6 @@ class ProductBrand(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
     brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'))
-    product = db.relationship(Products)
-    brand = db.relationship(Brands)
 
     def __repr__(self):
         return f'<ProductBrand {self.id}>' 

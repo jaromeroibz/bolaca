@@ -35,7 +35,7 @@ export const Productos = () =>{
     // Filtrar productos por marca seleccionada
     const filterProductsByBrand = (products) => {
         if (!selectedBrand) return products; // Si no hay una marca seleccionada, devolver todos los productos
-        return products.filter((item) => item.brand.toLowerCase() === selectedBrand.toLowerCase());
+        return products.filter((item) => item.brand.name.toLowerCase() === selectedBrand.toLowerCase());
     };
 
     let filteredProducts = store.products;
@@ -59,7 +59,6 @@ export const Productos = () =>{
         { label: "$101 - $200", range: [101, 200] }
     ];
 
-    const brands = ["Disney", "Marvel", "Lego", "Mattel"];
 
     return(
         <>
@@ -74,7 +73,7 @@ export const Productos = () =>{
                                 <p>Cargando productos...</p>
                         ) : (
                             filteredProducts.length === 0 ? (
-                                <h1>No hay productos que coincidan con el rango de edad seleccionado.</h1>
+                                <h1>No hay productos que coincidan con el filtro seleccionado.</h1>
                             ) : (
                             filteredProducts.map((item) =>
                             <div className="card" style={{width: 284, height: 477}} key= {item.id}>

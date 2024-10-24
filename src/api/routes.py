@@ -70,9 +70,13 @@ def get_all_brands():
 def get_all_product_by_brand(brand_id):
     
     product_id_by_brand = ProductBrand.query.filter_by(brand_id=brand_id).all()
+    print(product_id_by_brand)
     id_result = list(map(lambda item: item.serialize()['product_id'], product_id_by_brand))
+    print(id_result)
     product_by_brand = Products.query.filter(Products.id.in_(id_result)).all()
+    print(product_by_brand)
     serialized_products = list(map(lambda product: product.serialize(), product_by_brand))
+    print(serialized_products)
 
     return jsonify(serialized_products)
 
