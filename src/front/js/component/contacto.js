@@ -1,66 +1,99 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
+export const ContactForm = () => {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [captchaVerified, setCaptchaVerified] = useState(false);
+  const [error, setError] = useState("");
 
-export const Contacto = () =>{
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!captchaVerified) {
+      setError("Por favor verifica el reCAPTCHA.");
+      return;
+    }
+    if (!email || !message) {
+      setError("Todos los campos son obligatorios.");
+      return;
+    }
 
-const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: '',
-});
-
-const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    console.log("Formulario enviado:", { email, message });
+    setError("");
+    alert("Mensaje enviado exitosamente.");
   };
 
-const handleSubmit = (e) => {
-e.preventDefault();
-// Handle form submission (e.g., send data to a server)
-alert(`Form submitted: \nName: ${formData.name}\nEmail: ${formData.email}\nMessage: ${formData.message}`);
-};
-    
-return(
-    <div className="container">
-        <div className="card">
-            <div className="card-body">
-                <h3>Dejanos tu mensaje</h3>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                    <label>Name:</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                    />
-                    </div>
-                    <div>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
-                    </div>
-                    <div>
-                    <label>Message:</label>
-                    <textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        required
-                    />
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-)
+  const handleCaptchaChange = (value) => {
+    setCaptchaVerified(!!value); // Valida que el captcha se haya completado
+  };
 
-}
+  return (
+    <div style={{ maxWidth: "400px", margin: "auto", padding: "20px", fontFamily: "Arial, sans-serif", paddingTop:"150px" }}>
+      <h2>Déjanos tu mensaje</h2>
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: "15px", paddingTop:"30px" }}>
+          <label htmlFor="email" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+            E-mail*
+          </label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+              boxSizing: "border-box",
+            }}
+            required
+          />
+        </div>
+        <div style={{ marginBottom: "15px" }}>
+          <label htmlFor="message" style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+            Mensaje*
+          </label>
+          <textarea
+            id="message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+              boxSizing: "border-box",
+              resize: "none",
+            }}
+            rows="5"
+            maxLength="300"
+            required
+          ></textarea>
+          <small style={{ display: "block", textAlign: "right" }}>{message.length} / 300</small>
+        </div>
+        <div style={{ marginBottom: "15px" }}>
+          <ReCAPTCHA
+            sitekey="6Lfy-oMqAAAAAJAYryFFaHabqKE_SN6SPq8cEQSD" // Reemplaza con tu clave de sitio de Google reCAPTCHA
+            onChange={handleCaptchaChange}
+          />
+        </div>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <button
+          type="submit"
+          style={{
+            backgroundColor: "#000",
+            color: "#fff",
+            border: "none",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          Enviar
+        </button>
+      </form>
+    </div>
+  );
+};
 

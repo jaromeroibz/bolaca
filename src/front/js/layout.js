@@ -16,7 +16,7 @@ import { LandingPage } from "./component/landingPage";
 import { Productos } from "./component/productos";
 import { DetalleProductos } from "./component/detalleProducto";
 import { ShoppingCart } from "./component/shoppingCart";
-import {Contacto} from "./component/contacto"
+import {ContactForm} from "./component/contacto"
 import {Success} from "./component/success"
 import {SearchBarResults} from "./component/searchBarResults"
 
@@ -46,7 +46,7 @@ const Layout = () => {
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<adminPage />} path="/single/:theid" />
                         <Route element={<ShoppingCart />} path="/cart"/>
-                        <Route element={<Contacto />} path="/contacto"/>
+                        <Route element={<ContactForm />} path="/contacto"/>
                         <Route element={<Success />} path="/success"/>
                         <Route element={<SearchBarResults />} path="/searchbarresults"/>
                         <Route element={<h1>Not found!</h1>} />
