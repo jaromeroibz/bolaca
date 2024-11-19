@@ -370,7 +370,10 @@ const getState = ({ getStore, getActions, setStore }) => {
                 });
 
                 setStore({ filteredProducts: filtered });
-            }
+            },
+			emptyCart: () => {
+				setStore({cart:{}})
+			}
 		}
 	}
 };

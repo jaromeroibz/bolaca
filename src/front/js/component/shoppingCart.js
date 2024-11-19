@@ -8,6 +8,10 @@ import axios from "axios";
 export const ShoppingCart = () =>{
     const { store, actions } = useContext(Context);
 
+    // const emptyCart = () => {
+    //     actions.emptyCart()
+    // }
+
     initMercadoPago('APP_USR-f83fb519-a60f-49aa-a55a-dba0f0357ac9', {
         locale: "es-CL"
     });
@@ -22,6 +26,9 @@ export const ShoppingCart = () =>{
             });
 
             const {id} =response.data;
+
+            // emptyCart();
+
             return id;
         } catch(error){
             console.log(error);

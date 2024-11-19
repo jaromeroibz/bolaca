@@ -12,8 +12,13 @@ const client = new MercadoPagoConfig({
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(cors());
 app.use(express.json());
+
+app.use(cors({
+    origin: 'https://effective-palm-tree-5ww6qprg57rfwv7-3000.app.github.dev', // Permitir tu frontend
+    methods: ['GET', 'POST', 'OPTIONS'], // Métodos permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
+}));
 
 
 app.get("/", (req, res) => {
