@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 4986b1f74237
+Revision ID: 057e5114757c
 Revises: 
-Create Date: 2024-10-21 21:53:32.880961
+Create Date: 2024-11-26 21:03:29.666825
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4986b1f74237'
+revision = '057e5114757c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -72,13 +72,14 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=80), nullable=False),
     sa.Column('description', sa.String(length=120), nullable=False),
-    sa.Column('brand', sa.String(length=80), nullable=False),
+    sa.Column('brand_id', sa.Integer(), nullable=True),
     sa.Column('min_age', sa.Integer(), nullable=True),
     sa.Column('max_age', sa.Integer(), nullable=True),
     sa.Column('price', sa.String(length=10), nullable=False),
     sa.Column('stock', sa.Integer(), nullable=False),
     sa.Column('isDestacado', sa.Boolean(), nullable=False),
     sa.Column('category_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['brand_id'], ['brands.id'], ),
     sa.ForeignKeyConstraint(['category_id'], ['product_category.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
