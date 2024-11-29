@@ -66,7 +66,7 @@ def handle_invalid_usage(error):
 def sitemap():
     if ENV == "development":
         return generate_sitemap(app)
-    return send_from_directory(os.path.join(app.static_folder, "index.html"))
+    return send_from_directory(os.path.join(app.static_folder), "index.html")
 
 
 # any other endpoint will try to serve it like a static file
