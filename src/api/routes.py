@@ -1,7 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint
+from flask import Flask, request, jsonify, url_for, Blueprint, send_from_directory
 from .models import db, User, CustomerDetails, ProductCategory, Products, PaymentType, ShopOrder, OrderLine, Preferences, Brands, ProductBrand
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
@@ -10,11 +10,15 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
-api = Blueprint('api', __name__)
+api = Blueprint('api', __name__, static_folder='dist')
 
 # Allow CORS requests to this API
 CORS(api)
 
+@api.route('/')
+@api.route('/home')
+def serve_frontend(path='index.html'):
+    return send_from_directory(api.static_folder, path)
 
 # @api.route('/hello', methods=['POST', 'GET'])
 # def handle_hello():

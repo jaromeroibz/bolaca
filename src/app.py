@@ -37,6 +37,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
+# database url 
+# postgresql://jaromeroibz:FN6TIF2tJIQrthbZNrftJP4xkM7pL3ee@dpg-ct4i9nq3esus73ffmqkg-a.oregon-postgres.render.com/bolacachile_wxgv
+
 # add the admin
 setup_admin(app)
 
