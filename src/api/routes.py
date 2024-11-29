@@ -23,7 +23,7 @@ def index():
 @api.route('/static/<path:path>')
 def send_static(path):
     # Serve static files (JS, CSS, images, etc.) from the build folder
-    return send_from_directory('front/dist/static', path)
+    return send_from_directory('front/static', path)
 
 # @api.route('/hello', methods=['POST', 'GET'])
 # def handle_hello():
