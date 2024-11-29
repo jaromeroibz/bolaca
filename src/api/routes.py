@@ -10,7 +10,7 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
-api = Blueprint('api', __name__, static_folder='front/dist/static', static_url_path='/static')
+api = Blueprint('api', __name__, static_folder='front/build/static', static_url_path='/static')
 
 # Allow CORS requests to this API
 CORS(api)
@@ -18,7 +18,7 @@ CORS(api)
 @api.route('/')
 def index():
     # Serve the React index.html file
-    return send_from_directory('front', 'index.html')
+    return send_from_directory('front/build', 'index.html')
 
 @api.route('/static/<path:path>')
 def send_static(path):
