@@ -18,7 +18,7 @@ CORS(api)
 @api.route('/')
 def index():
     # Serve the React index.html file
-    return send_from_directory('front/dist', 'index.html')
+    return send_from_directory('front', 'index.html')
 
 @api.route('/static/<path:path>')
 def send_static(path):
