@@ -84,7 +84,7 @@ def serve_index():
 #     response.cache_control.max_age = 0  # avoid cache memory
 #     return response
 
-@app.route('/static/<path:path>')
+@app.route('/static/js/<path:path>')
 def serve_any_other_file(path):
     # Ensure the path is correctly passed to send_from_directory
     return send_from_directory(os.path.join(app.static_folder, 'js'), path)
