@@ -22,7 +22,7 @@ from flask_jwt_extended import JWTManager
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
-app = Flask(__name__)
+app = Flask(__name__, static_folder='front/build/static', static_url_path='/static')
 app.url_map.strict_slashes = False
 
 # database condiguration
@@ -62,23 +62,32 @@ def handle_invalid_usage(error):
 
 # generate sitemap with all your endpoints
 
+# @app.route('/')
+# def sitemap():
+#     if ENV == "development":
+#         return generate_sitemap(app)
+#     return send_from_directory(os.path.join(app.static_folder, "index.html"))
+
 @app.route('/')
-def sitemap():
-    if ENV == "development":
-        return generate_sitemap(app)
-    return send_from_directory(os.path.join(app.static_folder, "index.html"))
+def serve_index():
+    return send_from_directory(os.path.join(app.static_folder, 'front/build'), 'index.html')
+
 
 # any other endpoint will try to serve it like a static file
 
 
-@app.route('/<path:path>', methods=['GET'])
-def serve_any_other_file(path):
-    if not os.path.isfile(os.path.join(app.static_folder, path)):
-        path = 'index.html'
-    response = send_from_directory(os.path.join(app.static_folder, path))
-    response.cache_control.max_age = 0  # avoid cache memory
-    return response
+# @app.route('/<path:path>', methods=['GET'])
+# def serve_any_other_file(path):
+#     if not os.path.isfile(os.path.join(app.static_folder, path)):
+#         path = 'index.html'
+#     response = send_from_directory(os.path.join(app.static_folder, path))
+#     response.cache_control.max_age = 0  # avoid cache memory
+#     return response
 
+@app.route('/<path:path>')
+def serve_any_other_file(path):
+    # Ensure the path is correctly passed to send_from_directory
+    return send_from_directory(os.path.join(app.static_folder, 'static'), path)
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
