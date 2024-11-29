@@ -62,32 +62,28 @@ def handle_invalid_usage(error):
 
 # generate sitemap with all your endpoints
 
-# @app.route('/')
-# def sitemap():
-#     if ENV == "development":
-#         return generate_sitemap(app)
-#     return send_from_directory(os.path.join(app.static_folder, "index.html"))
-
 @app.route('/')
-def serve_index():
-    return send_from_directory(os.path.join(app.static_folder, ''), 'index.html')
+def sitemap():
+    if ENV == "development":
+        return generate_sitemap(app)
+    return send_from_directory(os.path.join(app.static_folder, "index.html"))
 
 
 # any other endpoint will try to serve it like a static file
 
 
-# @app.route('/<path:path>', methods=['GET'])
-# def serve_any_other_file(path):
-#     if not os.path.isfile(os.path.join(app.static_folder, path)):
-#         path = 'index.html'
-#     response = send_from_directory(os.path.join(app.static_folder, path))
-#     response.cache_control.max_age = 0  # avoid cache memory
-#     return response
-
-@app.route('/static/js/<path:path>')
+@app.route('/static/js/<path:path>', methods=['GET'])
 def serve_any_other_file(path):
-    # Ensure the path is correctly passed to send_from_directory
-    return send_from_directory(os.path.join(app.static_folder, 'js'), path)
+    if not os.path.isfile(os.path.join(app.static_folder, path)):
+        path = 'index.html'
+    response = send_from_directory(os.path.join(app.static_folder, 'js'), path)
+    response.cache_control.max_age = 0  # avoid cache memory
+    return response
+
+# @app.route('/static/js/<path:path>')
+# def serve_any_other_file(path):
+#     # Ensure the path is correctly passed to send_from_directory
+#     return send_from_directory(os.path.join(app.static_folder, 'js'), path)
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
