@@ -70,7 +70,7 @@ def handle_invalid_usage(error):
 
 @app.route('/')
 def serve_index():
-    return send_from_directory(os.path.join(app.static_folder, 'front/build'), 'index.html')
+    return send_from_directory(os.path.join(app.static_folder, ''), 'index.html')
 
 
 # any other endpoint will try to serve it like a static file
@@ -84,10 +84,10 @@ def serve_index():
 #     response.cache_control.max_age = 0  # avoid cache memory
 #     return response
 
-@app.route('/<path:path>')
+@app.route('/static/<path:path>')
 def serve_any_other_file(path):
     # Ensure the path is correctly passed to send_from_directory
-    return send_from_directory(os.path.join(app.static_folder, 'static'), path)
+    return send_from_directory(os.path.join(app.static_folder, 'js'), path)
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
