@@ -9,8 +9,9 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
+import os
 
-api = Blueprint('api', __name__)
+api = Blueprint('api', __name__, static_folder='front/build/static', static_url_path='/static')
 
 # Allow CORS requests to this API
 CORS(api)
@@ -23,6 +24,16 @@ CORS(api)
 #     }
 
 #     return jsonify(response_body), 200
+
+# Serve index.html at the root URL
+@api.route('/')
+def serve_index():
+    return send_from_directory(os.path.join(api.static_folder, ''), 'index.html')
+
+# Serve static files (JavaScript, CSS, images, etc.)
+@api.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory(os.path.join(api.static_folder, 'static'), path)
 
 @api.route("/admin_login", methods=["POST"])
 def admin_login():
