@@ -25,7 +25,7 @@ module.exports = merge(common, {
     allowedHosts: "all", // Allow all hosts
     historyApiFallback: true, // Serve index.html for React SPA routing
     static: {
-      directory: path.resolve(__dirname, 'build'), // Ensure the static files are served from the build directory
+      directory: path.resolve(__dirname, 'src/front/build'), // Ensure the static files are served from the build directory
     },
     client: {
       webSocketURL: publicUrl, // Use WebSocket URL for hot reload (only if necessary)

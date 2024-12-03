@@ -7,12 +7,12 @@ module.exports = {
   entry: './src/front/build/static/js/index.js', // Adjusted to a simpler format
   output: {
     filename: '[name].js',  // Use chunk names to generate unique filenames
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'src/front/build'),
     publicPath: '/',
   },
   devServer: {
     static: {
-      directory: path.resolve(__dirname, 'build'), // Ensure correct directory for serving static files
+      directory: path.resolve(__dirname, 'src/front/build'), // Ensure correct directory for serving static files
     },
     historyApiFallback: true, // Ensures React routing works
     port: 3000, // Port to run the dev server
@@ -32,7 +32,7 @@ module.exports = {
         test: /\.(png|svg|jpg|gif|jpeg|webp)$/, 
         use: {
           loader: 'file-loader',
-          options: { name: '[name].[ext]' },
+          options: { name: 'static/img/[name].[ext]' },
         },
       },
       { 
