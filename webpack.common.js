@@ -12,6 +12,13 @@ module.exports = {
     path: path.resolve(__dirname, 'public'),
     publicPath: '/'
   },
+  devServer: {
+    static: {
+      directory: path.resolve(__dirname, "dist"),
+    },
+    historyApiFallback: true, // Ensures React routing works
+    port: 3000,
+  },
   module: {
     rules: [
         {
@@ -36,7 +43,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['*', '.js']
+    extensions: ['.jsx', '.js']
   },
   plugins: [
     new HtmlWebpackPlugin({
