@@ -5,9 +5,7 @@ const Dotenv = require('dotenv-webpack');
 module.exports = merge(common, {
   mode: 'production',
   output: {
-    filename: '[name].js',  // Use chunk names to generate unique filenames
-    path: path.resolve(__dirname, 'build'),
-    publicPath: '/',
+    // If you want to set specific options for production build, do it here
   },
   optimization: {
     minimize: true, // Minify the output for production
