@@ -6,9 +6,9 @@ const Dotenv = require('dotenv-webpack');
 module.exports = {
   entry: './src/front/build/static/js/index.js', // Adjusted to a simpler format
   output: {
-    filename: 'bundle.js', // The output file name
-    path: path.resolve(__dirname, 'build'), // Output folder (ensure this folder exists or is created)
-    publicPath: '/', // Ensures that the bundle.js is correctly loaded from root
+    filename: '[name].js',  // Use chunk names to generate unique filenames
+    path: path.resolve(__dirname, 'build'),
+    publicPath: '/',
   },
   devServer: {
     static: {
