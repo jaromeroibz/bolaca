@@ -62,28 +62,39 @@ def handle_invalid_usage(error):
 
 # generate sitemap with all your endpoints
 
-@app.route('/')
-def sitemap():
-    if ENV == "development":
-        return generate_sitemap(app)
-    return send_from_directory(os.path.join(app.static_folder, ''), "index.html")
+@app.route("/")
+def serve_index():
+    # Serve the main React index.html file
+    return send_from_directory("front/build", "index.html")
+
+@app.route("/<path:path>")
+def serve_static_files(path):
+    # Serve static files (JS, CSS, images) from the React build folder
+    static_path = os.path.join(app.static_folder, path)
+    if os.path.exists(static_path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        # Fall back to index.html for React routing
+        return send_from_directory("front/build", "index.html")
+    
+    
+# @app.route('/')
+# def sitemap():
+#     if ENV == "development":
+#         return generate_sitemap(app)
+#     return send_from_directory(os.path.join(app.static_folder, ''), "index.html")
 
 
-# any other endpoint will try to serve it like a static file
+# # any other endpoint will try to serve it like a static file
 
 
-@app.route('/static/<path:path>')
-def serve_any_other_file(path):
-    if not os.path.isfile(os.path.join(app.static_folder, 'static'), path):
-        path = 'index.html'
-    response = send_from_directory(os.path.join(app.static_folder, 'static'), path)
-    response.cache_control.max_age = 0  # avoid cache memory
-    return response
-
-# @app.route('/static/js/<path:path>')
+# @app.route('/static/<path:path>')
 # def serve_any_other_file(path):
-#     # Ensure the path is correctly passed to send_from_directory
-#     return send_from_directory(os.path.join(app.static_folder, 'js'), path)
+#     if not os.path.isfile(os.path.join(app.static_folder, 'static'), path):
+#         path = 'index.html'
+#     response = send_from_directory(os.path.join(app.static_folder, 'static'), path)
+#     response.cache_control.max_age = 0  # avoid cache memory
+#     return response
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
