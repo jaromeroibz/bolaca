@@ -19,7 +19,7 @@ export const LogIn = () => {
 return (
     <>
     <div className="container" style={{paddingTop: "200px"}}>
-        { store.auth === true ? window.location.href = 'https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev/admin' :
+        { store.auth === true ? window.location.href = process.env.BACKEND_URL+ '/admin' :
         <>
         <p>Sign in</p>        
         <h1>Welcome back!</h1>
