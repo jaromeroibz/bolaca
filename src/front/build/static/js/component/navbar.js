@@ -24,7 +24,7 @@ export const Navbar = () => {
 			<div className="container-fluid px-5">
 				<Link className="navbar-brand d-flex align-items-center" to="/">
 				<img src={bolacaLogo} className="img-fluid" alt="Logo" style={{
-maxWidth: "100px",
+maxWidth: "150px",
           transition: "max-width 0.3s ease",
         }}
       />				</Link>

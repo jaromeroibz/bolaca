@@ -114,13 +114,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						
 				return response.status
 			},
-			logout: () => {
-				console.log('Log out desde flux')
-				setStore({auth: false});
-				localStorage.removeItem("token");
-				localStorage.removeItem("auth");
-
-			},
 			getProducts: async () => {
 
 				try {

@@ -6,9 +6,12 @@ import { Context } from "../store/appContext";
 
 export const LogOut = () => {
 
-    // Elimina el token de localStorage (o cookies, dependiendo de cómo lo guardaste)
     localStorage.removeItem("token");
     localStorage.removeItem("auth"); 
-    window.location.href = '/login'; 
+    window.location.href = '/login';
     
+    return (
+        <h1>Cargando...</h1>
+    )
+
     };

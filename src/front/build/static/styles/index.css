@@ -233,15 +233,15 @@ hr.custom-hr {
 
 @media (max-width: 992px) {
     .navbar-brand img {
-      max-width: 80px;
-      max-height: 25px;
+      max-width: 160px;
+      max-height: 50px;
     }
   }
   
   @media (max-width: 768px) {
     .navbar-brand img {
-      max-width: 60px;
-      max-height: 25px;
+      max-width: 120px;
+      max-height: 50px;
     }
   }
   
