@@ -9,6 +9,8 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
+from flask import Flask, render_template, redirect, request, url_for, flash
+from flask_login import login_user, logout_user
 
 api = Blueprint('api', __name__)
 

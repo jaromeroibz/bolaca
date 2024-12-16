@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
-from api.models import db
+from api.models import db, User
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -17,6 +17,17 @@ from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
 # from models import Person
+from flask_login import LoginManager, UserMixin, login_required, current_user
+
+# Initialize LoginManager
+login_manager = LoginManager()
+login_manager.init_app(api)
+login_manager.login_view = 'login'  # Redirects to 'login' if user isn't authenticated
+
+# User Loader function
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))  # Assuming your User model's primary key is an integer
 
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"

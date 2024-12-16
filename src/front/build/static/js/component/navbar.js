@@ -22,9 +22,12 @@ export const Navbar = () => {
 		<>
 		<nav className="navbar navbar-expand-lg fixed-top">
 			<div className="container-fluid px-5">
-				<Link className="navbar-brand" to="/">
-					<img src={bolacaLogo} className="img-fluid" width={200} height={110}></img>
-				</Link>
+				<Link className="navbar-brand d-flex align-items-center" to="/">
+				<img src={bolacaLogo} className="img-fluid" alt="Logo" style={{
+maxWidth: "100px",
+          transition: "max-width 0.3s ease",
+        }}
+      />				</Link>
 				{/* Toggler Button */}
 				<button className="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
 				<span className="navbar-toggler-icon"></span>

@@ -231,3 +231,20 @@ hr.custom-hr {
     color: black;
 }
 
+@media (max-width: 992px) {
+    .navbar-brand img {
+      max-width: 80px;
+      max-height: 25px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .navbar-brand img {
+      max-width: 60px;
+      max-height: 25px;
+    }
+  }
+  
+
+  
+

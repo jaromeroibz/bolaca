@@ -19,6 +19,7 @@ import { ShoppingCart } from "./component/shoppingCart";
 import {ContactForm} from "./component/contacto"
 import {Success} from "./component/success"
 import {SearchBarResults} from "./component/searchBarResults"
+import { LogIn } from "./component/login";
 
 
 
@@ -49,6 +50,8 @@ const Layout = () => {
                         <Route element={<ContactForm />} path="/contacto"/>
                         <Route element={<Success />} path="/success"/>
                         <Route element={<SearchBarResults />} path="/searchbarresults"/>
+                        <Route element={<LogIn />} path="/login"/>
+                        <Route element={<AdminPage />} path="/admin"/>
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
