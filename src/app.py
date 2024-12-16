@@ -16,20 +16,6 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
-# from models import Person
-from flask_login import LoginManager, UserMixin, login_required, current_user
-
-# Initialize LoginManager
-login_manager = LoginManager()
-login_manager.init_app(api)
-login_manager.login_view = 'login'  # Redirects to 'login' if user isn't authenticated
-
-# User Loader function
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))  # Assuming your User model's primary key is an integer
-
-
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
@@ -66,7 +52,6 @@ app.register_blueprint(api, url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
 
-
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
@@ -87,25 +72,6 @@ def serve_static_files(path):
     else:
         # Fall back to index.html for React routing
         return send_from_directory("front/build", "index.html")
-    
-    
-# @app.route('/')
-# def sitemap():
-#     if ENV == "development":
-#         return generate_sitemap(app)
-#     return send_from_directory(os.path.join(app.static_folder, ''), "index.html")
-
-
-# # any other endpoint will try to serve it like a static file
-
-
-# @app.route('/static/<path:path>')
-# def serve_any_other_file(path):
-#     if not os.path.isfile(os.path.join(app.static_folder, 'static'), path):
-#         path = 'index.html'
-#     response = send_from_directory(os.path.join(app.static_folder, 'static'), path)
-#     response.cache_control.max_age = 0  # avoid cache memory
-#     return response
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

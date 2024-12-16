@@ -1,16 +1,12 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint, send_from_directory
-from .models import db, User, CustomerDetails, ProductCategory, Products, PaymentType, ShopOrder, OrderLine, Preferences, Brands, ProductBrand
-from api.utils import generate_sitemap, APIException
+from flask import request, jsonify, Blueprint
+from .models import db, User, ProductCategory, Products, PaymentType, Preferences, Brands, ProductBrand
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
-from flask_jwt_extended import JWTManager
-from flask import Flask, render_template, redirect, request, url_for, flash
-from flask_login import login_user, logout_user
+from flask import request
 
 api = Blueprint('api', __name__)
 
