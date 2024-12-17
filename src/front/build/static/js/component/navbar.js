@@ -24,8 +24,8 @@ export const Navbar = () => {
 			<div className="container-fluid px-5">
 				<Link className="navbar-brand d-flex align-items-center" to="/">
 				<img src={bolacaLogo} className="img-fluid" alt="Logo" style={{
-maxWidth: "150px",
-          transition: "max-width 0.3s ease",
+				maxWidth: "150px",
+				transition: "max-width 0.3s ease",
         }}
       />				</Link>
 				{/* Toggler Button */}
@@ -61,7 +61,7 @@ maxWidth: "150px",
 							<Link to="/servicios" style={{textDecoration: 'none', color: 'black'}}>SERVICIOS</Link>
 						</li>
 						<li className="nav-item px-3">
-							<Link to="/nosotros" style={{textDecoration: 'none', color: 'black'}}>NOSOTROS</Link>
+							<Link to="/creadores" style={{textDecoration: 'none', color: 'black'}}>CREADORES</Link>
 						</li>
 						<li className="nav-item px-3">
 							<Link to="/contacto" style={{textDecoration: 'none', color: 'black'}}>CONTACTO</Link>

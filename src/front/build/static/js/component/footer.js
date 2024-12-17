@@ -1,35 +1,47 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import bolacaLogo from "../../img/bolaca-sin-borde-pequeña.jpg";
 
+export const Footer = () => {
+  return (
+    <footer className="footer-container">
+      <div className="footer-content">
+        {/* Left Section - Categories */}
+        <div className="footer-section categories">
+          <h3>Categorías</h3>
+          <ul>
+            <li>Cartas Didácticas</li>
+            <li>Juegos de Mesa</li>
+            <li>Libros Móviles</li>
+            <li>Rompecabezas</li>
+          </ul>
+        </div>
 
-export const Footer = () => (
-	<footer className="footer mt-auto py-3 text-center">
-		<div className="footer-body py-5">
-			<div className="row text-center">
-				<div className="col-3"></div>
-				<div className="col-2">
-					<h3>Categorías</h3>
-					<p>Cartas didáxcticas</p>
-					<p>Juegos de mesa</p>
-				</div>
-				<div className="col-2">
-					<Link to="/" style={{textDecoration: 'none' }}> 
-						<img src={bolacaLogo} width={200} height={110}></img>
-					</Link>
-				</div>
-				<div className="col-2">
-					<h3>Contactate con nosotros</h3>
-					<p><a href="https://www.google.com" target="_blank" rel="noopener noreferrer" className="fa-solid fa-phone"></a></p>
-					<p><a href="https://api.whatsapp.com/send/?phone=56932408221&text&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" className="fa-brands fa-whatsapp"></a></p>
-					<p><a href="https://www.instagram.com/bolacachile?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="fa-brands fa-instagram"></a></p>
-					<p><a href="https://www.facebook.com/profile.php?id=61557448063109&locale=es_LA" target="_blank" rel="noopener noreferrer" className="fa-brands fa-facebook"></a></p>
-				</div>
-				<div className="col-3"></div>
-			</div>
-			<div className="row text-center">
-			<p>Developed by Javier Romero</p>
-			</div>
-		</div>
-	</footer>
-);
+        {/* Center Section - Logo */}
+        <div className="footer-logo">
+          <img
+            src={bolacaLogo} // Replace with your logo URL
+            alt="Bolaca"
+          />
+        </div>
+
+        {/* Right Section - Contact */}
+        <div className="footer-section contact">
+          <h3>Contactate con nosotros</h3>
+          <ul>
+            <li>barcodepapeldidacticos 📘</li>
+            <li>@barcodepapeldidacticos 📷</li>
+            <li>(+54) 11 5175-1717 📱</li>
+            <li>contacto@barcodepapel.com.ar 📧</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Bottom Section */}
+      <div className="footer-bottom">
+        <p>Developed by GALARRETA®</p>
+        <p>Privacidad | Powered by Mercado Shops</p>
+      </div>
+    </footer>
+  );
+};
+

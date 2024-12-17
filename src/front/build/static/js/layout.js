@@ -21,6 +21,7 @@ import {Success} from "./component/success"
 import {SearchBarResults} from "./component/searchBarResults"
 import { LogIn } from "./component/login";
 import { LogOut } from "./component/logout";
+import { Creadores } from "./component/creadores"
 
 
 
@@ -55,6 +56,7 @@ const Layout = () => {
                         <Route element={<LogIn />} path="/login"/>
                         <Route element={<LogOut />} path="/logout"/>
                         <Route element={<AdminPage />} path="/admin"/>
+                        <Route element={<Creadores />} path="/creadores"/>
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
