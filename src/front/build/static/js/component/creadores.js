@@ -114,14 +114,15 @@ const styles = {
   },
   role: {
     fontSize: "1rem",
-    fontWeight: "bold",
+    fontWeight: "300",
     marginBottom: "10px",
-    color: "#555",
+    color: "#777",
     paddingTop: "10px"
   },
   description: {
     fontSize: "1rem",
-    color: "#555",
+    fontWeight: "300",
+    color: "#777",
     paddingTop: "10px"
   },
 };

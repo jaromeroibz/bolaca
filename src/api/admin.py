@@ -8,7 +8,7 @@ from flask import redirect
 class LogoutView(BaseView):
     @expose('/')
     def index(self):
-        return redirect("/logout")
+        return redirect("https://effective-palm-tree-5ww6qprg57rfwv7-3000.app.github.dev/logout")
 
 def setup_admin(app):
     app.secret_key = os.environ.get('FLASK_APP_KEY', 'sample key')

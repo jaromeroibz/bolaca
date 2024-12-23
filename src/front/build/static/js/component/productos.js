@@ -6,9 +6,7 @@ export const Productos = () =>{
 
     const { store, actions } = useContext(Context);
     const theid = useParams().theid //id de categoría
-    const allproductslength = store.products.length;
-    const productslength = store.productsByCategory.length;
-
+    const [selectedCategory, setselectedCategory] = useState(null); 
     const [selectedAgeRange, setSelectedAgeRange] = useState(null); 
     const [selectedPriceRange, setSelectedPriceRange] = useState(null);
     const [selectedBrand, setSelectedBrand] = useState(null);  
@@ -18,6 +16,7 @@ export const Productos = () =>{
         actions.getProducts()
         actions.getProductByCategory(theid)
         actions.getBrands();
+        actions.getCategories();
     }, []);
 
     const filterProductsByAgeRange = (products) => {
@@ -38,6 +37,11 @@ export const Productos = () =>{
         return products.filter((item) => item.brand.name.toLowerCase() === selectedBrand.toLowerCase());
     };
 
+    const filterProductsByCategory = (products) => {
+        if (!selectedCategory) return products; // Si no hay una marca seleccionada, devolver todos los productos
+        return products.filter((item) => item.category_name.toLowerCase() === selectedCategory.toLowerCase());
+    };
+
     let filteredProducts = store.products;
     if (selectedAgeRange) {
         filteredProducts = filterProductsByAgeRange(filteredProducts);
@@ -45,6 +49,8 @@ export const Productos = () =>{
         filteredProducts = filterProductsByPriceRange(filteredProducts);
     } else if (selectedBrand) {
         filteredProducts = filterProductsByBrand(filteredProducts);
+    } else if (selectedCategory) {
+        filteredProducts = filterProductsByCategory(filteredProducts);
     }
 
     const ageRanges = [
@@ -139,6 +145,23 @@ export const Productos = () =>{
                                 style={{ cursor: 'pointer', color: selectedAgeRange === range.range ? 'blue' : 'black' }}
                             >
                                 {range.label}
+                            </p>
+                        ))}
+                        <hr></hr>
+                        <h6>Categoría</h6>
+                        {store.categories.map((item, index) => (
+                            <p
+                                key={index}
+                                onClick={() => {
+                                    setselectedCategory(item.category_name);
+                                    setSelectedAgeRange(null); // Limpiar rango de edad
+                                    setSelectedPriceRange(null);
+                                    setSelectedBrand(null); // Limpiar rango de precios
+                                    actions.getProductByCategory(item.id);
+                                }}
+                                style={{ cursor: 'pointer', color: selectedCategory === item ? 'blue' : 'black' }}
+                            >
+                                {item.category_name}
                             </p>
                         ))}
                     </div>

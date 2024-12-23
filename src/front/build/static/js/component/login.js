@@ -18,7 +18,7 @@ export const LogIn = () => {
 
 return (
     <>
-    <div className="container" style={{paddingTop: "200px"}}>
+    <div className="container" style={{paddingTop: "200px", maxWidth: "400px"}}>
         { store.auth === true ? window.location.href = process.env.BACKEND_URL+ '/admin' :
         <>
         <p>Sign in</p>        
@@ -39,7 +39,7 @@ return (
                 </div>
                 <div className="col-12 mb-4">
                     <div className="position-relative mb-4">
-                        <button type="submit" className="btn btn-primary btn-lg w-100">Submit</button>
+                        <button type="submit" className="buy-now-button">Submit</button>
                     </div>                    
                 </div>
             </div>    
@@ -50,3 +50,4 @@ return (
     </>
     )
 }
+
