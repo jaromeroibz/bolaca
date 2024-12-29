@@ -3,6 +3,7 @@ import bolacaLogo from "../../img/bolaca-sin-borde-pequeña.jpg";
 
 export const Footer = () => {
   return (
+    <div className="py-5">
     <footer className="footer-container">
       <div className="footer-content">
         {/* Left Section - Categories */}
@@ -42,6 +43,7 @@ export const Footer = () => {
         <p>Privacidad | Powered by Mercado Shops</p>
       </div>
     </footer>
+    </div>
   );
 };
 

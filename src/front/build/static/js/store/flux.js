@@ -92,10 +92,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return isLogin
 			},
 			loginAdmin: async (email, password) => {
-				console.log('Login desde flux')
 				const requestOptions = {
 					method: 'POST',
-					headers: { 'Content-type': 'application/json' },
+					headers: { 'Content-Type': 'application/json', 'Origin': '*',
+						'Access-Control-Allow-Headers': '*',
+						'Access-Control-Allow-Origin': '*' },
 					body: JSON.stringify(
 					{
 						"email": email,
