@@ -91,7 +91,9 @@ class Products(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(80), unique=False, nullable=False)
     description = db.Column(db.String(500), unique=False, nullable=False)
-    image = db.Column(db.String(500), unique=False, nullable=False)
+    image = db.Column(db.String(500), unique=True, nullable=True)
+    image2 = db.Column(db.String(500), unique=True, nullable=True)
+    image3 = db.Column(db.String(500), unique=True, nullable=True)
     brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'))
     min_age = db.Column(db.Integer, unique=False, nullable=True)
     max_age = db.Column(db.Integer, unique=False, nullable=True)
@@ -110,6 +112,9 @@ class Products(db.Model):
             "name": self.name,
             "description": self.description,
             "brand": self.brand.serialize() if self.brand else None,
+            "image": self.image,
+            "image2": self.image2,
+            "image3": self.image3,
             "price": self.price,
             "stock": self.stock,
             "isDestacado": self.isDestacado,

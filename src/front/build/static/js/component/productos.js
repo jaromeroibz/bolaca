@@ -83,7 +83,7 @@ export const Productos = () =>{
                             ) : (
                             filteredProducts.map((item) =>
                             <div className="card" style={{width: 284, height: 477}} key= {item.id}>
-                                <img className="card-img-top" loading="lazy" src="https://picsum.photos/200/200" alt="Card image cap"></img>
+                                <img className="card-img-top" loading="lazy" src={item.image} alt="Card image cap"></img>
                                 <div className="card-body">
                                     <h5 className="card-title">{item.name}</h5>
                                     <p className="card-text">${item.price}</p>
