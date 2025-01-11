@@ -113,7 +113,7 @@ li::marker{font-size:0;}
 }
 .buy-now-button{
     align-items: center;
-    padding: 10px;
+    padding: 10px 90px 10px 89px;
     display: flex;
     height: 100%;
     justify-content: center;
@@ -122,12 +122,12 @@ li::marker{font-size:0;}
     font-family: "Poppins", sans-serif;
     font-style: normal;
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 1rem;
     border-radius: 6px;
 }
 .add-cart-details-button{
     align-items: center;
-    padding: 10px;
+    padding: 10px 80px 10px 80px;
     display: flex;
     height: 100%;
     justify-content: center;
@@ -136,7 +136,7 @@ li::marker{font-size:0;}
     font-family: "Poppins", sans-serif;
     font-style: normal;
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border-radius: 6px;
 }
 .leftarrow, .rightarrow {
@@ -297,5 +297,73 @@ hr.custom-hr {
   margin-top: 20px;
   font-size: 0.9rem;
   font-weight: 300;
+}
+
+.quantity-form {
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #333;
+  gap: 8px;
+}
+
+.quantity-label {
+  font-weight: bold;
+}
+
+.quantity-value {
+  font-weight: bold;
+  color: #007bff; /* Matches the blue color */
+}
+
+.quantity-select {
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.quantity-select:focus {
+  outline: none;
+}
+
+.custom-quantity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.custom-quantity-input {
+  border: 1px solid #ddd;
+  padding: 4px 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  width: 60px;
+}
+
+.apply-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.apply-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.stock-info {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #777;
 }
 

@@ -320,6 +320,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 					localStorage.setItem('cart', JSON.stringify(newCartItems));
 				}
 			},
+			addToCartQty: (product, quantity) => {
+				const store = getStore();
+				const productIndex = store.cart.findIndex(item => item.id === product.id);
+			
+				if (productIndex !== -1) {
+					// If the product exists, update the quantity by adding the new quantity
+					const updatedCart = [...store.cart];
+					updatedCart[productIndex].quantity += quantity;
+					setStore({ cart: updatedCart });
+				} else {
+					// If the product doesn't exist in the cart, add it with the given quantity
+					const updatedProduct = { ...product, quantity };
+					setStore({ cart: [...store.cart, updatedProduct] });
+				}
+			},			
 			removeFromCart: (product) => {
 				const store = getStore();
 				const exist = store.cart.find((item) => item.id === product.id );

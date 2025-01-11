@@ -1,100 +1,232 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
-import Onecursiva from "../../img/1-CURSIVA.jpg";
-import Twocursiva from "../../img/2-CURSIVA.jpg";
-import Threecursiva from "../../img/3-CURSIVA.jpg";
-import Fourcursiva from "../../img/4-CURSIVA.jpg";
+import { SiEventstore } from "react-icons/si";
 
-
-export const DetalleProductos = () =>{
-    
+export const DetalleProductos = () => {
     const { store, actions } = useContext(Context);
-    const theid = useParams().theid
-    const product = store.products.find((item) => item.id == theid ) 
-    console.log(product)
+    const theid = useParams().theid;
+    const product = store.products.find((item) => item.id == theid);
     const [cart, setCart] = useState([]);
+    const [selectedQuantity, setSelectedQuantity] = useState(1);
+    const [customQuantity, setCustomQuantity] = useState("");
     const [currentImage, setCurrentImage] = useState(0);
-    const productImages = [Onecursiva,Twocursiva,Threecursiva,Fourcursiva] // cambiar esto para que tome en cuenta las imagenes llamadas desde AWS
+    const productImages = [product.image, product.image2, product.image3]; // Adjust based on AWS images
 
     useEffect(() => {
-        actions.getProducts()
-    }, [])
+        actions.getProducts();
+    }, []);
 
     const addToCart = (product) => {
-        setCart([...cart, product])
-        };
+        const quantityToAdd =
+            selectedQuantity === "more" ? Number(customQuantity) : selectedQuantity;
+        const updatedProduct = { ...product, quantity: quantityToAdd };
+        setCart([...cart, updatedProduct]);
+        actions.addToCartQty(product, quantityToAdd)
+    };
 
-    console.log(cart)
-    return(
+    const handleQuantityChange = (e) => {
+        const value = e.target.value;
+        if (value === "more") {
+            setSelectedQuantity("more");
+            setCustomQuantity(""); // Reset custom quantity
+        } else {
+            setSelectedQuantity(Number(value));
+        }
+    };
+
+    const handleCustomQuantityApply = () => {
+        if (customQuantity && !isNaN(customQuantity) && Number(customQuantity) > 0) {
+            setSelectedQuantity(Number(customQuantity));
+        }
+    };
+
+    return (
         <>
-        <div className="container">
-            <div className="detalle-producto">
-                <Link to={`/productos/${product.category_id}`} style={{textDecoration: 'none' }} >Volver al listado</Link>
-                <div className="product-card">
-                    <div className="card" style={{width: 1200, height: 1200}}>
-                        <div className="row">
-                            <div className="col-1 smallimages">
-                                <img src={productImages[0]} onClick={e => (setCurrentImage(0))} alt="product image" className="image"></img>
-                                <img src={productImages[1]} onClick={e => (setCurrentImage(1))} alt="product image" className="image"></img>
-                                <img src={productImages[2]} onClick={e => (setCurrentImage(2))} alt="product image" className="image"></img>
-                                <img src={productImages[3]} onClick={e => (setCurrentImage(3))} alt="product image" className="image"></img>
-                            </div>
-                            <div className="col-7">
-                                <img src = {productImages[currentImage]} height={600} width={600} ></img>
-                                <hr></hr>
-                            </div>
-                            <div className="col-4 product-info">
-                                <div className="card" >
-                                    <div className="card-body">
-                                        <h4 className="card-title">{product.name}</h4>
-                                        <h1 className="card-price">${product.price}</h1>
-                                        <h4 className="card-body">Mismo precio en 3 cuotas de {product.price} / 3 </h4>
-                                        { product.name === 1 ? <h4>¡Última unidad disponible!</h4> : product.stock === 0 ? <h4>Sin Stock</h4> : <h4>¡Pocas unidades disponibles!</h4>}
-                                        <div className="py-5">
-                                        {/* <form onSubmit={selectQty}>
-                                        <select className="form-select" aria-label="Default select example">
-                                            <option value="1" selected>1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                        </select>
-                                            
-                                        </form> */}
-                                            <div>
-                                                <Link to="/finalizar-pedido" style={{textDecoration: 'none' }}>
-                                                    <button className="buy-now-button">Comprar ahora</button>
-                                                </Link>
-                                            </div>
-                                            <div className="px-3">
-                                                <button onClick={() => addToCart(product)} className="add-cart-details-button">Agregar al carrito</button>
+            <div className="container">
+                <div className="detalle-producto">
+                    <Link
+                        to={`/productos`}
+                        style={{ textDecoration: "none" }}
+                    >
+                        Volver al listado
+                    </Link>
+                    <div className="product-card">
+                        <div className="card" style={{ width: 1200, height: 1200 }}>
+                            <div className="row">
+                                <div className="col-1 smallimages">
+                                    {productImages.map((image, index) => (
+                                        <img
+                                            key={index}
+                                            src={image}
+                                            onClick={() => setCurrentImage(index)}
+                                            alt="product image"
+                                            className="image"
+                                        />
+                                    ))}
+                                </div>
+                                <div className="col-7">
+                                    <img
+                                        src={productImages[currentImage]}
+                                        height={600}
+                                        width={600}
+                                        alt="Main product"
+                                    />
+                                    <hr />
+                                </div>
+                                <div className="col-4 product-info">
+                                    <div className="card">
+                                        <div className="card-body">
+                                            {product.isDestacado && (
+                                                <h6 style={{ color: "grey" }}>Destacado</h6>
+                                            )}
+                                            <h4
+                                                className="card-title"
+                                                style={{ fontWeight: "900" }}
+                                            >
+                                                {product.name}
+                                            </h4>
+                                            <h1
+                                                className="card-price"
+                                                style={{ fontWeight: "400" }}
+                                            >
+                                                ${product.price}
+                                            </h1>
+                                            {product.stock === 1 ? (
+                                                <h4 style={{ fontWeight: "300" }}>
+                                                    ¡Última unidad disponible!
+                                                </h4>
+                                            ) : product.stock === 0 ? (
+                                                <h4 style={{ fontWeight: "300" }}>
+                                                    Sin Stock
+                                                </h4>
+                                            ) : product.stock < 10 ? (
+                                                <h4 style={{ fontWeight: "300" }}>
+                                                    ¡Pocas unidades disponibles!
+                                                </h4>
+                                            ) : ''}
+                                            <div className="py-5">
+                                                {/* Quantity Selector */}
+                                                <form className="quantity-form">
+                                                    <label
+                                                        htmlFor="quantity-select"
+                                                        className="quantity-label"
+                                                    >
+                                                        Cantidad:{" "}
+                                                        <span className="quantity-value">
+                                                            {selectedQuantity === "more"
+                                                                ? customQuantity || "—"
+                                                                : selectedQuantity}
+                                                        </span>{" "}
+                                                        unidades
+                                                    </label>
+                                                    <select
+                                                        id="quantity-select"
+                                                        className="quantity-select"
+                                                        aria-label="Select quantity"
+                                                        value={
+                                                            selectedQuantity === "more"
+                                                                ? "more"
+                                                                : selectedQuantity
+                                                        }
+                                                        onChange={handleQuantityChange}
+                                                        disabled={product.stock === 0}
+                                                    >
+                                                        {Array.from(
+                                                            { length: Math.min(product.stock, 6) },
+                                                            (_, i) => (
+                                                                <option
+                                                                    key={i + 1}
+                                                                    value={i + 1}
+                                                                >
+                                                                    {i + 1} unidad
+                                                                    {i + 1 > 1 ? "es" : ""}
+                                                                </option>
+                                                            )
+                                                        )}
+                                                        {product.stock > 6 && (
+                                                            <option value="more">
+                                                                Más de 6
+                                                            </option>
+                                                        )}
+                                                    </select>
+                                                    {selectedQuantity === "more" && (
+                                                        <div className="custom-quantity">
+                                                            <label htmlFor="custom-quantity-input">
+                                                                Cantidad:
+                                                            </label>
+                                                            <input
+                                                                type="number"
+                                                                id="custom-quantity-input"
+                                                                className="custom-quantity-input"
+                                                                min="7"
+                                                                max={product.stock}
+                                                                value={customQuantity}
+                                                                onChange={(e) =>
+                                                                    setCustomQuantity(
+                                                                        e.target.value
+                                                                    )
+                                                                }
+                                                                placeholder="7"
+                                                            />
+                                                            <button
+                                                                type="button"
+                                                                className="apply-button"
+                                                                onClick={handleCustomQuantityApply}
+                                                                disabled={
+                                                                    !customQuantity ||
+                                                                    isNaN(customQuantity) ||
+                                                                    customQuantity < 7 ||
+                                                                    customQuantity > product.stock
+                                                                }
+                                                            >
+                                                                Aplicar
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                    {product.stock > 10 && (
+                                                        <span className="stock-info">
+                                                            (+{product.stock} disponibles)
+                                                        </span>
+                                                    )}
+                                                </form>
+                                                <div className="p-3"> 
+                                                    <Link to="/cart" style={{textDecoration: 'none' }}>
+                                                        <button onClick={() => addToCart(product)} className="buy-now-button" disabled={product.stock === 0}>Comprar ahora</button>
+                                                    </Link>
+                                                </div>
+                                                {/* Add to Cart */}
+                                                <div className="px-3">
+                                                    <button
+                                                        onClick={() => addToCart(product)}
+                                                        className="add-cart-details-button"
+                                                        disabled={product.stock === 0}
+                                                    >
+                                                        Agregar al carrito
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="row">
-                            <div className="card-body">
-                                <h6>Características principales</h6>
-                                <p>• EMPIEZO A ESCRIBIR (Imprenta)
-                                Juego de cartas con grafismos, abecedario y números marcados para iniciarse en la escritura.
-                                Cada carta esta laminada para poder usarse todas las veces que se desee.
-                                Los niños y las niñas siguen las líneas punteadas usando el marcador y forman letras, números y formas.
-                                Contiene actividades sugeridas y marcador con borrador.
-                                </p>
+                            <div className="row">
+                                <div className="col-1"></div>
+                                <div className="col-7">
+                                    <div className="card-body">
+                                        <h6>Características principales</h6>
+                                        Marca {product.brand.name}
+                                        Nombre {product.name}
+                                        <h6>Descripción</h6>
+                                        {product.description}
+                                    </div>
+                                </div>
+                                <div className="col-4"></div>
                             </div>
-                        </div>     
+                        </div>
                     </div>
-                    
-
                 </div>
             </div>
-
-        </div>
         </>
     );
-
-}
+};
