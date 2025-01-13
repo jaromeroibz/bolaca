@@ -77,7 +77,7 @@
 		"@mercadopago/sdk-react": "^0.0.19",
 		"axios": "^1.7.7",
 		"cors": "^2.8.5",
-		"express": "^4.21.1",
+		"express": "^4.21.2",
 		"mercadopago": "^2.0.15",
 		"prop-types": "^15.6.1",
 		"react": "^16.14.0",
