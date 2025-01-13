@@ -1,7 +1,7 @@
 {
 	"name": "react-hello-webapp",
 	"engines": {
-		"node": "18.x"
+		"node": ">=18.x <21"
 	},
 	"version": "1.0.1",
 	"description": "",
@@ -28,14 +28,18 @@
 	"devDependencies": {
 		"@babel/cli": "^7.16.0",
 		"@babel/core": "^7.26.0",
+		"@babel/eslint-parser": "^7.26.5",
 		"@babel/plugin-proposal-class-properties": "^7.16.0",
 		"@babel/plugin-transform-runtime": "^7.16.4",
 		"@babel/preset-env": "^7.26.0",
 		"@babel/preset-react": "^7.25.9",
 		"@babel/runtime": "^7.16.3",
 		"babel-eslint": "^10.1.0",
+		"babel-helper-function-name": "^6.24.1",
 		"babel-loader": "^8.4.1",
 		"babel-plugin-transform-class-properties": "^6.10.2",
+		"babel-template": "^6.26.0",
+		"babel-traverse": "^6.26.0",
 		"bc-console": "0.0.2",
 		"css-loader": "^6.5.1",
 		"dotenv-webpack": "^7.0.3",
@@ -76,8 +80,10 @@
 		"@fortawesome/fontawesome-svg-core": "^6.5.2",
 		"@mercadopago/sdk-react": "^0.0.19",
 		"axios": "^1.7.7",
+		"core-js": "^3.40.0",
 		"cors": "^2.8.5",
 		"express": "^4.21.2",
+		"lru-cache": "^11.0.2",
 		"mercadopago": "^2.0.15",
 		"prop-types": "^15.6.1",
 		"react": "^16.14.0",
@@ -88,6 +94,7 @@
 		"react-polyfills": "0.0.1",
 		"react-router-dom": "^6.3.0",
 		"react-slick": "^0.30.2",
+		"rimraf": "^6.0.1",
 		"serve": "^14.2.4",
 		"slick-carousel": "^1.8.1"
 	},
