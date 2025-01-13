@@ -7,7 +7,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "node server.js",
+		"start": "node server.mjs",
 		"build": "webpack --config webpack.prod.js"
 	},
 	"author": {
