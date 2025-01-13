@@ -20,7 +20,7 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'cheap-module-source-map',
   devServer: {
-    port:3000,
+    port: process.env.PORT || 3000, // Use Render's PORT or default to 3000
     hot: true, // Hot Module Replacement
     allowedHosts: "all", // Allow all hosts
     historyApiFallback: true, // Serve index.html for React SPA routing
