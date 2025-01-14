@@ -18,18 +18,19 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
+# Set the environment based on FLASK_DEBUG value (1 for development, 0 for production)
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
-static_file_dir = os.path.join(os.path.dirname(
-    os.path.realpath(__file__)), '../public/')
+
+# Set up the Flask app
+static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
 app = Flask(__name__, static_folder='front/build/static', static_url_path='/static')
 CORS(app)
 app.url_map.strict_slashes = False
 
-# database condiguration
+# Database configuration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(
-        "postgres://", "postgresql://")
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
@@ -37,30 +38,25 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
-# database url 
-# postgresql://jaromeroibz:FN6TIF2tJIQrthbZNrftJP4xkM7pL3ee@dpg-ct4i9nq3esus73ffmqkg-a.oregon-postgres.render.com/bolacachile_wxgv
-
-# add the admin
+# Add the admin
 setup_admin(app)
 
-# Setup the Flask-JWT-Extended extension
+# Setup Flask-JWT-Extended extension
 app.config["JWT_SECRET_KEY"] = "bolaca123"  # Change this!
 jwt = JWTManager(app)
 
-# add the admin
+# Add the admin
 setup_commands(app)
 
-# Add all endpoints form the API with a "api" prefix
+# Add all endpoints from the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
-
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
-# generate sitemap with all your endpoints
-
+# Generate sitemap with all your endpoints
 @app.route("/")
 def serve_index():
     # Serve the main React index.html file
@@ -76,7 +72,12 @@ def serve_static_files(path):
         # Fall back to index.html for React routing
         return send_from_directory("front/build", "index.html")
 
-# this only runs if `$ python src/main.py` is executed
+# This only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
+    # Get the port from the environment variable or default to 3001
     PORT = int(os.environ.get('PORT', 3001))
-    app.run(host='0.0.0.0', port=PORT, debug=True)
+    
+    # Set the debug mode based on the ENV variable or FLASK_DEBUG
+    debug_mode = os.getenv("FLASK_DEBUG", "false") == "true"  # 'true' or 'false'
+    
+    # Run the app with the appropriate

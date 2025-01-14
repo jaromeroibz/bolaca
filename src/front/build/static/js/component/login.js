@@ -17,7 +17,7 @@ export const LogIn = () => {
         actions.loginAdmin(email, password)
             .then(() => {
                 if (store.auth === true) {
-                    window.location.href = process.env.BACKEND_URL + '/admin';
+                    window.location.href = '/admin';
                 } else {
                     setErrorMessage('Incorrect password. Please try again.'); // Set error message
                 }
