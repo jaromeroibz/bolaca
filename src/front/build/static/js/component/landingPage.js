@@ -13,6 +13,7 @@ import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 
 export const LandingPage = () => {
 
+    const [selectedCategory, setselectedCategory] = useState(null); 
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,6 +24,17 @@ export const LandingPage = () => {
     function filterProducts (item) {
         actions.getProductByCategory(item)
         navigate('/productos')
+    }
+
+    const filterProductsByCategory = (products) => {
+        if (!selectedCategory) return products; // Si no hay una marca seleccionada, devolver todos los productos
+        return products.filter((item) => item.category_name.toLowerCase() === selectedCategory.toLowerCase());
+    };
+    
+    let filteredProducts = store.products;
+
+    if (selectedCategory) {
+        filteredProducts = filterProductsByCategory(filteredProducts);
     }
 
     let sliderRef = useRef(null);
@@ -141,6 +153,19 @@ export const LandingPage = () => {
                         </div> 
                     </>   
                     )}
+                    {store.categories.map((item, index) => (
+                        <div
+                            key={index}
+                            onClick={() => {
+                                setselectedCategory(item.category_name);
+                                actions.getProductByCategory(item.id);
+                            }}
+                            style={{ cursor: 'pointer', color: selectedCategory === item ? 'blue' : 'black' }}
+                        >
+                            <img src={Cursiva1} style={{height: "300px"}} alt="category image"></img>
+                            <p>{item.category_name}</p>
+                        </div>
+                    ))}
                     </div> 
                 </div>
             </div>

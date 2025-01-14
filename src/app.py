@@ -18,8 +18,14 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
-# Set the environment based on FLASK_DEBUG value (1 for development, 0 for production)
-ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
+# Set up the environment based on FLASK_ENV or FLASK_DEBUG value
+flask_env = os.getenv('FLASK_ENV', 'development')
+if flask_env == 'development' and os.getenv("FLASK_DEBUG") == "1":
+    ENV = "development"
+else:
+    ENV = "production"
+
+print(f"FLASK_ENV is set to: {flask_env}")
 
 # Set up the Flask app
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
@@ -80,4 +86,5 @@ if __name__ == '__main__':
     # Set the debug mode based on the ENV variable or FLASK_DEBUG
     debug_mode = os.getenv("FLASK_DEBUG", "false") == "true"  # 'true' or 'false'
     
-    # Run the app with the appropriate
+    # Run the app with the appropriate debug setting
+    app.run(host='0.0.0.0', port=PORT, debug=debug_mode)
