@@ -3,7 +3,7 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
-const port = 3000;
+const port = 3001;
 let publicUrl = `ws://localhost:${port}/ws`;
 
 // Specific handling for Gitpod or Codespaces (use if needed)
@@ -20,7 +20,7 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'cheap-module-source-map',
   devServer: {
-    port: process.env.PORT || 3000, // Use Render's PORT or default to 3000
+    port: process.env.PORT || 3001, // Use Render's PORT or default to 3000
     hot: true, // Hot Module Replacement
     allowedHosts: "all", // Allow all hosts
     historyApiFallback: true, // Serve index.html for React SPA routing
