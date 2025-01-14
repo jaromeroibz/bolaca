@@ -6,6 +6,7 @@
 	"version": "1.0.1",
 	"description": "",
 	"main": "index.js",
+	"homepage": "https://bolaca.cl",
 	"scripts": {
 		"start": "node server.mjs",
 		"build": "webpack --config webpack.prod.js"

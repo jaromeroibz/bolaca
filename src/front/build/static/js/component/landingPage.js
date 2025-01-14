@@ -101,7 +101,7 @@ export const LandingPage = () => {
                 </div>
                 <div className="container py-4">
                     <h1 className="Titulos text-center">Destacados</h1>
-                    <h6 className="text-center"><Link to="/productos/999" style={{textDecoration: 'none' }}>Ir a todos los productos</Link></h6>
+                    <h6 className="text-center"><Link to="/productos" style={{textDecoration: 'none' }}>Ir a todos los productos</Link></h6>
                     <div className="container">
                         <button className="leftarrow" onClick={previous} >
                         <SlArrowLeft />
