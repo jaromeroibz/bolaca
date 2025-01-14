@@ -31,7 +31,7 @@ export const LogIn = () => {
         <>
             <div className="container" style={{ paddingTop: "200px", maxWidth: "400px" }}>
                 {store.auth === true ? (
-                    window.location.href = process.env.BACKEND_URL + '/admin'
+                    window.location.href = '/admin'
                 ) : (
                     <>
                         <p>Sign in</p>
