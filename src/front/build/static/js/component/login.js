@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
-import { Navigate } from "react-router-dom";
-
+import { Link, Navigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const LogIn = () => {
@@ -17,7 +15,8 @@ export const LogIn = () => {
         actions.loginAdmin(email, password)
             .then(() => {
                 if (store.auth === true) {
-                    window.location.href = '/admin';
+                    // Use Navigate for React Router-based redirect
+                    return <Navigate to="/admin" />
                 } else {
                     setErrorMessage('Incorrect password. Please try again.'); // Set error message
                 }
@@ -31,7 +30,8 @@ export const LogIn = () => {
         <>
             <div className="container" style={{ paddingTop: "200px", maxWidth: "400px" }}>
                 {store.auth === true ? (
-                    window.location.href = '/admin'
+                    // Use Navigate for React Router-based redirect
+                    <Navigate to="/admin" />
                 ) : (
                     <>
                         <p>Sign in</p>
