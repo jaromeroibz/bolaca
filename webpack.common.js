@@ -1,54 +1,78 @@
-const webpack = require('webpack');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
+// Import dependencies using ES module syntax
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import process from 'process' // Polyfill for process
+import webpack from 'webpack';  // Import webpack for ProvidePlugin
+import Dotenv from 'dotenv-webpack';  // Import dotenv-webpack to load .env variables
 
-module.exports = {
-  entry: './src/front/build/static/js/index.js', // Adjusted to a simpler format
+const __dirname = new URL('.', import.meta.url).pathname;
+
+export default {
+  mode: 'development',
+  entry: './src/front/js/index.js',  // Ensure correct entry file
   output: {
-    filename: '[name].js',  // Use chunk names to generate unique filenames
-    path: path.resolve(__dirname, 'src/front/build'),
-    publicPath: '/',
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js',
+    publicPath: './',
   },
-  devServer: {
-    static: {
-      directory: path.resolve(__dirname, 'src/front/build'), // Ensure correct directory for serving static files
-    },
-    historyApiFallback: true, // Ensures React routing works
-    port: 3000, // Port to run the dev server
+  stats: {
+    all: true,
   },
+  plugins: [
+    // Load .env variables into the Webpack build
+    new Dotenv(),  // Ensure .env is loaded into Webpack
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'template.html'),  // Ensure the correct path
+      inject: "body",  // Inject bundle into template
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process',
+    }),
+    new webpack.DefinePlugin({
+      'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL || 'https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev'),
+      'process.env.NODE_ENV': JSON.stringify('development')
+    }),
+    new webpack.ProgressPlugin({
+      activeModules: true, // Show details for active modules
+    })
+        
+  ],
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/, 
+        test: /\.(js|jsx)$/,  // Handle .js and .jsx files
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              '@babel/preset-env',
+              '@babel/preset-react',
+            ],
+          },
+        },
       },
       {
-        test: /\.(css|scss)$/, 
+        test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|svg|jpg|gif|jpeg|webp)$/, 
-        use: {
-          loader: 'file-loader',
-          options: { name: 'static/img/[name].[ext]' },
-        },
-      },
-      { 
-        test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/, 
-        use: ['file-loader'] 
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+            },
+          },
+        ],
       },
     ],
   },
   resolve: {
-    extensions: ['.jsx', '.js'],
+    extensions: ['.js', '.jsx', ".json"],
+    fallback: {
+      process: 'process',  // Directly set the polyfill module here
+    },
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      favicon: '4geeks.ico',
-      template: 'template.html', // Make sure this path is correct
-    }),
-    new Dotenv({ safe: true, systemvars: true }),
-  ],
 };

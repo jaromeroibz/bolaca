@@ -13,8 +13,6 @@ from api.commands import setup_commands
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
 
-print("Backend URL:", os.getenv('BACKEND_URL'))
-
 # Load environment variables
 load_dotenv()
 
@@ -22,7 +20,7 @@ load_dotenv()
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 
 # Initialize Flask app
-app = Flask(__name__, static_folder='./build', static_url_path='/')
+app = Flask(__name__, static_folder='../front/build', static_url_path='/')
 CORS(app)
 app.url_map.strict_slashes = False
 

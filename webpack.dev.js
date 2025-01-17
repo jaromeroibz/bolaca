@@ -1,38 +1,63 @@
-const webpack = require('webpack');
-const path = require('path');
-const { merge } = require('webpack-merge');
-const common = require('./webpack.common.js');
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin'; // Import the plugin
+import webpack from 'webpack';
+const __dirname = new URL('.', import.meta.url).pathname;
 
-const port = 3001;
-let publicUrl = `ws://localhost:${port}/ws`;
-
-// Specific handling for Gitpod or Codespaces (use if needed)
-if(process.env.GITPOD_WORKSPACE_URL){
-  const [schema, host] = process.env.GITPOD_WORKSPACE_URL.split('://');
-  publicUrl = `wss://${port}-${host}/ws`;
-}
-
-if(process.env.CODESPACE_NAME){
-  publicUrl = `wss://${process.env.CODESPACE_NAME}-${port}.app.github.dev/ws`;
-}
-
-module.exports = merge(common, {
+export default {
   mode: 'development',
+  entry: './src/front/js/index.js',  // Ensure this is the correct entry point
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js',
+    publicPath: './',
+  },
   devtool: 'cheap-module-source-map',
-  devServer: {
-    port: process.env.PORT || 3001, // Use Render's PORT or default to 3000
-    hot: true, // Hot Module Replacement
-    allowedHosts: "all", // Allow all hosts
-    historyApiFallback: true, // Serve index.html for React SPA routing
-    static: {
-      directory: path.resolve(__dirname, 'src/front/build'), // Ensure the static files are served from the build directory
-    },
-    client: {
-      webSocketURL: publicUrl, // Use WebSocket URL for hot reload (only if necessary)
-    },
+  stats: {
+    errorDetails: true,
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(), // Enable Hot Module Replacement
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development'), // Ensure it's set to 'development'
+    }),
+    // other plugins...
   ],
-});
-
+  devServer: {
+    static: path.resolve(__dirname, 'build'),
+    port: 3001,
+    hot: true,
+    open: true,
+    historyApiFallback: true,  // Important for SPA routing
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,  // Handle .js and .jsx files
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              '@babel/preset-env',
+              '@babel/preset-react',
+            ],
+          },
+        },
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+            },
+          },
+        ],
+      },
+    ],
+  },
+};
