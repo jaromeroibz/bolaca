@@ -7,6 +7,8 @@ from flask_cors import CORS
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask import request
+from flask import make_response
+
 
 api = Blueprint('api', __name__)
 
@@ -21,6 +23,13 @@ CORS(api)
 #     }
 
 #     return jsonify(response_body), 200
+
+@api.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
 
 @api.route("/admin_login", methods=["POST"])
 def admin_login():
@@ -189,13 +198,14 @@ def delete_product(product_id):
       
     return jsonify(response_body), 200
 
-@api.route('/get_category', methods=['GET'])
+@api.route('/get_category', methods=['GET', 'OPTIONS'])
 def get_all_categories():
-    
+    if request.method == "OPTIONS":
+        return make_response()
+        
     all_categories = ProductCategory.query.all()
     result = list(map(lambda item: item.serialize(), all_categories))
-
-    return jsonify(result) 
+    return jsonify(result)
 
 @api.route('/get_category/<int:category_id>', methods=['GET'])
 def get_category(category_id):

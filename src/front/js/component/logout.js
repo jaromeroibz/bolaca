@@ -1,10 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import React from "react";
 
-import { Context } from "../store/appContext.js";
-
-export const LogOut = () => {
+const LogOut = () => {
 
     localStorage.removeItem("token");
     localStorage.removeItem("auth"); 
@@ -12,6 +8,7 @@ export const LogOut = () => {
     
     return (
         <h1>Cargando...</h1>
-    )
+    );
+};
 
-    };
+export default LogOut;

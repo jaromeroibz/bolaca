@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import { Context } from "../store/appContext.js";
+import { AppContext  } from "../store/appContext.js";
 
 export const AdminSignUp = () => {
-    const {store,actions} = useContext(Context)
+    const {store,actions} = useContext(AppContext )
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')

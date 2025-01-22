@@ -2,8 +2,6 @@ import React from 'react'
 
 export const Success = () => {
 
-
-
     return(
         
         <div className='container' style={{paddingTop: '200px'}}>

@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { Context } from "../store/appContext.js";
+import { AppContext  } from "../store/appContext.js";
 import { Link } from "react-router-dom";
 
 export const SearchBarResults = () => {
-    const { store, actions } = useContext(Context);
+    const { store, actions } = useContext(AppContext );
 
     return (
         <>

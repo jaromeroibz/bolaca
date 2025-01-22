@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
-export const ContactForm = () => {
+const ContactForm = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [captchaVerified, setCaptchaVerified] = useState(false);
@@ -97,3 +97,4 @@ export const ContactForm = () => {
   );
 };
 
+export default ContactForm;

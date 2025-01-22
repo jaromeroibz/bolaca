@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
-import { Context } from "../store/appContext.js";
+import React, { useState, useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { AppContext  } from "../store/appContext.js";
 
-export const LogIn = () => {
-    const { store, actions } = useContext(Context);
+const LogIn = () => {
+    const { store, actions } = useContext(AppContext );
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(''); // State for the error message
@@ -84,3 +84,5 @@ export const LogIn = () => {
         </>
     );
 };
+
+export default LogIn;

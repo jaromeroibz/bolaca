@@ -23,7 +23,13 @@ ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 
 # Initialize Flask app
 app = Flask(__name__, static_folder='./build', static_url_path='/')
-CORS(app)
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["*"],  # In production, replace with specific origin
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 app.url_map.strict_slashes = False
 
 # Database configuration

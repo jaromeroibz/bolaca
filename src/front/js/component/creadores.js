@@ -1,9 +1,9 @@
 import React from "react";
-import Angelo from "../../img/Angelo.png"
-import Natalia from "../../img/Natalia.png"
+import Angelo from "../../img/Angelo.png";
+import Natalia from "../../img/Natalia.png";
 
 // CreatorCard Component
-export const CreadorCard = ({ imageSrc, borderColor, name, role, description, alignment }) => {
+const CreadorCard = ({ imageSrc, borderColor, name, role, description, alignment }) => {
   // Dynamic alignment style
   const alignmentStyle = alignment === "right" ? "row-reverse" : "row";
 
@@ -27,7 +27,7 @@ export const CreadorCard = ({ imageSrc, borderColor, name, role, description, al
 };
 
 // Creators Component
-export const Creadores = () => {
+const Creadores = () => {
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Creadores</h1>
@@ -127,4 +127,5 @@ const styles = {
   },
 };
 
-
+export default Creadores;
+export { CreadorCard };

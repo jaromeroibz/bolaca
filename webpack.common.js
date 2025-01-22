@@ -4,19 +4,54 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import process from 'process' // Polyfill for process
 import webpack from 'webpack';  // Import webpack for ProvidePlugin
 import Dotenv from 'dotenv-webpack';  // Import dotenv-webpack to load .env variables
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import TerserPlugin from 'terser-webpack-plugin';
+
 
 const __dirname = new URL('.', import.meta.url).pathname;
 
 export default {
   mode: 'development',
+  devtool: "source-map", // Generates source maps for debugging
   entry: './src/front/js/index.js',  // Ensure correct entry file
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].js', // For non-entry chunks (async chunks)
     publicPath: './',
+    clean: true, // Clean the output directory before each build
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all', // This will split both dynamic and static chunks
+      minSize: 20000, // Minimum size for a chunk to be created
+      maxSize: 100000, // Maximum size before Webpack splits it
+      cacheGroups: {
+          vendors: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors', // This ensures that the vendor chunk has a unique name
+              chunks: 'all',
+              priority: -10,
+          },
+          default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+          },
+      },
+  },
+    minimize: true,
+    minimizer: [new TerserPlugin()],
   },
   stats: {
-    all: true,
+    all: false, // Turn off default logging
+    errors: true,
+    warnings: true,
+    assets: true,
+    chunks: true,
+    chunkModules: true,
+    timings: true,
+    modules: true,
   },
   plugins: [
     // Load .env variables into the Webpack build
@@ -34,7 +69,9 @@ export default {
     }),
     new webpack.ProgressPlugin({
       activeModules: true, // Show details for active modules
-    })
+    }),
+    new BundleAnalyzerPlugin(), // Opens a report in your browser
+
         
   ],
   module: {

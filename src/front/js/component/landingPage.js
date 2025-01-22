@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useRef } from "react";
-import { Context } from "../store/appContext.js";
+import { AppContext } from "../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
 import Carousel1 from "../../img/Carousel1.png";
 import Carousel2 from "../../img/Carousel2.png";
@@ -7,27 +7,67 @@ import Carousel3 from "../../img/Carousel3.png";
 import Cursiva1 from "../../img/1-CURSIVA-small.jpg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
+import SlickSlider from "react-slick";
+const Slider = SlickSlider.default || SlickSlider;
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 
+const SliderWrapper = React.forwardRef((props, ref) => {
+    return <Slider {...props} ref={ref} />;
+});
+
+console.log("Slider type:", typeof Slider);
+console.log("Slider value:", Slider);
+
+console.log({
+    Slider,
+    SlArrowLeft,
+    SlArrowRight
+});
+
 const LandingPage = () => {
-    const { store, actions } = useContext(Context);
+    console.log("Rendering LandingPage");
+    const contextValue = useContext(AppContext);
+    console.log("Context value:", contextValue);
+
+    // Destructure with default values
+    const { 
+        store = { products: [], categories: [] }, 
+        actions = {} 
+    } = contextValue || {};
+
     const navigate = useNavigate();
     
-    // Use useEffect with try-catch for safe handling
     useEffect(() => {
-        try {
-            // Log store and actions to check their values
-            console.log("store", store);
-            console.log("actions", actions);
+        console.log("LandingPage useEffect running");
+        const fetchData = async () => {
+            try {
+                console.log("Current store:", store);
+                console.log("Current actions:", actions);
+                
+                if (typeof actions?.getProducts === 'function' && 
+                    typeof actions?.getCategories === 'function') {
+                    await Promise.all([
+                        actions.getProducts(),
+                        actions.getCategories()
+                    ]);
+                } else {
+                    console.warn("Required actions not available");
+                }
+            } catch (error) {
+                console.error("Error in fetchData:", error);
+            }
+        };
 
-            // Fetch products and categories if actions are available
-            actions.getProducts();
-            actions.getCategories();
-        } catch (error) {
-            console.error("Error during actions or store initialization:", error);
-        }
-    }, [store, actions]);
+        fetchData();
+    }, [actions]);
+
+    // Safe access to products
+    const result = React.useMemo(() => {
+        return Array.isArray(store?.products) 
+            ? store.products.filter(item => item?.isDestacado === true)
+            : [];
+    }, [store?.products]);
+
 
     function filterProducts(item) {
         actions.getProductByCategory(item);
@@ -68,8 +108,6 @@ const LandingPage = () => {
             }
         ]
     };
-
-    const result = store.products.filter((item) => item.isDestacado === true);
 
     return (
         <>
@@ -117,7 +155,7 @@ const LandingPage = () => {
                             <SlArrowLeft />
                         </button>
                         <div className="container" style={{ maxWidth: 800 }}>
-                            <Slider {...settings} ref={sliderRef}>
+                        <SliderWrapper {...settings} ref={sliderRef}>
                                 {result.map((item) => (
                                     <Link to={`/detalleproductos/${item.id}`} key={item.id} style={{ textDecoration: 'none', color: 'inherit' }}>
                                         <div className="py-5">
@@ -131,7 +169,7 @@ const LandingPage = () => {
                                         </div>
                                     </Link>
                                 ))}
-                            </Slider>
+                        </SliderWrapper>
                         </div>
                         <button className="rightarrow" onClick={next}>
                             <SlArrowRight />

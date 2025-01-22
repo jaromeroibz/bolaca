@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Context } from "../store/appContext.js";
+import { AppContext  } from "../store/appContext.js";
 
-export const DetalleProductos = () => {
-    const { store, actions } = useContext(Context);
+const DetalleProductos = () => {
+    const { store, actions } = useContext(AppContext);
     const theid = useParams().theid;
     const product = store.products.find((item) => item.id == theid);
     const [cart, setCart] = useState([]);
@@ -111,7 +111,7 @@ export const DetalleProductos = () => {
                                                         htmlFor="quantity-select"
                                                         className="quantity-label"
                                                     >
-                                                        Cantidad:{" "}
+                                                        Cantidad: {" "}
                                                         <span className="quantity-value">
                                                             {selectedQuantity === "more"
                                                                 ? customQuantity || "—"
@@ -229,3 +229,5 @@ export const DetalleProductos = () => {
         </>
     );
 };
+
+export default DetalleProductos;

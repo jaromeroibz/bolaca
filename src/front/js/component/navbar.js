@@ -1,13 +1,11 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import bolacaLogo from "../../img/bolaca-sin-borde-pequeña.jpg";
-import { Context } from "../store/appContext.js";
-import { useNavigate } from "react-router-dom";
+import { AppContext  } from "../store/appContext.js";
 
+const Navbar = () => {
 
-export const Navbar = () => {
-
-	const { store, actions } = useContext(Context);
+	const { store, actions } = useContext(AppContext );
     const [searchQuery, setSearchQuery] = useState("");
 	const navigate = useNavigate();
 
@@ -72,7 +70,7 @@ export const Navbar = () => {
 						{store.cart.length ? (
 							<button className="btn border-0 shadow-none">{store.cart.length}</button>
 						):(
-							''
+							'' 
 						)}
 					</Link>
 				</div>
@@ -82,3 +80,5 @@ export const Navbar = () => {
 		</>
 	);
 };
+
+export default Navbar;

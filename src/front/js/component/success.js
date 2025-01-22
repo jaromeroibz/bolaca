@@ -1,8 +1,7 @@
-import React from 'react'
+import React from 'react';
 import { Link } from "react-router-dom";
 
-
-export const Success = () => {
+const Success = () => {
 
     return(
 
@@ -12,6 +11,8 @@ export const Success = () => {
                 <Link style={{textDecoration: 'None', color: 'black'}} to="/productos/999"><h2 className='mx-auto'>Sigue comprando</h2></Link>
             </div>
         </div>
-    
+
     )
-}
+};
+
+export default Success;

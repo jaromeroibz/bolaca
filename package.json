@@ -48,7 +48,9 @@
 		"html-webpack-plugin": "^5.6.3",
 		"rimraf": "^6.0.1",
 		"style-loader": "^4.0.0",
+		"terser-webpack-plugin": "^5.3.11",
 		"webpack": "^5.97.1",
+		"webpack-bundle-analyzer": "^4.10.2",
 		"webpack-cli": "^6.0.1",
 		"webpack-dev-server": "^5.2.0",
 		"webpack-manifest-plugin": "^5.0.0",
@@ -74,5 +76,5 @@
 		"serve": "^14.2.4",
 		"slick-carousel": "^1.8.1"
 	},
-	"proxy": "https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev/"
+	"proxy": "https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev"
 }
