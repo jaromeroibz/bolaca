@@ -9,7 +9,7 @@ export default {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
-    publicPath: './',
+    publicPath: '/',
   },
   devtool: 'cheap-module-source-map',
   stats: {
@@ -22,11 +22,19 @@ export default {
     // other plugins...
   ],
   devServer: {
-    static: path.resolve(__dirname, 'build'),
-    port: 3001,
+    port: 3000,
+    proxy: [{
+      context: ['/api'],
+      target: 'http://localhost:3001',
+      secure: false,
+      changeOrigin: true
+    }],
+    historyApiFallback: true,
     hot: true,
     open: true,
-    historyApiFallback: true,  // Important for SPA routing
+    static: {
+      directory: path.join(__dirname, 'public'), // Add this if you have static files
+    }  
   },
   module: {
     rules: [
