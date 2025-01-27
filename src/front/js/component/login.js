@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { AppContext  } from "../store/appContext.js";
 
@@ -7,6 +7,15 @@ const LogIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(''); // State for the error message
+
+    const AdminRedirect = () => {
+        useEffect(() => {
+            const adminUrl = process.env.BACKEND_URL.replace('/api', '');
+            window.location.href = `${adminUrl}/admin`;
+        }, []);
+        
+        return null;
+    };
 
     function sendData(e) {
         e.preventDefault();
@@ -30,8 +39,7 @@ const LogIn = () => {
         <>
             <div className="container" style={{ paddingTop: "200px", maxWidth: "400px" }}>
                 {store.auth === true ? (
-                    // Use Navigate for React Router-based redirect
-                    <Navigate to="/admin" />
+                    <AdminRedirect />
                 ) : (
                     <>
                         <p>Sign in</p>

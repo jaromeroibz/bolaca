@@ -9,8 +9,10 @@ from flask_jwt_extended import jwt_required
 
 api = Blueprint('api', __name__)
 
-# Allow CORS requests to this API
-CORS(api)
+@api.route('/api/test', methods=['GET'])
+def test_api():
+    return jsonify({"message": "API is working"}), 200
+
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -25,27 +27,55 @@ def handle_hello():
 def redirect_to_main():
     return redirect('https://www.bolaca.cl')
 
-@api.after_request
-def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    return response
+# @api.route("/admin_login", methods=["POST"])
+# def admin_login():
+#     email = request.json.get("email", None)
+#     password = request.json.get("password", None)
+#     user = User.query.filter_by(email=email).first()
+   
+#     if user is None:
+#         return jsonify({"msg": "User is not registered"}), 401
+    
+#     if password != user.password :
+#         return jsonify({"msg": "Wrong password"}), 401
+
+#     access_token = create_access_token(identity=email)
+#     return jsonify(access_token=access_token)
 
 @api.route("/admin_login", methods=["POST"])
 def admin_login():
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-    user = User.query.filter_by(email=email).first()
-   
-    if user is None:
-        return jsonify({"msg": "User is not registered"}), 401
-    
-    if password != user.password :
-        return jsonify({"msg": "Wrong password"}), 401
+    print("Request Headers:", dict(request.headers))
+    print("Request Content-Type:", request.content_type)
+    print("Request Data:", request.get_data())
+    try:
+        # Add content type check and error handling
+        if not request.is_json:
+            return jsonify({"msg": "Missing JSON in request"}), 415
+        if request.is_json:
+            data = request.get_json()
+        else:
+            data = json.loads(request.get_data().decode('utf-8'))
+        email = data.get("email", None)
+        password = data.get("password", None)
 
-    access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)
+        if not email or not password:
+            return jsonify({"msg": "Missing email or password"}), 400
+
+        user = User.query.filter_by(email=email).first()
+   
+        if user is None:
+            return jsonify({"msg": "User is not registered"}), 401
+    
+        if password != user.password:
+            return jsonify({"msg": "Wrong password"}), 401
+
+        access_token = create_access_token(identity=email)
+        return jsonify({"access_token": access_token}), 200
+
+    except Exception as e:
+        print(f"Login error: {str(e)}")
+        return jsonify({"msg": "Internal server error"}), 500
+
 
 @api.route("/admin_signup", methods=["POST"])
 def admin_signup():
@@ -199,14 +229,34 @@ def delete_product(product_id):
       
     return jsonify(response_body), 200
 
-@api.route('/get_category', methods=['GET', 'OPTIONS'])
-def get_all_categories():
-    if request.method == "OPTIONS":
-        return make_response()
+# @api.route('/get_category', methods=['GET', 'OPTIONS'])
+# def get_all_categories():
+#     if request.method == "OPTIONS":
+#         return make_response()
         
-    all_categories = ProductCategory.query.all()
-    result = list(map(lambda item: item.serialize(), all_categories))
-    return jsonify(result)
+#     all_categories = ProductCategory.query.all()
+#     result = list(map(lambda item: item.serialize(), all_categories))
+#     return jsonify(result)
+
+@api.route('/get_category', methods=['GET'])
+def get_all_categories():
+    try:
+        # Add logging
+        print("Fetching categories...")
+        
+        all_categories = ProductCategory.query.all()
+        if not all_categories:
+            print("No categories found")
+            return jsonify([]), 200
+            
+        result = list(map(lambda item: item.serialize(), all_categories))
+        print(f"Found {len(result)} categories")
+        
+        return jsonify(result), 200
+    except Exception as e:
+        print(f"Error in get_all_categories: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
 
 @api.route('/get_category/<int:category_id>', methods=['GET'])
 def get_category(category_id):

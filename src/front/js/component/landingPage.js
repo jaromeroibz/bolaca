@@ -15,19 +15,8 @@ const SliderWrapper = React.forwardRef((props, ref) => {
     return <Slider {...props} ref={ref} />;
 });
 
-console.log("Slider type:", typeof Slider);
-console.log("Slider value:", Slider);
-
-console.log({
-    Slider,
-    SlArrowLeft,
-    SlArrowRight
-});
-
 const LandingPage = () => {
-    console.log("Rendering LandingPage");
     const contextValue = useContext(AppContext);
-    console.log("Context value:", contextValue);
 
     // Destructure with default values
     const { 
@@ -38,12 +27,9 @@ const LandingPage = () => {
     const navigate = useNavigate();
     
     useEffect(() => {
-        console.log("LandingPage useEffect running");
         const fetchData = async () => {
             try {
-                console.log("Current store:", store);
-                console.log("Current actions:", actions);
-                
+             
                 if (typeof actions?.getProducts === 'function' && 
                     typeof actions?.getCategories === 'function') {
                     await Promise.all([

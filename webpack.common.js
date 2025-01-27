@@ -1,91 +1,88 @@
-// Import dependencies using ES module syntax
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import process from 'process' // Polyfill for process
-import webpack from 'webpack';  // Import webpack for ProvidePlugin
-import Dotenv from 'dotenv-webpack';  // Import dotenv-webpack to load .env variables
+import process from 'process';
+import webpack from 'webpack';
+import Dotenv from 'dotenv-webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import TerserPlugin from 'terser-webpack-plugin';
-
 
 const __dirname = new URL('.', import.meta.url).pathname;
 
 export default {
-  mode: 'development',
-  devtool: "source-map", // Generates source maps for debugging
-  entry: './src/front/js/index.js',  // Ensure correct entry file
+  entry: './src/front/js/index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: '[name].[contenthash].js',
-    chunkFilename: '[name].[contenthash].js', // For non-entry chunks (async chunks)
-    publicPath: './',
-    clean: true, // Clean the output directory before each build
+    chunkFilename: '[name].[contenthash].js',
+    publicPath: '/',
+    clean: true,
   },
   optimization: {
     splitChunks: {
-      chunks: 'all', // This will split both dynamic and static chunks
-      minSize: 20000, // Minimum size for a chunk to be created
-      maxSize: 100000, // Maximum size before Webpack splits it
+      chunks: 'all',
+      maxInitialRequests: 20,
+      maxAsyncRequests: 20,
+      minSize: 20000,
+      maxSize: 100000,
       cacheGroups: {
-          vendors: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors', // This ensures that the vendor chunk has a unique name
-              chunks: 'all',
-              priority: -10,
-          },
-          default: {
-              minChunks: 2,
-              priority: -20,
-              reuseExistingChunk: true,
-          },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+          priority: -10,
+        },
+        common: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+          name: 'common'
+        }
       },
-  },
-    minimize: true,
-    minimizer: [new TerserPlugin()],
-  },
-  stats: {
-    all: false, // Turn off default logging
-    errors: true,
-    warnings: true,
-    assets: true,
-    chunks: true,
-    chunkModules: true,
-    timings: true,
-    modules: true,
+    },
+    minimize: process.env.NODE_ENV === 'production',
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: process.env.NODE_ENV === 'production',
+          },
+        },
+      }),
+    ],
   },
   plugins: [
-    // Load .env variables into the Webpack build
-    new Dotenv(),  // Ensure .env is loaded into Webpack
+    new Dotenv({
+      systemvars: true,
+    }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'template.html'),  // Ensure the correct path
-      inject: "body",  // Inject bundle into template
+      template: 'template.html',
+      inject: 'body',
+      minify: process.env.NODE_ENV === 'production' ? {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+      } : false,
     }),
     new webpack.ProvidePlugin({
-      process: 'process',
+      process: 'process/browser.js',
     }),
     new webpack.DefinePlugin({
-      'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL || 'https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev'),
-      'process.env.NODE_ENV': JSON.stringify('development')
+      'process.env.BACKEND_URL': JSON.stringify(
+        process.env.BACKEND_URL || 'http://localhost:3001'
+      ),
     }),
-    new webpack.ProgressPlugin({
-      activeModules: true, // Show details for active modules
-    }),
-    new BundleAnalyzerPlugin(), // Opens a report in your browser
-
-        
+    ...(process.env.ANALYZE ? [new BundleAnalyzerPlugin()] : []),
   ],
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,  // Handle .js and .jsx files
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [
-              '@babel/preset-env',
-              '@babel/preset-react',
-            ],
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            cacheDirectory: true,
           },
         },
       },
@@ -94,22 +91,23 @@ export default {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[path][name].[ext]',
-            },
+        test: /\.(png|jpe?g|gif|svg|webp)$/i,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 8192,
           },
-        ],
+        },
+        generator: {
+          filename: 'assets/images/[name].[hash][ext]',
+        },
       },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx', ".json"],
+    extensions: ['.js', '.jsx', '.json'],
     fallback: {
-      process: 'process',  // Directly set the polyfill module here
+      process: false
     },
   },
 };

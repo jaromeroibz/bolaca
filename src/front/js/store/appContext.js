@@ -13,19 +13,16 @@ export const AppContext = createContext({
 // Create the context provider component
 export const AppContextProvider = ({ children }) => {
     const [state, setState] = useState(() => {
-        console.log("Initializing context state");
         const initialState = getState({
             getStore: () => state?.store,
             getActions: () => state?.actions,
             setStore: (updatedStore) => {
-                console.log("Setting store:", updatedStore);
                 setState(prevState => ({
                     ...prevState,
                     store: { ...prevState.store, ...updatedStore }
                 }));
             }
         });
-        console.log("Initial state:", initialState);
         return initialState;
     });
 

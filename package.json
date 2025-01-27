@@ -9,8 +9,10 @@
 	"main": "index.js",
 	"homepage": "/",
 	"scripts": {
-		"start": "node server.mjs",
-		"start:dev": "concurrently \"node server.mjs\" \"webpack serve --config webpack.dev.js --mode development\"",
+		"start": "python app.py",
+		"dev:frontend": "webpack serve --config webpack.dev.js --mode development --port 3000",
+		"dev:backend": "pipenv run start",
+		"dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
 		"build": "webpack --config webpack.common.js --mode production",
 		"build:dev": "webpack --config webpack.common.js --mode development",
 		"clean": "rimraf ./build",
@@ -75,6 +77,5 @@
 		"react-slick": "^0.30.3",
 		"serve": "^14.2.4",
 		"slick-carousel": "^1.8.1"
-	},
-	"proxy": "https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev"
+	}
 }

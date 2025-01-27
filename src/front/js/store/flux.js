@@ -71,13 +71,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.error("BACKEND_URL is not defined.");
 						return;
 					}
-					const response = await fetch(`${process.env.BACKEND_URL}/api/get_all_products`, {
-						credentials: 'include',
-						headers: {
-						  'Content-Type': 'application/json',
-						  'Accept': 'application/json'
-						},
-					});
+					const response = await fetch(`${process.env.BACKEND_URL}/api/get_all_products`);
 					const data = await response.json();
 					if (response.ok) {
 						setStore({ products: data });
@@ -89,13 +83,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getProductDetails: async (result) => {
 				try {
 					const idToDisplay = result.id				
-					const response = await fetch(process.env.BACKEND_URL+'/api/get_product/'+idToDisplay, {
-						credentials: 'include',
-						headers: {
-						  'Content-Type': 'application/json',
-						  'Accept': 'application/json'
-						},
-					})
+					const response = await fetch(process.env.BACKEND_URL+'/api/get_product/'+idToDisplay)
 					const data = await response.json()
 
 					if(response.ok){
@@ -108,13 +96,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			getProductByCategory: async (theid) => {
 				try {
-					const response = await fetch(process.env.BACKEND_URL+'/api/get_product_by_category/'+theid, {
-						credentials: 'include',
-						headers: {
-						  'Content-Type': 'application/json',
-						  'Accept': 'application/json'
-						},
-					})
+					const response = await fetch(process.env.BACKEND_URL+'/api/get_product_by_category/'+theid)
 					const data = await response.json()
 
 					if(response.ok){
@@ -130,13 +112,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				try {
 
 					const idToDisplay = result.id				
-					const response = await fetch(process.env.BACKEND_URL+'/api/get_category/'+idToDisplay, {
-						credentials: 'include',
-						headers: {
-						  'Content-Type': 'application/json',
-						  'Accept': 'application/json'
-						},
-					})
+					const response = await fetch(process.env.BACKEND_URL+'/api/get_category/'+idToDisplay)
 					const data = await response.json()
 
 					if(response.ok){
@@ -153,30 +129,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.error("BACKEND_URL is not defined.");
 						return;
 					}
-					const response = await fetch(`${process.env.BACKEND_URL}/api/get_category`, {
-						credentials: 'include',
-						headers: {
-						  'Content-Type': 'application/json',
-						  'Accept': 'application/json'
-						},
-					});
-					const data = await response.json();
-					if (response.ok) {
-						setStore({ categories: data });
+					// Remove credentials and simplify headers
+					const response = await fetch(`${process.env.BACKEND_URL}/api/get_category`);
+					
+					if (!response.ok) {
+						throw new Error(`HTTP error! status: ${response.status}`);
 					}
+					const data = await response.json();
+					setStore({ categories: data });
 				} catch (error) {
 					console.error("Error fetching categories:", error);
 				}
 			},
 			getBrands : async () => {
 				try {
-					const response = await fetch(process.env.BACKEND_URL+'/api/get_all_brands', {
-						credentials: 'include',
-						headers: {
-						  'Content-Type': 'application/json',
-						  'Accept': 'application/json'
-						},
-					})	
+					const response = await fetch(process.env.BACKEND_URL+'/api/get_all_brands')	
 					const data = await response.json()
 					
 					if(response.ok){
@@ -191,13 +158,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				try {
 
 				   const idToDisplay = result.id				
-				   const response = await fetch(process.env.BACKEND_URL+'/api/get_all_product_by_brand/' + idToDisplay, {
-					credentials: 'include',
-					headers: {
-					  'Content-Type': 'application/json',
-					  'Accept': 'application/json'
-					},
-				   })	
+				   const response = await fetch(process.env.BACKEND_URL+'/api/get_all_product_by_brand/' + idToDisplay)	
 				   const data = await response.json()
 				   
 				   if(response.ok){
@@ -224,11 +185,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log('Login desde flux')
 				const requestOptions = {
 					method: 'POST',
-  credentials: 'include',
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  },
+					headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json'
+					},
 					body: JSON.stringify(
 					{
 						"email": email,
@@ -263,11 +223,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				const requestOptions = {
 					method: 'POST',
-					credentials: 'include',
-					headers: {
-						'Content-Type': 'application/json',
-				  		'Accept': 'application/json'
-					 },
 					body: JSON.stringify(preferencia)
 				}
 				

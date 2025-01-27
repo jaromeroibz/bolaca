@@ -1,71 +1,46 @@
 import path from 'path';
-import HtmlWebpackPlugin from 'html-webpack-plugin'; // Import the plugin
 import webpack from 'webpack';
+import { merge } from 'webpack-merge';
+import common from './webpack.common.js';
+
 const __dirname = new URL('.', import.meta.url).pathname;
 
-export default {
+export default merge(common, {
   mode: 'development',
-  entry: './src/front/js/index.js',  // Ensure this is the correct entry point
+  devtool: 'source-map',
   output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js',
-    publicPath: '/',
+    publicPath: '/'
   },
-  devtool: 'cheap-module-source-map',
   stats: {
     errorDetails: true,
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development'), // Ensure it's set to 'development'
+      'process.env.NODE_ENV': JSON.stringify('development'),
     }),
-    // other plugins...
   ],
   devServer: {
-    port: process.env.PORT || 3000,
+    port: 3000,
+    host: '0.0.0.0',
     proxy: [{
       context: ['/api'],
       target: process.env.BACKEND_URL || 'http://localhost:3001',
+      pathRewrite: { '^/api': '/api' },
       secure: false,
-      changeOrigin: true
+      changeOrigin: true,
+      onProxyReq: function(proxyReq) {
+        // Remove double slashes from the path
+        proxyReq.path = proxyReq.path.replace(/\/+/g, '/');
+      }
     }],
+    client: {
+      webSocketURL: 'ws://localhost:3000/ws',  // Ensure this uses the correct protocol (ws:// or wss://)
+    },
     historyApiFallback: true,
     hot: true,
     open: true,
     static: {
-      directory: path.join(__dirname, 'public'), // Add this if you have static files
+      directory: path.join(__dirname, 'public'),
     }  
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,  // Handle .js and .jsx files
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              '@babel/preset-env',
-              '@babel/preset-react',
-            ],
-          },
-        },
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[path][name].[ext]',
-            },
-          },
-        ],
-      },
-    ],
-  },
-};
+  }
+});
