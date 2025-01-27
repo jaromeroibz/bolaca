@@ -1,14 +1,11 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import request, jsonify, Blueprint
+from flask import request, jsonify, Blueprint, redirect, make_response
 from .models import db, User, ProductCategory, Products, PaymentType, Preferences, Brands, ProductBrand
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
-from flask import request
-from flask import make_response
-
 
 api = Blueprint('api', __name__)
 
@@ -23,6 +20,10 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+@api.route('/')
+def redirect_to_main():
+    return redirect('https://www.bolaca.cl')
 
 @api.after_request
 def after_request(response):

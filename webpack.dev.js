@@ -22,10 +22,10 @@ export default {
     // other plugins...
   ],
   devServer: {
-    port: 3000,
+    port: process.env.PORT || 3000,
     proxy: [{
       context: ['/api'],
-      target: 'http://localhost:3001',
+      target: process.env.BACKEND_URL || 'http://localhost:3001',
       secure: false,
       changeOrigin: true
     }],
