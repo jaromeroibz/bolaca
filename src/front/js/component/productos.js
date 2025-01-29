@@ -1,11 +1,13 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation  } from "react-router-dom";
 import { AppContext  } from "../store/appContext.js";
 
 const Productos = () => {
 
     const { store, actions } = useContext(AppContext );
-    const theid = useParams().theid //id de categoría
+    const location = useLocation(); // Get the current URL and query parameters
+    const searchParams = new URLSearchParams(location.search);
+    const initialCategory = searchParams.get("category"); // Get the "category" query parameter
     const [selectedCategory, setselectedCategory] = useState(null); 
     const [selectedAgeRange, setSelectedAgeRange] = useState(null); 
     const [selectedPriceRange, setSelectedPriceRange] = useState(null);
@@ -13,10 +15,15 @@ const Productos = () => {
 
     useEffect(() => {
         actions.getProducts();
-        actions.getProductByCategory(theid);
         actions.getBrands();
         actions.getCategories();
-    }, []);
+
+        // Filter products by the initial category if it exists
+        if (initialCategory) {
+            setselectedCategory(initialCategory);
+            actions.getProductByCategory(initialCategory);
+        }
+    }, [initialCategory]);
 
     const filterProductsByAgeRange = (products) => {
         if (!selectedAgeRange) return products; // Si no hay un rango de edad seleccionado, devolver todos los productos

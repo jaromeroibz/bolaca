@@ -1,7 +1,5 @@
-"""
-This module takes care of starting the API Server, Loading the DB, and Adding the endpoints
-"""
 import os
+import mercadopago
 from flask import Flask, jsonify, send_from_directory, request, make_response
 from flask_cors import CORS
 from flask_migrate import Migrate
@@ -12,6 +10,8 @@ from api.admin import setup_admin
 from api.commands import setup_commands
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
+from datetime import datetime
+
 
 # Load environment variables first
 load_dotenv()
@@ -29,9 +29,19 @@ app = Flask(__name__, static_folder='./build', static_url_path='/')
 CORS(app, resources={
     r"/api/*": {
         "origins": [
-            "https://effective-palm-tree-5ww6qprg57rfwv7-3000.app.github.dev"
+            "https://www.bolaca.cl",
+            "https://bolaca.cl"
         ],
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True
+    },
+    r"/create_preference": {
+        "origins": [
+            "https://www.bolaca.cl",
+            "https://bolaca.cl"
+        ],
+        "methods": ["POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
         "supports_credentials": True
     }
@@ -121,6 +131,56 @@ def serve_static_files(path):
     if os.path.exists(build_path) and not os.path.isdir(build_path):
         return send_from_directory(app.static_folder, path)
     return send_from_directory(app.static_folder, 'index.html')
+
+# Mercado Pago SDK Initialization
+sdk = mercadopago.SDK(os.getenv("MERCADOPAGO_ACCESS_TOKEN"))
+
+@app.route('/create_preference', methods=['POST'])
+def create_preference():
+    data = request.json
+    
+    # Check if 'items' exist in the request
+    if "items" not in data:
+        return jsonify({"error": "Items not found in request body"}), 400
+
+    # Prepare the list of items in the format required by Mercado Pago
+    items = data["items"]
+    total_amount = sum(item["quantity"] * float(item["unit_price"]) for item in items)
+
+    preference_data = {
+        "items": [
+            {
+                "id": str(item.get("id", "")),
+                "title": item["title"],
+                "quantity": int(item["quantity"]),
+                "unit_price": float(item["unit_price"]),
+                "currency_id": "CLP",
+                "description": item.get("description", ""),
+                "picture_url": item["product_image"],  # Image URL (if available)
+                "category_id": "products"
+            }
+            for item in items
+        ],
+        "back_urls": {
+        "success": "https://bolaca.cl/success",
+        "failure": "https://bolaca.cl/failure",
+        "pending": "https://bolaca.cl/pending"
+        },
+        "auto_return": "approved",
+        "statement_descriptor": "Bolaca",
+        "external_reference": "Order-" + str(datetime.now().timestamp()),
+        "notification_url": "https://api.bolaca.cl/webhook"
+    }
+
+    # Create the preference with Mercado Pago
+    preference_response = sdk.preference().create(preference_data)
+    print("Mercado Pago Response:", preference_response)
+
+
+    if preference_response["status"] == 201:
+        return jsonify(preference_response["response"]), 200
+    else:
+        return jsonify({"error": "Error creating preference"}), 500
 
 # Main entry point
 if __name__ == '__main__':

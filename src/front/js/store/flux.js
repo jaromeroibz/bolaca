@@ -36,35 +36,68 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			addToCart: (product) => {
-				const store = getStore();
-				const exist = store.cart.find((item) => item.id === product.id);
+				const store = getStore();  // Get the current store state
+				const cart = store?.cart || []; // Ensure cart is always an array
+			
+				console.log("Current cart before adding:", cart);
+			
+				const exist = cart.find((item) => item.id === product.id);
+			
+				let updatedCart;
 				if (exist) {
-					const newCartItems = store.cart.map((item) =>
-						item.id === product.id ? { ...exist, qty: exist.qty + 1 } : item
+					console.log("Product exists, increasing quantity...");
+					updatedCart = cart.map((item) =>
+						item.id === product.id ? { ...item, qty: item.qty + 1 } : item
 					);
-					setStore({ cart: newCartItems });
-					localStorage.setItem("cart", JSON.stringify(newCartItems));
 				} else {
-					const newCartItems = [...store.cart, { ...product, qty: 1 }];
-					setStore({ cart: newCartItems });
-					localStorage.setItem("cart", JSON.stringify(newCartItems));
+					console.log("Product does not exist, adding new product...");
+					updatedCart = [...cart, { ...product, qty: 1 }];
 				}
-			},
+			
+				console.log("Updated cart after adding:", updatedCart);
+			
+				setStore({ cart: updatedCart });
+				localStorage.setItem("cart", JSON.stringify(updatedCart)); // Persist cart
+			},						
+			// removeFromCart: (product) => {
+			// 	const store = getStore();
+			// 	const exist = store.cart.find((item) => item.id === product.id );
+			// 	if (exist.qty === 1) {
+			// 		const newCartItems = store.cart.filter((item) => item.id !== product.id)
+			// 		setStore({ cart: newCartItems })
+			// 		localStorage.setItem('cart', JSON.stringify(newCartItems));
+			// 	} else{
+			// 		const newCartItems = store.cart.map((item) => 
+			// 		item.id === product.id ? { ...exist, qty: exist.qty -1} : item
+			// 		);
+			// 		setStore({ cart: newCartItems })
+			// 		localStorage.setItem('cart', JSON.stringify(newCartItems));
+			// 	}
+			// },
 			removeFromCart: (product) => {
 				const store = getStore();
-				const exist = store.cart.find((item) => item.id === product.id );
+				
+				// Check if the product exists in the cart
+				const exist = store.cart.find((item) => item.id === product.id);
+				if (!exist) {
+					console.error("Product not found in cart.");
+					return; // Exit if the product is not found
+				}
+			
+				// If quantity is 1, remove the product from the cart
 				if (exist.qty === 1) {
-					const newCartItems = store.cart.filter((item) => item.id !== product.id)
-					setStore({ cart: newCartItems })
+					const newCartItems = store.cart.filter((item) => item.id !== product.id);
+					setStore({ cart: newCartItems });
 					localStorage.setItem('cart', JSON.stringify(newCartItems));
-				} else{
-					const newCartItems = store.cart.map((item) => 
-					item.id === product.id ? { ...exist, qty: exist.qty -1} : item
+				} else {
+					// If quantity is more than 1, decrease the quantity by 1
+					const newCartItems = store.cart.map((item) =>
+						item.id === product.id ? { ...item, qty: item.qty - 1 } : item
 					);
-					setStore({ cart: newCartItems })
+					setStore({ cart: newCartItems });
 					localStorage.setItem('cart', JSON.stringify(newCartItems));
 				}
-			},
+			},			
 			getProducts: async () => {
 				try {
 					if (!process.env.BACKEND_URL) {

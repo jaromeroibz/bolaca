@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import bolacaLogo from "../../img/bolaca-sin-borde-pequeña.jpg";
 
 const Footer = () => {
@@ -10,10 +11,9 @@ const Footer = () => {
           <div className="footer-section categories">
             <h3>Categorías</h3>
             <ul>
-              <li>Cartas Didácticas</li>
-              <li>Juegos de Mesa</li>
-              <li>Libros Móviles</li>
-              <li>Rompecabezas</li>
+              <li><Link to={`/productos?category=3`} style={{ textDecoration: 'none' }}>Cartas Didácticas</Link></li>
+              <li><Link to={`/productos?category=1`} style={{ textDecoration: 'none' }}>Juegos de Mesa</Link></li>
+              <li><Link to={`/productos?category=2`} style={{ textDecoration: 'none' }}>Libros Móviles</Link></li>
             </ul>
           </div>
 
@@ -29,18 +29,18 @@ const Footer = () => {
           <div className="footer-section contact">
             <h3>Contactate con nosotros</h3>
             <ul>
-              <li>barcodepapeldidacticos 📘</li>
-              <li>@barcodepapeldidacticos 📷</li>
-              <li>(+54) 11 5175-1717 📱</li>
-              <li>contacto@barcodepapel.com.ar 📧</li>
+              <li>bolaca <i class="fa-brands fa-facebook"></i></li>
+              <li>@bolacachile <i class="fa-brands fa-instagram"></i></li>
+              <li>+56 9 3240 8221 <i class="fa-solid fa-phone"></i></li>
+              <li>bolacachile@gmail.com <i class="fa-solid fa-envelope"></i></li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Section */}
         <div className="footer-bottom">
-          <p>Developed by GALARRETA®</p>
-          <p>Privacidad | Powered by Mercado Shops</p>
+          <p>Developed by SunlightDev</p>
+          {/* <p>Privacidad | Powered by Mercado Shops</p> */}
         </div>
       </footer>
     </div>

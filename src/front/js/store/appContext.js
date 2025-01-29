@@ -5,7 +5,8 @@ import getState from "./flux.js";
 export const AppContext = createContext({
     store: {
         products: [],
-        categories: []
+        categories: [],
+        cart: []  // Ensure cart is part of the initial state
     },
     actions: {}
 });
@@ -13,19 +14,37 @@ export const AppContext = createContext({
 // Create the context provider component
 export const AppContextProvider = ({ children }) => {
     const [state, setState] = useState(() => {
+        const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart")) || []; // Get cart from localStorage
+
         const initialState = getState({
-            getStore: () => state?.store,
-            getActions: () => state?.actions,
+            getStore: () => ({ ...state.store, cart: JSON.parse(localStorage.getItem("cart")) || [] }), // Always return latest cart
+            getActions: () => state?.actions,  // Return actions
             setStore: (updatedStore) => {
-                setState(prevState => ({
-                    ...prevState,
-                    store: { ...prevState.store, ...updatedStore }
-                }));
+                setState(prevState => {
+                    const newState = {
+                        ...prevState,
+                        store: { ...prevState.store, ...updatedStore }  // Update state with the new store
+                    };
+
+                    // If cart is updated, save it to localStorage
+                    if (updatedStore.cart) {
+                        localStorage.setItem("cart", JSON.stringify(newState.store.cart));
+                    }
+
+                    return newState;
+                });
             }
         });
-        return initialState;
-    });
 
+        // Merge cart from localStorage into initial state
+        return {
+            ...initialState,
+            store: {
+                ...initialState.store,
+                cart: cartFromLocalStorage // Initialize cart from localStorage if available
+            }
+        };
+    });
 
     useEffect(() => {
         const initializeApp = async () => {

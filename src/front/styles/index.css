@@ -1,6 +1,12 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .navbar {
     background-color: white;
     font-family: "Playwrite IT Moderna", cursive;
@@ -36,6 +42,11 @@
 .landing-page{
     padding-top: 100px;
 }
+.card-body h5.card-title {
+  text-decoration: none !important; /* Removes underline */
+  color: inherit; /* Inherits color from parent */
+}
+
 .search-bar-results{
     padding-top: 200px;
 }

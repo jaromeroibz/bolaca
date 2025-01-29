@@ -135,28 +135,46 @@ const LandingPage = () => {
 
                 <div className="container py-4">
                     <h1 className="Titulos text-center">Destacados</h1>
-                    <h6 className="text-center"><Link to="/productos" style={{ textDecoration: 'none' }}>Ir a todos los productos</Link></h6>
+                    <h6 className="text-center">
+                        <Link to="/productos" style={{ textDecoration: 'none' }}>Ir a todos los productos</Link>
+                    </h6>
                     <div className="container">
                         <button className="leftarrow" onClick={previous}>
                             <SlArrowLeft />
                         </button>
-                        <div className="container" style={{ maxWidth: 800 }}>
-                        <SliderWrapper {...settings} ref={sliderRef}>
-                                {result.map((item) => (
-                                    <Link to={`/detalleproductos/${item.id}`} key={item.id} style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        <div className="py-5">
-                                            <div className="card" style={{ width: 256, height: 350, margin: 0 }}>
-                                                <img className="card-img-top" src="https://picsum.photos/200/200" alt="Card image cap" />
-                                                <div className="card-body">
-                                                    <h5 className="card-title">{item.name}</h5>
-                                                    <p className="card-text">${item.price}</p>
-                                                </div>
+                        <div className="container" style={{ maxWidth: 850, overflow: 'hidden' }}>
+                            <SliderWrapper
+                            {...settings} 
+                            ref={sliderRef}
+                            vertical={false}
+                        >
+                            {result.map((item) => (
+                                <Link to={`/detalleproductos/${item.id}`} key={item.id} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <div className="py-5">
+                                        <div className="card" style={{ width: 256, height: 350, margin: '0 auto' }}>
+                                            {/* Ensure all images are the same size */}
+                                            <img
+                                                className="card-img-top"
+                                                src={item.image}
+                                                alt="Card image cap"
+                                                style={{
+                                                    width: '100%',
+                                                    height: '200px',
+                                                    objectFit: 'cover', 
+                                                    objectPosition: 'center', 
+                                                }}
+                                            />
+                                            <div className="card-body">
+                                                <h5 className="card-title">{item.name}</h5>
+                                                <p className="card-text">${item.price}</p>
                                             </div>
                                         </div>
-                                    </Link>
-                                ))}
-                        </SliderWrapper>
+                                    </div>
+                                </Link>
+                            ))}
+                            </SliderWrapper>
                         </div>
+
                         <button className="rightarrow" onClick={next}>
                             <SlArrowRight />
                         </button>
@@ -167,15 +185,25 @@ const LandingPage = () => {
                     <h1 className="Titulos text-center py-4">Descubre nuestras categorías</h1>
                     <div className="container d-flex justify-content-center align-items-center" style={{ flexWrap: "wrap" }}>
                         {store.categories.map((item) => (
-                            <div className="d-inline text-center" key={item.id}>
+                            <div className="d-inline text-center m-3" key={item.id}>
                                 <Link to={'/productos/' + item.id} style={{ textDecoration: 'none' }}>
-                                    <img src={Cursiva1} style={{ height: "300px" }} alt="category image" />
+                                    <img 
+                                        src={item.image} 
+                                        style={{ 
+                                            width: "200px", 
+                                            height: "200px", 
+                                            objectFit: "cover", 
+                                            borderRadius: "10px" 
+                                        }} 
+                                        alt="category image" 
+                                    />
                                     <p>{item.category_name}</p>
                                 </Link>
                             </div>
                         ))}
                     </div>
                 </div>
+
             </div>
         </>
     );
