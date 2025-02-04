@@ -59,21 +59,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ cart: updatedCart });
 				localStorage.setItem("cart", JSON.stringify(updatedCart)); // Persist cart
 			},						
-			// removeFromCart: (product) => {
-			// 	const store = getStore();
-			// 	const exist = store.cart.find((item) => item.id === product.id );
-			// 	if (exist.qty === 1) {
-			// 		const newCartItems = store.cart.filter((item) => item.id !== product.id)
-			// 		setStore({ cart: newCartItems })
-			// 		localStorage.setItem('cart', JSON.stringify(newCartItems));
-			// 	} else{
-			// 		const newCartItems = store.cart.map((item) => 
-			// 		item.id === product.id ? { ...exist, qty: exist.qty -1} : item
-			// 		);
-			// 		setStore({ cart: newCartItems })
-			// 		localStorage.setItem('cart', JSON.stringify(newCartItems));
-			// 	}
-			// },
 			removeFromCart: (product) => {
 				const store = getStore();
 				

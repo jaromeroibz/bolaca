@@ -14,52 +14,66 @@ from datetime import datetime
 
 
 # Load environment variables first
-load_dotenv()
+os.environ['DOTENV_DEBUG'] = 'True'
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 # Debug print for environment variables
 print("Environment variables:")
 print(f"BACKEND_URL: {os.getenv('BACKEND_URL')}")
+print(f"FRONTEND_URL: {os.getenv('FRONTEND_URL')}")
 print(f"PORT: {os.getenv('PORT', 3001)}")
 print(f"FLASK_DEBUG: {os.getenv('FLASK_DEBUG')}")
 
 # Initialize Flask app
-app = Flask(__name__, static_folder='./build', static_url_path='/')
+app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), '..', 'build'), static_url_path='/')
 
 # Configure CORS more specifically
+# Get BACKEND_URL from environment variable
+frontend_url = os.getenv("FRONTEND_URL")
+
+# Default origins (without the BACKEND_URL)
+default_origins = [
+    "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev/",
+    "https://www.bolaca.cl",
+    "https://bolaca.cl"
+]   
+
+# Add BACKEND_URL if it's set
+if frontend_url:
+    default_origins.append(frontend_url)
+
+# Apply CORS with the updated origins
 CORS(app, resources={
     r"/api/*": {
-        "origins": [
-            "https://www.bolaca.cl",
-            "https://bolaca.cl"
-        ],
+        "origins": default_origins,
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
         "supports_credentials": True
     },
     r"/create_preference": {
-        "origins": [
-            "https://www.bolaca.cl",
-            "https://bolaca.cl"
-        ],
+        "origins": default_origins,
         "methods": ["POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
         "supports_credentials": True
     }
 })
 
+
 # Add request logger middleware
 @app.before_request
-def log_request_info():
-    print('Headers:', dict(request.headers))
-    print('Body:', request.get_data())
-    print('Path:', request.path)
+# def log_request_info():
+#     print('Headers:', dict(request.headers))
+#     print('Body:', request.get_data())
+#     print('Path:', request.path)
 
 def handle_preflight():
     if request.method == "OPTIONS":
         response = make_response()
-        response.headers.add('Access-Control-Allow-Origin', 'https://effective-palm-tree-5ww6qprg57rfwv7-3000.app.github.dev')
+        response.headers.add('Access-Control-Allow-Origin', ', '.join(default_origins))
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+
         return response
 
 # Add error handler for 415
@@ -110,6 +124,8 @@ def handle_invalid_usage(error):
 def not_found_error(error):
     if request.path.startswith('/api/'):
         return jsonify({"error": "API endpoint not found"}), 404
+    # print(f"Static folder contents: {os.listdir(app.static_folder)}")
+
     return send_from_directory(app.static_folder, 'index.html')
 
 # Sitemap generator
@@ -132,8 +148,10 @@ def serve_static_files(path):
         return send_from_directory(app.static_folder, path)
     return send_from_directory(app.static_folder, 'index.html')
 
+
 # Mercado Pago SDK Initialization
 sdk = mercadopago.SDK(os.getenv("MERCADOPAGO_ACCESS_TOKEN"))
+
 
 @app.route('/create_preference', methods=['POST'])
 def create_preference():
