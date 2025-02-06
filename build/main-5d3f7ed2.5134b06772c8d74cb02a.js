@@ -1020,7 +1020,6 @@ var LandingPage = function LandingPage() {
 /* harmony export */   A: () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6540);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7767);
 /* harmony import */ var _store_appContext_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3398);
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1062,9 +1061,7 @@ var LogIn = function LogIn() {
     actions.loginAdmin(email, password).then(function () {
       if (store.auth === true) {
         // Use Navigate for React Router-based redirect
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .Navigate */ .C5, {
-          to: "/admin"
-        });
+        window.location.href = "https://api.bolaca.cl/admin";
       } else {
         setErrorMessage('Incorrect password. Please try again.'); // Set error message
       }

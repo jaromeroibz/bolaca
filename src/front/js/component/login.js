@@ -25,7 +25,7 @@ const LogIn = () => {
             .then(() => {
                 if (store.auth === true) {
                     // Use Navigate for React Router-based redirect
-                    return <Navigate to="/admin" />
+                    window.location.href = "https://api.bolaca.cl/admin";
                 } else {
                     setErrorMessage('Incorrect password. Please try again.'); // Set error message
                 }

@@ -936,7 +936,6 @@ var react__WEBPACK_IMPORTED_MODULE_0___namespace_cache;
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   $P: () => (/* binding */ useHref),
 /* harmony export */   BV: () => (/* binding */ Routes),
-/* harmony export */   C5: () => (/* binding */ Navigate),
 /* harmony export */   Ix: () => (/* binding */ Router),
 /* harmony export */   Zp: () => (/* binding */ useNavigate),
 /* harmony export */   g: () => (/* binding */ useParams),
@@ -944,7 +943,7 @@ var react__WEBPACK_IMPORTED_MODULE_0___namespace_cache;
 /* harmony export */   x$: () => (/* binding */ useResolvedPath),
 /* harmony export */   zy: () => (/* binding */ useLocation)
 /* harmony export */ });
-/* unused harmony exports Await, MemoryRouter, Outlet, RouterProvider, UNSAFE_DataRouterContext, UNSAFE_DataRouterStateContext, UNSAFE_DataStaticRouterContext, UNSAFE_LocationContext, UNSAFE_NavigationContext, UNSAFE_RouteContext, UNSAFE_enhanceManualRouteObjects, createMemoryRouter, createRoutesFromChildren, createRoutesFromElements, renderMatches, useActionData, useAsyncError, useAsyncValue, useInRouterContext, useLoaderData, useMatch, useMatches, useNavigation, useNavigationType, useOutlet, useOutletContext, useRevalidator, useRouteError, useRouteLoaderData, useRoutes */
+/* unused harmony exports Await, MemoryRouter, Navigate, Outlet, RouterProvider, UNSAFE_DataRouterContext, UNSAFE_DataRouterStateContext, UNSAFE_DataStaticRouterContext, UNSAFE_LocationContext, UNSAFE_NavigationContext, UNSAFE_RouteContext, UNSAFE_enhanceManualRouteObjects, createMemoryRouter, createRoutesFromChildren, createRoutesFromElements, renderMatches, useActionData, useAsyncError, useAsyncValue, useInRouterContext, useLoaderData, useMatch, useMatches, useNavigation, useNavigationType, useOutlet, useOutletContext, useRevalidator, useRouteError, useRouteLoaderData, useRoutes */
 /* harmony import */ var _remix_run_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5588);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6540);
 /**
@@ -1863,11 +1862,11 @@ function Navigate(_ref3) {
     state,
     relative
   } = _ref3;
-  !useInRouterContext() ?  false ? 0 : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .invariant */ .V1)(false) : void 0;
+  !useInRouterContext() ?  false ? 0 : invariant(false) : void 0;
    false ? 0 : void 0;
-  let dataRouterState = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterStateContext);
+  let dataRouterState = React.useContext(DataRouterStateContext);
   let navigate = useNavigate();
-  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+  React.useEffect(() => {
     // Avoid kicking off multiple navigations if we're in the middle of a
     // data-router navigation, since components get re-rendered when we enter
     // a submitting/loading state
