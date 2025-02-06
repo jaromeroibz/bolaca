@@ -643,7 +643,9 @@ var ErrorBoundary = /*#__PURE__*/function (_Component) {
 /* harmony export */   A: () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6540);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4976);
 /* harmony import */ var _img_bolaca_sin_borde_peque_a_jpg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3607);
+
 
 
 var Footer = function Footer() {
@@ -655,7 +657,22 @@ var Footer = function Footer() {
     className: "footer-content"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "footer-section categories"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "Categor\xEDas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "Cartas Did\xE1cticas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "Juegos de Mesa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "Libros M\xF3viles"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "Rompecabezas"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "Categor\xEDas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .Link */ .N_, {
+    to: "/productos?category=3",
+    style: {
+      textDecoration: 'none'
+    }
+  }, "Cartas Did\xE1cticas")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .Link */ .N_, {
+    to: "/productos?category=1",
+    style: {
+      textDecoration: 'none'
+    }
+  }, "Juegos de Mesa")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .Link */ .N_, {
+    to: "/productos?category=2",
+    style: {
+      textDecoration: 'none'
+    }
+  }, "Libros M\xF3viles")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "footer-logo"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
     src: _img_bolaca_sin_borde_peque_a_jpg__WEBPACK_IMPORTED_MODULE_1__ // Replace with your logo URL
@@ -663,9 +680,17 @@ var Footer = function Footer() {
     alt: "Bolaca"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "footer-section contact"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "Contactate con nosotros"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "barcodepapeldidacticos \uD83D\uDCD8"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "@barcodepapeldidacticos \uD83D\uDCF7"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "(+54) 11 5175-1717 \uD83D\uDCF1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "contacto@barcodepapel.com.ar \uD83D\uDCE7")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "Contactate con nosotros"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "bolaca ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    "class": "fa-brands fa-facebook"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "@bolacachile ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    "class": "fa-brands fa-instagram"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "+56 9 3240 8221 ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    "class": "fa-solid fa-phone"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "bolacachile@gmail.com ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    "class": "fa-solid fa-envelope"
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "footer-bottom"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Developed by GALARRETA\xAE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Privacidad | Powered by Mercado Shops"))));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Developed by SunlightDev"))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Footer);
 
@@ -911,10 +936,12 @@ var LandingPage = function LandingPage() {
   }, /*#__PURE__*/react.createElement(sl/* SlArrowLeft */.SnO, null)), /*#__PURE__*/react.createElement("div", {
     className: "container",
     style: {
-      maxWidth: 800
+      maxWidth: 850,
+      overflow: 'hidden'
     }
   }, /*#__PURE__*/react.createElement(SliderWrapper, _extends({}, settings, {
-    ref: sliderRef
+    ref: sliderRef,
+    vertical: false
   }), result.map(function (item) {
     return /*#__PURE__*/react.createElement(react_router_dom_dist/* Link */.N_, {
       to: "/detalleproductos/".concat(item.id),
@@ -930,12 +957,18 @@ var LandingPage = function LandingPage() {
       style: {
         width: 256,
         height: 350,
-        margin: 0
+        margin: '0 auto'
       }
     }, /*#__PURE__*/react.createElement("img", {
       className: "card-img-top",
-      src: "https://picsum.photos/200/200",
-      alt: "Card image cap"
+      src: item.image,
+      alt: "Card image cap",
+      style: {
+        width: '100%',
+        height: '200px',
+        objectFit: 'cover',
+        objectPosition: 'center'
+      }
     }), /*#__PURE__*/react.createElement("div", {
       className: "card-body"
     }, /*#__PURE__*/react.createElement("h5", {
@@ -957,7 +990,7 @@ var LandingPage = function LandingPage() {
     }
   }, store.categories.map(function (item) {
     return /*#__PURE__*/react.createElement("div", {
-      className: "d-inline text-center",
+      className: "d-inline text-center m-3",
       key: item.id
     }, /*#__PURE__*/react.createElement(react_router_dom_dist/* Link */.N_, {
       to: '/productos/' + item.id,
@@ -965,9 +998,12 @@ var LandingPage = function LandingPage() {
         textDecoration: 'none'
       }
     }, /*#__PURE__*/react.createElement("img", {
-      src: _1_CURSIVA_small_namespaceObject,
+      src: item.image,
       style: {
-        height: "300px"
+        width: "200px",
+        height: "200px",
+        objectFit: "cover",
+        borderRadius: "10px"
       },
       alt: "category image"
     }), /*#__PURE__*/react.createElement("p", null, item.category_name)));
@@ -1014,7 +1050,7 @@ var LogIn = function LogIn() {
 
   var AdminRedirect = function AdminRedirect() {
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-      var adminUrl = "https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev".replace('/api', '');
+      var adminUrl = "https://api.bolaca.cl".replace('/api', '');
       window.location.href = "".concat(adminUrl, "/admin");
     }, []);
     return null;
@@ -1297,7 +1333,9 @@ var Productos = function Productos() {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_store_appContext_js__WEBPACK_IMPORTED_MODULE_1__/* .AppContext */ .BR),
     store = _useContext.store,
     actions = _useContext.actions;
-  var theid = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .useParams */ .g)().theid; //id de categoría
+  var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .useLocation */ .zy)(); // Get the current URL and query parameters
+  var searchParams = new URLSearchParams(location.search);
+  var initialCategory = searchParams.get("category"); // Get the "category" query parameter
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
     _useState2 = _slicedToArray(_useState, 2),
     selectedCategory = _useState2[0],
@@ -1316,10 +1354,15 @@ var Productos = function Productos() {
     setSelectedBrand = _useState8[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     actions.getProducts();
-    actions.getProductByCategory(theid);
     actions.getBrands();
     actions.getCategories();
-  }, []);
+
+    // Filter products by the initial category if it exists
+    if (initialCategory) {
+      setselectedCategory(initialCategory);
+      actions.getProductByCategory(initialCategory);
+    }
+  }, [initialCategory]);
   var filterProductsByAgeRange = function filterProductsByAgeRange(products) {
     if (!selectedAgeRange) return products; // Si no hay un rango de edad seleccionado, devolver todos los productos
     var _selectedAgeRange = _slicedToArray(selectedAgeRange, 2),
@@ -1403,7 +1446,7 @@ var Productos = function Productos() {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
       className: "card-img-top",
       loading: "lazy",
-      src: item.image1,
+      src: item.image,
       alt: "Card image cap"
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "card-body"
@@ -1579,44 +1622,86 @@ var ShoppingCart = function ShoppingCart() {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_store_appContext_js__WEBPACK_IMPORTED_MODULE_1__/* .AppContext */ .BR),
     store = _useContext.store,
     actions = _useContext.actions;
-  (0,_mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__/* .initMercadoPago */ .Lz)('APP_USR-f83fb519-a60f-49aa-a55a-dba0f0357ac9', {
-    locale: "es-CL"
-  });
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
     _useState2 = _slicedToArray(_useState, 2),
     preferenceId = _useState2[0],
     setPreferenceId = _useState2[1];
+  (0,_mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__/* .initMercadoPago */ .Lz)("APP_USR-d706c38b-4f61-41c6-92e2-d3ae06f6f9c9", {
+    locale: "es-CL"
+  });
   var createPreference = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-      var response, id;
+      var items, response;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            _context.next = 3;
-            return axios__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .A.post("https://effective-palm-tree-5ww6qprg57rfwv7-4000.app.github.dev/create_preference", {
-              title: "Producto 1",
-              quantity: 1,
-              price: 100
+            items = store.cart.map(function (item) {
+              return {
+                title: item.name,
+                quantity: parseInt(item.qty),
+                unit_price: parseFloat(item.price),
+                product_image: item.image,
+                description: item.description || item.name,
+                id: item.id || String(Math.random())
+              };
             });
-          case 3:
+            _context.next = 4;
+            return axios__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .A.post("".concat("https://api.bolaca.cl", "/create_preference"), {
+              items: items
+            }, {
+              withCredentials: true,
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer ".concat("APP_USR-3037645566784563-101819-363d0474dbc30739f59058bb0e2b0884-475805926")
+              }
+            });
+          case 4:
             response = _context.sent;
-            id = response.data.id;
-            return _context.abrupt("return", id);
+            if (!(response.data && response.data.id)) {
+              _context.next = 8;
+              break;
+            }
+            setPreferenceId(response.data.id);
+            return _context.abrupt("return", response.data.id);
           case 8:
-            _context.prev = 8;
+            _context.next = 14;
+            break;
+          case 10:
+            _context.prev = 10;
             _context.t0 = _context["catch"](0);
-            console.log(_context.t0);
-          case 11:
+            console.error("Error creating preference:", _context.t0);
+            alert("Error creating payment preference. Please try again.");
+          case 14:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[0, 8]]);
+      }, _callee, null, [[0, 10]]);
     }));
     return function createPreference() {
       return _ref.apply(this, arguments);
     };
   }();
+
+  // Add MercadoPago Wallet customization
+  var renderCheckoutButton = function renderCheckoutButton(preferenceId) {
+    if (preferenceId) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__/* .Wallet */ .uW, {
+        initialization: {
+          preferenceId: preferenceId
+        },
+        customization: {
+          texts: {
+            valueProp: 'smart_option'
+          },
+          visual: {
+            buttonBackground: 'black',
+            borderRadius: '6px'
+          }
+        }
+      });
+    }
+  };
   var handleBuy = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
       var id;
@@ -1670,7 +1755,7 @@ var ShoppingCart = function ShoppingCart() {
       className: "px-xs-2 px-sm-3 px-md-4 px-lg-5"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
       className: "card-img-top",
-      src: "https://picsum.photos/200/200",
+      src: item.image,
       alt: "Card image cap",
       style: {
         width: 60,
@@ -1708,8 +1793,7 @@ var ShoppingCart = function ShoppingCart() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "card py-3 py-md-3 px-5",
     style: {
-      width: 450,
-      height: 300
+      width: 450
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
     className: "mx-auto"
@@ -1719,19 +1803,10 @@ var ShoppingCart = function ShoppingCart() {
     className: "d-flex justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Costo de env\xEDo:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, shippingPrice)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "d-flex justify-content-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Total:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, totalPrice)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Total:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, totalPrice)), !preferenceId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     onClick: handleBuy,
     className: "add-cart-button"
-  }, "Ir a pagar"), preferenceId && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__/* .Wallet */ .uW, {
-    initialization: {
-      preferenceId: preferenceId
-    },
-    customization: {
-      texts: {
-        valueProp: 'smart_option'
-      }
-    }
-  })))))));
+  }, "Ir a pagar") : renderCheckoutButton(preferenceId)))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShoppingCart);
 

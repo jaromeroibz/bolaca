@@ -21,6 +21,12 @@ ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.c
 ___CSS_LOADER_EXPORT___.push([module.id, `/* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .navbar {
     background-color: white;
     font-family: "Playwrite IT Moderna", cursive;
@@ -56,6 +62,11 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/*
 .landing-page{
     padding-top: 100px;
 }
+.card-body h5.card-title {
+  text-decoration: none !important; /* Removes underline */
+  color: inherit; /* Inherits color from parent */
+}
+
 .search-bar-results{
     padding-top: 200px;
 }
@@ -659,35 +670,46 @@ var getState = function getState(_ref) {
         }
       },
       addToCart: function addToCart(product) {
-        var store = getStore();
-        var exist = store.cart.find(function (item) {
+        var store = getStore(); // Get the current store state
+        var cart = (store === null || store === void 0 ? void 0 : store.cart) || []; // Ensure cart is always an array
+
+        console.log("Current cart before adding:", cart);
+        var exist = cart.find(function (item) {
           return item.id === product.id;
         });
+        var updatedCart;
         if (exist) {
-          var newCartItems = store.cart.map(function (item) {
-            return item.id === product.id ? _objectSpread(_objectSpread({}, exist), {}, {
-              qty: exist.qty + 1
+          console.log("Product exists, increasing quantity...");
+          updatedCart = cart.map(function (item) {
+            return item.id === product.id ? _objectSpread(_objectSpread({}, item), {}, {
+              qty: item.qty + 1
             }) : item;
           });
-          setStore({
-            cart: newCartItems
-          });
-          localStorage.setItem("cart", JSON.stringify(newCartItems));
         } else {
-          var _newCartItems = [].concat(_toConsumableArray(store.cart), [_objectSpread(_objectSpread({}, product), {}, {
+          console.log("Product does not exist, adding new product...");
+          updatedCart = [].concat(_toConsumableArray(cart), [_objectSpread(_objectSpread({}, product), {}, {
             qty: 1
           })]);
-          setStore({
-            cart: _newCartItems
-          });
-          localStorage.setItem("cart", JSON.stringify(_newCartItems));
         }
+        console.log("Updated cart after adding:", updatedCart);
+        setStore({
+          cart: updatedCart
+        });
+        localStorage.setItem("cart", JSON.stringify(updatedCart)); // Persist cart
       },
       removeFromCart: function removeFromCart(product) {
         var store = getStore();
+
+        // Check if the product exists in the cart
         var exist = store.cart.find(function (item) {
           return item.id === product.id;
         });
+        if (!exist) {
+          console.error("Product not found in cart.");
+          return; // Exit if the product is not found
+        }
+
+        // If quantity is 1, remove the product from the cart
         if (exist.qty === 1) {
           var newCartItems = store.cart.filter(function (item) {
             return item.id !== product.id;
@@ -697,15 +719,16 @@ var getState = function getState(_ref) {
           });
           localStorage.setItem('cart', JSON.stringify(newCartItems));
         } else {
-          var _newCartItems2 = store.cart.map(function (item) {
-            return item.id === product.id ? _objectSpread(_objectSpread({}, exist), {}, {
-              qty: exist.qty - 1
+          // If quantity is more than 1, decrease the quantity by 1
+          var _newCartItems = store.cart.map(function (item) {
+            return item.id === product.id ? _objectSpread(_objectSpread({}, item), {}, {
+              qty: item.qty - 1
             }) : item;
           });
           setStore({
-            cart: _newCartItems2
+            cart: _newCartItems
           });
-          localStorage.setItem('cart', JSON.stringify(_newCartItems2));
+          localStorage.setItem('cart', JSON.stringify(_newCartItems));
         }
       },
       getProducts: function () {
@@ -723,7 +746,7 @@ var getState = function getState(_ref) {
                 return _context.abrupt("return");
               case 4:
                 _context.next = 6;
-                return fetch("".concat("https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev", "/api/get_all_products"));
+                return fetch("".concat("https://api.bolaca.cl", "/api/get_all_products"));
               case 6:
                 response = _context.sent;
                 _context.next = 9;
@@ -761,7 +784,7 @@ var getState = function getState(_ref) {
                 _context2.prev = 0;
                 idToDisplay = result.id;
                 _context2.next = 4;
-                return fetch("https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev" + '/api/get_product/' + idToDisplay);
+                return fetch("https://api.bolaca.cl" + '/api/get_product/' + idToDisplay);
               case 4:
                 response = _context2.sent;
                 _context2.next = 7;
@@ -798,7 +821,7 @@ var getState = function getState(_ref) {
               case 0:
                 _context3.prev = 0;
                 _context3.next = 3;
-                return fetch("https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev" + '/api/get_product_by_category/' + theid);
+                return fetch("https://api.bolaca.cl" + '/api/get_product_by_category/' + theid);
               case 3:
                 response = _context3.sent;
                 _context3.next = 6;
@@ -836,7 +859,7 @@ var getState = function getState(_ref) {
                 _context4.prev = 0;
                 idToDisplay = result.id;
                 _context4.next = 4;
-                return fetch("https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev" + '/api/get_category/' + idToDisplay);
+                return fetch("https://api.bolaca.cl" + '/api/get_category/' + idToDisplay);
               case 4:
                 response = _context4.sent;
                 _context4.next = 7;
@@ -880,7 +903,7 @@ var getState = function getState(_ref) {
                 return _context5.abrupt("return");
               case 4:
                 _context5.next = 6;
-                return fetch("".concat("https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev", "/api/get_category"));
+                return fetch("".concat("https://api.bolaca.cl", "/api/get_category"));
               case 6:
                 response = _context5.sent;
                 if (response.ok) {
@@ -921,7 +944,7 @@ var getState = function getState(_ref) {
               case 0:
                 _context6.prev = 0;
                 _context6.next = 3;
-                return fetch("https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev" + '/api/get_all_brands');
+                return fetch("https://api.bolaca.cl" + '/api/get_all_brands');
               case 3:
                 response = _context6.sent;
                 _context6.next = 6;
@@ -959,7 +982,7 @@ var getState = function getState(_ref) {
                 _context7.prev = 0;
                 idToDisplay = result.id;
                 _context7.next = 4;
-                return fetch("https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev" + '/api/get_all_product_by_brand/' + idToDisplay);
+                return fetch("https://api.bolaca.cl" + '/api/get_all_product_by_brand/' + idToDisplay);
               case 4:
                 response = _context7.sent;
                 _context7.next = 7;
@@ -1027,7 +1050,7 @@ var getState = function getState(_ref) {
                   })
                 };
                 _context8.next = 4;
-                return fetch("https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev" + "/api/admin_login", requestOptions);
+                return fetch("https://api.bolaca.cl" + "/api/admin_login", requestOptions);
               case 4:
                 response = _context8.sent;
                 _context8.next = 7;
@@ -1081,7 +1104,7 @@ var getState = function getState(_ref) {
                   body: JSON.stringify(preferencia)
                 };
                 _context9.next = 3;
-                return fetch("https://effective-palm-tree-5ww6qprg57rfwv7-3001.app.github.dev" + '/api/add_preference', requestOptions);
+                return fetch("https://api.bolaca.cl" + '/api/add_preference', requestOptions);
               case 3:
                 response = _context9.sent;
                 _context9.next = 6;
@@ -1147,7 +1170,8 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var AppContext = /*#__PURE__*/(0,react.createContext)({
   store: {
     products: [],
-    categories: []
+    categories: [],
+    cart: [] // Ensure cart is part of the initial state
   },
   actions: {}
 });
@@ -1156,22 +1180,40 @@ var AppContext = /*#__PURE__*/(0,react.createContext)({
 var AppContextProvider = function AppContextProvider(_ref) {
   var children = _ref.children;
   var _useState = (0,react.useState)(function () {
+      var cartFromLocalStorage = JSON.parse(localStorage.getItem("cart")) || []; // Get cart from localStorage
+
       var initialState = flux({
         getStore: function getStore() {
-          return state === null || state === void 0 ? void 0 : state.store;
+          return appContext_objectSpread(appContext_objectSpread({}, state.store), {}, {
+            cart: JSON.parse(localStorage.getItem("cart")) || []
+          });
         },
+        // Always return latest cart
         getActions: function getActions() {
           return state === null || state === void 0 ? void 0 : state.actions;
         },
+        // Return actions
         setStore: function setStore(updatedStore) {
           setState(function (prevState) {
-            return appContext_objectSpread(appContext_objectSpread({}, prevState), {}, {
-              store: appContext_objectSpread(appContext_objectSpread({}, prevState.store), updatedStore)
+            var newState = appContext_objectSpread(appContext_objectSpread({}, prevState), {}, {
+              store: appContext_objectSpread(appContext_objectSpread({}, prevState.store), updatedStore) // Update state with the new store
             });
+
+            // If cart is updated, save it to localStorage
+            if (updatedStore.cart) {
+              localStorage.setItem("cart", JSON.stringify(newState.store.cart));
+            }
+            return newState;
           });
         }
       });
-      return initialState;
+
+      // Merge cart from localStorage into initial state
+      return appContext_objectSpread(appContext_objectSpread({}, initialState), {}, {
+        store: appContext_objectSpread(appContext_objectSpread({}, initialState.store), {}, {
+          cart: cartFromLocalStorage // Initialize cart from localStorage if available
+        })
+      });
     }),
     _useState2 = _slicedToArray(_useState, 2),
     state = _useState2[0],
