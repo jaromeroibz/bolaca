@@ -60,22 +60,31 @@ CORS(app, resources={
 
 
 # Add request logger middleware
-@app.before_request
-# def log_request_info():
-#     print('Headers:', dict(request.headers))
-#     print('Body:', request.get_data())
-#     print('Path:', request.path)
 
+@app.before_request
 def handle_preflight():
     if request.method == "OPTIONS":
         response = make_response()
-        response.headers.add('Access-Control-Allow-Origin', ', '.join(default_origins))
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        
+        # Get the Origin header from the request
+        origin = request.headers.get("Origin")
+        allowed_origins = [
+            "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev",
+            "https://www.bolaca.cl",
+            "https://bolaca.cl"
+        ]
+
+        if origin in allowed_origins:
+            response.headers["Access-Control-Allow-Origin"] = origin
+        else:
+            # Optionally, set a default allowed origin
+            response.headers["Access-Control-Allow-Origin"] = allowed_origins[0]
+
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization"
+        response.headers["Access-Control-Allow-Methods"] = "GET,PUT,POST,DELETE,OPTIONS"
+        response.headers["Access-Control-Allow-Credentials"] = "true"
 
         return response
-
 # Add error handler for 415
 @app.errorhandler(415)
 def unsupported_media_type(error):

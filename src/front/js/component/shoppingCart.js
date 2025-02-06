@@ -22,13 +22,13 @@ const ShoppingCart = () => {
                 id: item.id || String(Math.random())
             }));
 
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/create_preference`, 
+            const response = await axios.post(`${process.env.BACKEND_URL}/create_preference`, 
                 { items },
                 {
                     withCredentials: true, 
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${process.env.REACT_APP_MERCADOPAGO_ACCESS_TOKEN}` 
+                        "Authorization": `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}` 
                     }
                 }
             );

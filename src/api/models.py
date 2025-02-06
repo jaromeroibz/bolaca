@@ -144,8 +144,8 @@ class ProductBrand(db.Model):
 
 class OrderStatus(Enum): 
 
-    ordered = 'ordered',
-    processed = 'processed',
+    ordered = 'ordered'
+    processed = 'processed'
     delivered = 'delivered'
 
 class PaymentType(db.Model):
