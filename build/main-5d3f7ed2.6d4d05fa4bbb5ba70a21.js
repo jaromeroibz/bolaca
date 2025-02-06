@@ -1049,7 +1049,8 @@ var LogIn = function LogIn() {
 
   var AdminRedirect = function AdminRedirect() {
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-      var adminUrl = "https://api.bolaca.cl".replace('/api', '');
+      // const adminUrl = process.env.BACKEND_URL.replace('/api', ''); use this for development
+      var adminUrl = "https://api.bolaca.cl";
       window.location.href = "".concat(adminUrl, "/admin");
     }, []);
     return null;

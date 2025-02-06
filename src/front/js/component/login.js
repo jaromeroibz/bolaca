@@ -10,7 +10,8 @@ const LogIn = () => {
 
     const AdminRedirect = () => {
         useEffect(() => {
-            const adminUrl = process.env.BACKEND_URL.replace('/api', '');
+            // const adminUrl = process.env.BACKEND_URL.replace('/api', ''); use this for development
+            const adminUrl = process.env.BACKEND_URL;
             window.location.href = `${adminUrl}/admin`;
         }, []);
         
