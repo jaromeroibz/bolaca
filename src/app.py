@@ -32,26 +32,25 @@ app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), '..'
 frontend_url = os.getenv("FRONTEND_URL")
 
 # Default origins (without the BACKEND_URL)
-default_origins = [
-    "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev/",
-    "https://www.bolaca.cl",
-    "https://bolaca.cl"
+allowed_origins = [
+    "https://bolaca.cl",
+    "https://www.bolaca.cl"
 ]   
 
 # Add BACKEND_URL if it's set
-if frontend_url:
-    default_origins.append(frontend_url)
+# if frontend_url:
+#     default_origins.append(frontend_url)
 
 # Apply CORS with the updated origins
 CORS(app, resources={
     r"/api/*": {
-        "origins": default_origins,
+        "origins": allowed_origins,
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
         "supports_credentials": True
     },
     r"/create_preference": {
-        "origins": default_origins,
+        "origins": allowed_origins,
         "methods": ["POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
         "supports_credentials": True
@@ -69,7 +68,7 @@ def handle_preflight():
         # Get the Origin header from the request
         origin = request.headers.get("Origin")
         allowed_origins = [
-            "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev",
+            # "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev", uncomment this for dev
             "https://www.bolaca.cl",
             "https://bolaca.cl"
         ]
