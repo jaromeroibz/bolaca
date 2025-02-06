@@ -5,8 +5,8 @@ from .custom_views import ProductCategoryAdmin  # Import the custom ModelView cl
 from flask import redirect
 from flask_admin.contrib.sqla import ModelView
 
-frontend_url = os.getenv("FRONTEND_URL")
-backend_url = os.getenv("BACKEND_URL")
+frontend_url = os.getenv("FRONTEND_URL", "https://bolaca.cl")
+backend_url = os.getenv("BACKEND_URL", "https://api.bolaca.cl")
 
 class LogoutView(BaseView):
     @expose('/')
