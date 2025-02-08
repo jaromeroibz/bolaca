@@ -11,9 +11,9 @@ const Footer = () => {
           <div className="footer-section categories">
             <h3>Categorías</h3>
             <ul>
-              <li><Link to={`/productos?category=3`} style={{ textDecoration: 'none' }}>Cartas Didácticas</Link></li>
-              <li><Link to={`/productos?category=1`} style={{ textDecoration: 'none' }}>Juegos de Mesa</Link></li>
-              <li><Link to={`/productos?category=2`} style={{ textDecoration: 'none' }}>Libros Móviles</Link></li>
+              <li><Link to={`/productos?category=Cartas Didacticas`} style={{ textDecoration: 'none' }}>Cartas Didácticas</Link></li>
+              <li><Link to={`/productos?category=Test`} style={{ textDecoration: 'none' }}>Juegos de Mesa</Link></li>
+              <li><Link to={`/productos?category=Libros Moviles`} style={{ textDecoration: 'none' }}>Libros Móviles</Link></li>
             </ul>
           </div>
 

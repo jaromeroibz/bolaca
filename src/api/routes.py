@@ -1,7 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import request, jsonify, Blueprint, redirect, make_response
+from flask import request, jsonify, Blueprint, redirect, make_response, session, url_for
 from .models import db, User, ProductCategory, Products, PaymentType, Preferences, Brands, ProductBrand
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
@@ -42,40 +42,48 @@ def redirect_to_main():
 #     access_token = create_access_token(identity=email)
 #     return jsonify(access_token=access_token)
 
-@api.route("/admin_login", methods=["POST"])
+@api.route("/admin_login", methods=["GET", "POST"])
 def admin_login():
-    print("Request Headers:", dict(request.headers))
-    print("Request Content-Type:", request.content_type)
-    print("Request Data:", request.get_data())
-    try:
-        # Add content type check and error handling
-        if not request.is_json:
-            return jsonify({"msg": "Missing JSON in request"}), 415
-        if request.is_json:
-            data = request.get_json()
-        else:
-            data = json.loads(request.get_data().decode('utf-8'))
-        email = data.get("email", None)
-        password = data.get("password", None)
-
-        if not email or not password:
-            return jsonify({"msg": "Missing email or password"}), 400
-
-        user = User.query.filter_by(email=email).first()
-   
-        if user is None:
-            return jsonify({"msg": "User is not registered"}), 401
+    if request.method == "GET":
+        
+        return jsonify({"msg": "Please POST your credentials to login"}), 200
     
-        if password != user.password:
-            return jsonify({"msg": "Wrong password"}), 401
+    # For POST, process the login request as before
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 415
 
-        access_token = create_access_token(identity=email)
-        return jsonify({"access_token": access_token}), 200
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
+    
+    if not email or not password:
+        return jsonify({"msg": "Missing email or password"}), 400
+    
+    user = User.query.filter_by(email=email).first()
+    if user is None:
+        return jsonify({"msg": "User is not registered"}), 401
+    
+    if password != user.password:
+        return jsonify({"msg": "Wrong password"}), 401
+    
+    # Set the session flag to indicate admin is authenticated
+    session["admin_authenticated"] = True
+    access_token = create_access_token(identity=email)
+    # Determine where to redirect. Use the provided "next" parameter if set,
+    # otherwise fall back to the admin index (change url_for("admin.index") to a full URL if needed)
+    next_url = request.args.get("next")
+    if next_url:
+        redirect_url = next_url
+    else:
+        # You can build an absolute URL if needed. For example:
+        redirect_url = "https://api.bolaca.cl/admin"
 
-    except Exception as e:
-        print(f"Login error: {str(e)}")
-        return jsonify({"msg": "Internal server error"}), 500
-
+    # Return a JSON payload with the redirect URL and token:
+    return jsonify({
+        "message": "Logged in",
+        "access_token": access_token,
+        "redirect": redirect_url
+    }), 200
 
 @api.route("/admin_signup", methods=["POST"])
 def admin_signup():
@@ -116,28 +124,7 @@ def get_all_product_by_brand(brand_id):
     print(serialized_products)
 
     return jsonify(serialized_products)
-
-# @api.route('/add_brands', methods=['POST'])
-# @jwt_required()
-# def add_brands():
-    
-#     body = request.get_json()
-#     brand = Brands.query.filter_by(name=body["name"]).first()
-
-#     if brand == None:
-
-#         brand = Brands(name = body['name'])
-#         db.session.add(brand)
-#         db.session.commit()
-
-#         response_body = {
-#             "message": "Brand created"
-#         }
-
-#         return jsonify(response_body), 200
-#     else:
-#         return jsonify({"msg": "brand already exists with this name"}), 401
-        
+      
 @api.route('/get_all_products', methods=['GET'])
 def get_all_products():
     

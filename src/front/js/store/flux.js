@@ -203,6 +203,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log('Login desde flux')
 				const requestOptions = {
 					method: 'POST',
+					credentials: 'include',
 					headers: {
 						'Content-Type': 'application/json',
 						'Accept': 'application/json'
@@ -217,10 +218,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let data = await response.json()	
 					if(response.status === 200){
 						setStore({auth: true});
-						setStore({ users: data })
+						setStore({ users: data });
 						console.log(data)
-						localStorage.setItem("token", data.access_token)
-						localStorage.setItem("auth", true)
+						localStorage.setItem("token", data.access_token);
+						localStorage.setItem("auth", true);
+						return data.redirect;
 					}
 						
 				return response.status

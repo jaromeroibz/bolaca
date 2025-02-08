@@ -18,22 +18,15 @@ const LogIn = () => {
         return null;
     };
 
-    function sendData(e) {
+    async function sendData(e) {
         e.preventDefault();
-
-        // Assume actions.loginAdmin returns a promise and sets store.auth to true on success
-        actions.loginAdmin(email, password)
-            .then(() => {
-                if (store.auth === true) {
-                    // Use Navigate for React Router-based redirect
-                    window.location.href = "https://api.bolaca.cl/admin";
-                } else {
-                    setErrorMessage('Incorrect password. Please try again.'); // Set error message
-                }
-            })
-            .catch(() => {
-                setErrorMessage('An error occurred. Please try again.');
-            });
+        // loginAdmin now returns the redirect URL on success
+        const redirectUrl = await actions.loginAdmin(email, password);
+        if (redirectUrl && store.auth === true) {
+            window.location.href = redirectUrl;
+        } else {
+            setErrorMessage('Incorrect credentials. Please try again.');
+        }
     }
 
     return (

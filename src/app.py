@@ -31,15 +31,12 @@ app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), '..'
 # Get BACKEND_URL from environment variable
 frontend_url = os.getenv("FRONTEND_URL")
 
-# Default origins (without the BACKEND_URL)
+# Default origins (uncomment bolaca.cl for production)
 allowed_origins = [
-    "https://bolaca.cl",
-    "https://www.bolaca.cl"
+    # "https://bolaca.cl",
+    # "https://www.bolaca.cl",
+    "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev"
 ]   
-
-# Add BACKEND_URL if it's set
-# if frontend_url:
-#     default_origins.append(frontend_url)
 
 # Apply CORS with the updated origins
 CORS(app, resources={
@@ -65,12 +62,12 @@ def handle_preflight():
     if request.method == "OPTIONS":
         response = make_response()
         
-        # Get the Origin header from the request
+        # Get the Origin header from the request, uncomment first one for dev. Uncomment bolaca.cl for production
         origin = request.headers.get("Origin")
         allowed_origins = [
-            # "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev", uncomment this for dev
-            "https://www.bolaca.cl",
-            "https://bolaca.cl"
+            "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev",
+            # "https://www.bolaca.cl",
+            # "https://bolaca.cl"
         ]
 
         if origin in allowed_origins:

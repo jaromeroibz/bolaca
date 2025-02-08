@@ -6,24 +6,31 @@ const Productos = () => {
 
     const { store, actions } = useContext(AppContext );
     const location = useLocation(); // Get the current URL and query parameters
-    const searchParams = new URLSearchParams(location.search);
-    const initialCategory = searchParams.get("category"); // Get the "category" query parameter
+
+    useEffect(() => {
+        // Retrieve query params on each change
+        const searchParams = new URLSearchParams(location.search);
+        const category = searchParams.get("category");
+
+        actions.getBrands();
+        actions.getCategories();
+
+        if (category) {
+            // Update local state so filtering functions know which category is selected
+            setselectedCategory(category);
+            // Get filtered products using the category query parameter.
+            actions.getProductByCategory(category);
+        } else {
+            // Clear the selected category and load all products.
+            setselectedCategory(null);
+            actions.getProducts();
+        }
+    }, [location.search]);
+
     const [selectedCategory, setselectedCategory] = useState(null); 
     const [selectedAgeRange, setSelectedAgeRange] = useState(null); 
     const [selectedPriceRange, setSelectedPriceRange] = useState(null);
     const [selectedBrand, setSelectedBrand] = useState(null);  
-
-    useEffect(() => {
-        actions.getProducts();
-        actions.getBrands();
-        actions.getCategories();
-
-        // Filter products by the initial category if it exists
-        if (initialCategory) {
-            setselectedCategory(initialCategory);
-            actions.getProductByCategory(initialCategory);
-        }
-    }, [initialCategory]);
 
     const filterProductsByAgeRange = (products) => {
         if (!selectedAgeRange) return products; // Si no hay un rango de edad seleccionado, devolver todos los productos
