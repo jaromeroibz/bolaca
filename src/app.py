@@ -33,9 +33,9 @@ frontend_url = os.getenv("FRONTEND_URL")
 
 # Default origins (uncomment bolaca.cl for production)
 allowed_origins = [
-    # "https://bolaca.cl",
-    # "https://www.bolaca.cl",
-    "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev"
+    "https://bolaca.cl",
+    "https://www.bolaca.cl",
+    # "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev"
 ]   
 
 # Apply CORS with the updated origins
