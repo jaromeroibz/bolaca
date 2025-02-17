@@ -471,8 +471,8 @@ var appContext = __webpack_require__(3398);
 var navbar = __webpack_require__(5809);
 // EXTERNAL MODULE: ./src/front/js/component/footer.js
 var footer = __webpack_require__(8908);
-// EXTERNAL MODULE: ./src/front/js/component/landingPage.js + 4 modules
-var landingPage = __webpack_require__(5463);
+// EXTERNAL MODULE: ./src/front/js/component/landingPage.js
+var landingPage = __webpack_require__(4531);
 // EXTERNAL MODULE: ./src/front/js/component/productos.js
 var productos = __webpack_require__(1750);
 // EXTERNAL MODULE: ./src/front/js/component/detalleProducto.js
@@ -1040,6 +1040,7 @@ var getState = function getState(_ref) {
                 console.log('Login desde flux');
                 requestOptions = {
                   method: 'POST',
+                  credentials: 'include',
                   headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
@@ -1057,19 +1058,23 @@ var getState = function getState(_ref) {
                 return response.json();
               case 7:
                 data = _context8.sent;
-                if (response.status === 200) {
-                  setStore({
-                    auth: true
-                  });
-                  setStore({
-                    users: data
-                  });
-                  console.log(data);
-                  localStorage.setItem("token", data.access_token);
-                  localStorage.setItem("auth", true);
+                if (!(response.status === 200)) {
+                  _context8.next = 15;
+                  break;
                 }
+                setStore({
+                  auth: true
+                });
+                setStore({
+                  users: data
+                });
+                console.log(data);
+                localStorage.setItem("token", data.access_token);
+                localStorage.setItem("auth", true);
+                return _context8.abrupt("return", data.redirect);
+              case 15:
                 return _context8.abrupt("return", response.status);
-              case 10:
+              case 16:
               case "end":
                 return _context8.stop();
             }
@@ -1477,7 +1482,7 @@ var withContext = function withContext(Component) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [264,997,472,758,861,645,814,176,765,854,489,807], () => (__webpack_require__(4769)))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [264,997,472,758,861,645,814,176,765,854,489,807,906], () => (__webpack_require__(4769)))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
