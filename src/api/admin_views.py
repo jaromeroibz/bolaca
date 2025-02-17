@@ -9,7 +9,7 @@ class MyAdminIndexView(AdminIndexView):
 
     def inaccessible_callback(self, name, **kwargs):
         # Redirect unauthorized users to your admin login page. Change codespaces url to domain in production
-        login_url = "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev/login"
+        login_url = "https://www.bolaca.cl" # "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev/login"
         # URL-encode the next parameter
         next_param = urllib.parse.quote(request.url)
         return redirect(f"{login_url}?next={next_param}")
