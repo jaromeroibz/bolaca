@@ -320,6 +320,105 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+// import React, { useState, useContext, useEffect } from "react";
+// import { AppContext  } from "../store/appContext.js";
+
+// const LogIn = () => {
+//     const { store, actions } = useContext(AppContext );
+//     const [email, setEmail] = useState('');
+//     const [password, setPassword] = useState('');
+//     const [errorMessage, setErrorMessage] = useState(''); // State for the error message
+
+//     // Remove the "next" query parameter if present.
+//     useEffect(() => {
+//         const url = new URL(window.location.href);
+//         if (url.searchParams.has("next")) {
+//             url.searchParams.delete("next");
+//             window.history.replaceState(null, "", url.pathname);
+//         }
+//     }, []);
+
+//     const AdminRedirect = () => {
+//         useEffect(() => {
+//             // const adminUrl = process.env.BACKEND_URL.replace('/api', ''); use this for development
+//             const adminUrl = process.env.BACKEND_URL;
+//             window.location.href = `${adminUrl}/admin`;
+//         }, []);
+
+//         return null;
+//     };
+
+//     async function sendData(e) {
+//         e.preventDefault();
+//         // loginAdmin now returns the redirect URL on success
+//         const redirectUrl = await actions.loginAdmin(email, password);
+//         if (redirectUrl && store.auth === true) {
+//             window.location.href = redirectUrl;
+//         } else {
+//             setErrorMessage('Incorrect credentials. Please try again.');
+//         }
+//     }
+
+//     return (
+//         <>
+//             <div className="container" style={{ paddingTop: "200px", maxWidth: "400px" }}>
+//                 {store.auth === true ? (
+//                     <AdminRedirect />
+//                 ) : (
+//                     <>
+//                         <p>Sign in</p>
+//                         <h1>Welcome back!</h1>
+//                         <form onSubmit={(e) => sendData(e)}>
+//                             <div className="row">
+//                                 <div className="col-12 mb-4">
+//                                     <div className="position-relative mb-4">
+//                                         <label className="my-2" htmlFor="exampleInputEmail1">Email address</label>
+//                                         <input
+//                                             type="email"
+//                                             value={email}
+//                                             onChange={(e) => setEmail(e.target.value)}
+//                                             className="form-control my-2"
+//                                             id="exampleInputEmail1"
+//                                             aria-describedby="emailHelp"
+//                                             placeholder="Enter email"
+//                                         />
+//                                     </div>
+//                                 </div>
+//                                 <div className="col-12 mb-4">
+//                                     <div className="position-relative mb-4">
+//                                         <label htmlFor="exampleInputPassword1">Password</label>
+//                                         <input
+//                                             type="password"
+//                                             value={password}
+//                                             onChange={(e) => setPassword(e.target.value)}
+//                                             className="form-control my-2"
+//                                             id="exampleInputPassword1"
+//                                             placeholder="Password"
+//                                         />
+//                                         {/* Error message displayed here */}
+//                                         {errorMessage && (
+//                                             <small className="text-danger">
+//                                                 {errorMessage}
+//                                             </small>
+//                                         )}
+//                                     </div>
+//                                 </div>
+//                                 <div className="col-12 mb-4">
+//                                     <div className="position-relative mb-4">
+//                                         <button type="submit" className="buy-now-button">Submit</button>
+//                                     </div>
+//                                 </div>
+//                             </div>
+//                         </form>
+//                     </>
+//                 )}
+//             </div>
+//         </>
+//     );
+// };
+
+// export default LogIn;
+
 
 
 var LogIn = function LogIn() {
@@ -337,24 +436,7 @@ var LogIn = function LogIn() {
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
     _useState6 = _slicedToArray(_useState5, 2),
     errorMessage = _useState6[0],
-    setErrorMessage = _useState6[1]; // State for the error message
-
-  // Remove the "next" query parameter if present.
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var url = new URL(window.location.href);
-    if (url.searchParams.has("next")) {
-      url.searchParams["delete"]("next");
-      window.history.replaceState(null, "", url.pathname);
-    }
-  }, []);
-  var AdminRedirect = function AdminRedirect() {
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-      // const adminUrl = process.env.BACKEND_URL.replace('/api', ''); use this for development
-      var adminUrl = "https://api.bolaca.cl";
-      window.location.href = "".concat(adminUrl, "/admin");
-    }, []);
-    return null;
-  };
+    setErrorMessage = _useState6[1];
   function sendData(_x) {
     return _sendData.apply(this, arguments);
   }
@@ -383,16 +465,14 @@ var LogIn = function LogIn() {
     }));
     return _sendData.apply(this, arguments);
   }
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container",
     style: {
       paddingTop: "200px",
       maxWidth: "400px"
     }
   }, store.auth === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(AdminRedirect, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Sign in"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Welcome back!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
-    onSubmit: function onSubmit(e) {
-      return sendData(e);
-    }
+    onSubmit: sendData
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -410,7 +490,6 @@ var LogIn = function LogIn() {
     },
     className: "form-control my-2",
     id: "exampleInputEmail1",
-    "aria-describedby": "emailHelp",
     placeholder: "Enter email"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-12 mb-4"
@@ -436,7 +515,21 @@ var LogIn = function LogIn() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     type: "submit",
     className: "buy-now-button"
-  }, "Submit"))))))));
+  }, "Submit")))))));
+};
+var AdminRedirect = function AdminRedirect() {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // Clean up the "next" query parameter if present
+    var url = new URL(window.location.href);
+    if (url.searchParams.has("next")) {
+      url.searchParams["delete"]("next");
+      window.history.replaceState(null, "", url.pathname);
+    }
+    // Then redirect to the admin page
+    var adminUrl = "https://api.bolaca.cl";
+    window.location.href = "".concat(adminUrl, "/admin");
+  }, []);
+  return null;
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LogIn);
 
