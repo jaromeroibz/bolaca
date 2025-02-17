@@ -8,6 +8,15 @@ const LogIn = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(''); // State for the error message
 
+    // Remove the "next" query parameter if present.
+    useEffect(() => {
+        const url = new URL(window.location.href);
+        if (url.searchParams.has("next")) {
+            url.searchParams.delete("next");
+            window.history.replaceState(null, "", url.pathname);
+        }
+    }, []);
+
     const AdminRedirect = () => {
         useEffect(() => {
             // const adminUrl = process.env.BACKEND_URL.replace('/api', ''); use this for development
