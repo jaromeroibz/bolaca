@@ -45,9 +45,8 @@ def redirect_to_main():
 @api.route("/admin_login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "GET":
-        
         return jsonify({"msg": "Please POST your credentials to login"}), 200
-    
+
     # For POST, process the login request as before
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 415
@@ -69,21 +68,16 @@ def admin_login():
     # Set the session flag to indicate admin is authenticated
     session["admin_authenticated"] = True
     access_token = create_access_token(identity=email)
-    # Determine where to redirect. Use the provided "next" parameter if set,
-    # otherwise fall back to the admin index (change url_for("admin.index") to a full URL if needed)
-    next_url = request.args.get("next")
-    if next_url:
-        redirect_url = next_url
-    else:
-        # You can build an absolute URL if needed. For example:
-        redirect_url = "https://api.bolaca.cl/admin"
+    
+    # Fixed redirect URL without considering any "next" parameter:
+    redirect_url = "https://api.bolaca.cl/admin"
 
-    # Return a JSON payload with the redirect URL and token:
     return jsonify({
         "message": "Logged in",
         "access_token": access_token,
         "redirect": redirect_url
     }), 200
+
 
 @api.route("/admin_signup", methods=["POST"])
 def admin_signup():
