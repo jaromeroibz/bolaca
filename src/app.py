@@ -71,9 +71,9 @@ frontend_url = os.getenv("FRONTEND_URL")
 
 # Default origins (uncomment bolaca.cl for production)
 allowed_origins = [
-    "https://bolaca.cl",
-    "https://www.bolaca.cl",
-    # "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev"
+    # "https://bolaca.cl",
+    # "https://www.bolaca.cl",
+    "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev"
 ]   
 
 # Apply CORS with the updated origins
@@ -103,9 +103,9 @@ def handle_preflight():
         # Get the Origin header from the request, uncomment first one for dev. Uncomment bolaca.cl for production
         origin = request.headers.get("Origin")
         allowed_origins = [
-            # "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev",
-            "https://www.bolaca.cl",
-            "https://bolaca.cl"
+            "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev",
+            # "https://www.bolaca.cl",
+            # "https://bolaca.cl"
         ]
 
         if origin in allowed_origins:
@@ -296,6 +296,21 @@ def create_preference():
         # Log Mercado Pago response
         logger.info(f"Mercado Pago Response: {json.dumps(preference_response, indent=2)}")
 
+        if total_amount < 500:  # ejemplo de monto mínimo
+            logger.error(f"Amount {total_amount} is below minimum requirement of 500 CLP")
+            return jsonify({"error": "Amount is below minimum requirement"}), 400
+            
+        # Agregar más detalles al log de error
+        if preference_response["status"] != 201:
+            logger.error(f"""
+                Payment Creation Failed:
+                Status: {preference_response.get('status')}
+                Error Message: {preference_response.get('response', {}).get('message')}
+                Error Cause: {preference_response.get('response', {}).get('cause')}
+                Transaction Amount: {total_amount}
+                Currency: CLP
+            """)
+            
         if preference_response["status"] == 201:
             logger.info("Preference created successfully")
             return jsonify(preference_response["response"]), 200

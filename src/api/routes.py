@@ -366,8 +366,6 @@ def delete_payment_type(payment_type_id):
       
     return jsonify(response_body), 200
 
-# Hasta aquí las rutas funcionan
-
 @api.route('/add_preference', methods=['POST'])
 def add_preference():
     

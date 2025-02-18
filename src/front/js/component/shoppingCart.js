@@ -6,6 +6,7 @@ import axios from "axios";
 const ShoppingCart = () => {
     const { store, actions } = useContext(AppContext );
     const [preferenceId, setPreferenceId] = useState(null);
+    const itemsPrice = store.cart.reduce((a, c) => a + c.qty * c.price, 0);
 
     initMercadoPago(process.env.REACT_APP_MERCADOPAGO_PUBLIC_KEY, {
         locale: "es-CL"
@@ -71,7 +72,6 @@ const ShoppingCart = () => {
         }
     };
 
-    const itemsPrice = store.cart.reduce((a, c) => a + c.qty * c.price, 0);
     const shippingCost = 3000;
     const shippingPrice = itemsPrice > 20000 ? 0 : shippingCost;
     const totalPrice = itemsPrice + shippingPrice;
