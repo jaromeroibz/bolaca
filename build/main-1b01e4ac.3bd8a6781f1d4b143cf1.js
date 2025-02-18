@@ -1035,7 +1035,7 @@ var ShoppingCart = function ShoppingCart() {
     _useState2 = _slicedToArray(_useState, 2),
     preferenceId = _useState2[0],
     setPreferenceId = _useState2[1];
-  (0,_mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__/* .initMercadoPago */ .Lz)("APP_USR-289495c4-8749-4191-a842-581631b1592f", {
+  (0,_mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__/* .initMercadoPago */ .Lz)("APP_USR-d706c38b-4f61-41c6-92e2-d3ae06f6f9c9", {
     locale: "es-CL"
   });
   var createPreference = /*#__PURE__*/function () {
@@ -1062,7 +1062,7 @@ var ShoppingCart = function ShoppingCart() {
               withCredentials: true,
               headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer ".concat("APP_USR-8831525623786089-021801-7f286b18eacbf6911c1f309f5fe116dc-2046229436")
+                "Authorization": "Bearer ".concat("APP_USR-3037645566784563-101819-363d0474dbc30739f59058bb0e2b0884-475805926")
               }
             });
           case 4:
