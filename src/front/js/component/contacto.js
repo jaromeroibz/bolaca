@@ -74,7 +74,7 @@ const ContactForm = () => {
         </div>
         <div style={{ marginBottom: "15px" }}>
           <ReCAPTCHA
-            sitekey="6Lfy-oMqAAAAAJAYryFFaHabqKE_SN6SPq8cEQSD" // Reemplaza con tu clave de sitio de Google reCAPTCHA
+            sitekey="6LfkgNoqAAAAAHDByLHwH2fKqIjlTZoCQuK4Pkna" // Reemplaza con tu clave de sitio de Google reCAPTCHA
             onChange={handleCaptchaChange}
           />
         </div>

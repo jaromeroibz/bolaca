@@ -197,7 +197,7 @@ var ContactForm = function ContactForm() {
       marginBottom: "15px"
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_google_recaptcha__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .A, {
-    sitekey: "6Lfy-oMqAAAAAJAYryFFaHabqKE_SN6SPq8cEQSD" // Reemplaza con tu clave de sitio de Google reCAPTCHA
+    sitekey: "6LfkgNoqAAAAAHDByLHwH2fKqIjlTZoCQuK4Pkna" // Reemplaza con tu clave de sitio de Google reCAPTCHA
     ,
     onChange: handleCaptchaChange
   })), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
