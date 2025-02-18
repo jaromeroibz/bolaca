@@ -526,7 +526,7 @@ var AdminRedirect = function AdminRedirect() {
       window.history.replaceState(null, "", url.pathname);
     }
     // Then redirect to the admin page
-    var adminUrl = "https://api.bolaca.cl";
+    var adminUrl = "https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev";
     window.location.href = "".concat(adminUrl, "/admin");
   }, []);
   return null;
@@ -1035,6 +1035,9 @@ var ShoppingCart = function ShoppingCart() {
     _useState2 = _slicedToArray(_useState, 2),
     preferenceId = _useState2[0],
     setPreferenceId = _useState2[1];
+  var itemsPrice = store.cart.reduce(function (a, c) {
+    return a + c.qty * c.price;
+  }, 0);
   (0,_mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__/* .initMercadoPago */ .Lz)("APP_USR-d706c38b-4f61-41c6-92e2-d3ae06f6f9c9", {
     locale: "es-CL"
   });
@@ -1056,7 +1059,7 @@ var ShoppingCart = function ShoppingCart() {
               };
             });
             _context.next = 4;
-            return axios__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .A.post("".concat("https://api.bolaca.cl", "/create_preference"), {
+            return axios__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .A.post("".concat("https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev", "/create_preference"), {
               items: items
             }, {
               withCredentials: true,
@@ -1134,9 +1137,6 @@ var ShoppingCart = function ShoppingCart() {
       return _ref2.apply(this, arguments);
     };
   }();
-  var itemsPrice = store.cart.reduce(function (a, c) {
-    return a + c.qty * c.price;
-  }, 0);
   var shippingCost = 3000;
   var shippingPrice = itemsPrice > 20000 ? 0 : shippingCost;
   var totalPrice = itemsPrice + shippingPrice;

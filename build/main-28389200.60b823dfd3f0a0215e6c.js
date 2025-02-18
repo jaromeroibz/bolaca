@@ -746,7 +746,7 @@ var getState = function getState(_ref) {
                 return _context.abrupt("return");
               case 4:
                 _context.next = 6;
-                return fetch("".concat("https://api.bolaca.cl", "/api/get_all_products"));
+                return fetch("".concat("https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev", "/api/get_all_products"));
               case 6:
                 response = _context.sent;
                 _context.next = 9;
@@ -784,7 +784,7 @@ var getState = function getState(_ref) {
                 _context2.prev = 0;
                 idToDisplay = result.id;
                 _context2.next = 4;
-                return fetch("https://api.bolaca.cl" + '/api/get_product/' + idToDisplay);
+                return fetch("https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev" + '/api/get_product/' + idToDisplay);
               case 4:
                 response = _context2.sent;
                 _context2.next = 7;
@@ -821,7 +821,7 @@ var getState = function getState(_ref) {
               case 0:
                 _context3.prev = 0;
                 _context3.next = 3;
-                return fetch("https://api.bolaca.cl" + '/api/get_product_by_category/' + theid);
+                return fetch("https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev" + '/api/get_product_by_category/' + theid);
               case 3:
                 response = _context3.sent;
                 _context3.next = 6;
@@ -859,7 +859,7 @@ var getState = function getState(_ref) {
                 _context4.prev = 0;
                 idToDisplay = result.id;
                 _context4.next = 4;
-                return fetch("https://api.bolaca.cl" + '/api/get_category/' + idToDisplay);
+                return fetch("https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev" + '/api/get_category/' + idToDisplay);
               case 4:
                 response = _context4.sent;
                 _context4.next = 7;
@@ -903,7 +903,7 @@ var getState = function getState(_ref) {
                 return _context5.abrupt("return");
               case 4:
                 _context5.next = 6;
-                return fetch("".concat("https://api.bolaca.cl", "/api/get_category"));
+                return fetch("".concat("https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev", "/api/get_category"));
               case 6:
                 response = _context5.sent;
                 if (response.ok) {
@@ -944,7 +944,7 @@ var getState = function getState(_ref) {
               case 0:
                 _context6.prev = 0;
                 _context6.next = 3;
-                return fetch("https://api.bolaca.cl" + '/api/get_all_brands');
+                return fetch("https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev" + '/api/get_all_brands');
               case 3:
                 response = _context6.sent;
                 _context6.next = 6;
@@ -982,7 +982,7 @@ var getState = function getState(_ref) {
                 _context7.prev = 0;
                 idToDisplay = result.id;
                 _context7.next = 4;
-                return fetch("https://api.bolaca.cl" + '/api/get_all_product_by_brand/' + idToDisplay);
+                return fetch("https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev" + '/api/get_all_product_by_brand/' + idToDisplay);
               case 4:
                 response = _context7.sent;
                 _context7.next = 7;
@@ -1051,7 +1051,7 @@ var getState = function getState(_ref) {
                   })
                 };
                 _context8.next = 4;
-                return fetch("https://api.bolaca.cl" + "/api/admin_login", requestOptions);
+                return fetch("https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev" + "/api/admin_login", requestOptions);
               case 4:
                 response = _context8.sent;
                 _context8.next = 7;
@@ -1109,7 +1109,7 @@ var getState = function getState(_ref) {
                   body: JSON.stringify(preferencia)
                 };
                 _context9.next = 3;
-                return fetch("https://api.bolaca.cl" + '/api/add_preference', requestOptions);
+                return fetch("https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev" + '/api/add_preference', requestOptions);
               case 3:
                 response = _context9.sent;
                 _context9.next = 6;
