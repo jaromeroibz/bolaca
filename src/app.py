@@ -4,14 +4,13 @@ from flask import Flask, jsonify, send_from_directory, request, make_response
 from flask_cors import CORS
 from flask_migrate import Migrate
 from api.utils import APIException, generate_sitemap
-from api.models import db
+from api.models import db, Products
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
 from datetime import datetime
-# Agregar estos imports al inicio del archivo
 import logging
 from logging.handlers import RotatingFileHandler
 import traceback
@@ -71,9 +70,9 @@ frontend_url = os.getenv("FRONTEND_URL")
 
 # Default origins (uncomment bolaca.cl for production)
 allowed_origins = [
-    # "https://bolaca.cl",
-    # "https://www.bolaca.cl",
-    "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev"
+    "https://bolaca.cl",
+    "https://www.bolaca.cl",
+    # "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev"
 ]   
 
 # Apply CORS with the updated origins
@@ -103,9 +102,9 @@ def handle_preflight():
         # Get the Origin header from the request, uncomment first one for dev. Uncomment bolaca.cl for production
         origin = request.headers.get("Origin")
         allowed_origins = [
-            "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev",
-            # "https://www.bolaca.cl",
-            # "https://bolaca.cl"
+            # "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev",
+            "https://www.bolaca.cl",
+            "https://bolaca.cl"
         ]
 
         if origin in allowed_origins:
@@ -195,59 +194,43 @@ def serve_static_files(path):
 # Mercado Pago SDK Initialization
 sdk = mercadopago.SDK(os.getenv("MERCADOPAGO_ACCESS_TOKEN"))
 
+def update_product_stock(product_id, quantity):
+    """
+    Función auxiliar para actualizar el stock de un producto
+    """
+    try:
+        product = Products.query.get(product_id)
+        if not product:
+            logger.error(f"Product {product_id} not found")
+            return False
+            
+        if product.stock < quantity:
+            logger.error(f"Insufficient stock for product {product_id}")
+            return False
+            
+        product.stock -= quantity
+        db.session.commit()
+        logger.info(f"Stock updated for product {product_id}: new stock {product.stock}")
+        return True
+        
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Error updating stock: {str(e)}")
+        return False
 
-# @app.route('/create_preference', methods=['POST'])
-# def create_preference():
-#     data = request.json
-    
-#     # Check if 'items' exist in the request
-#     if "items" not in data:
-#         return jsonify({"error": "Items not found in request body"}), 400
-
-#     # Prepare the list of items in the format required by Mercado Pago
-#     items = data["items"]
-#     total_amount = sum(item["quantity"] * float(item["unit_price"]) for item in items)
-
-#     preference_data = {
-#         "items": [
-#             {
-#                 "id": str(item.get("id", "")),
-#                 "title": item["title"],
-#                 "quantity": int(item["quantity"]),
-#                 "unit_price": float(item["unit_price"]),
-#                 "currency_id": "CLP",
-#                 "description": item.get("description", ""),
-#                 "picture_url": item["product_image"],  # Image URL (if available)
-#                 "category_id": "products"
-#             }
-#             for item in items
-#         ],
-#         "back_urls": {
-#         "success": "https://bolaca.cl/success",
-#         "failure": "https://bolaca.cl/failure",
-#         "pending": "https://bolaca.cl/pending"
-#         },
-#         "auto_return": "approved",
-#         "statement_descriptor": "Bolaca",
-#         "external_reference": "Order-" + str(datetime.now().timestamp()),
-#         "notification_url": "https://api.bolaca.cl/webhook"
-#     }
-
-#     # Create the preference with Mercado Pago
-#     preference_response = sdk.preference().create(preference_data)
-#     print("Mercado Pago Response:", preference_response)
-
-
-#     if preference_response["status"] == 201:
-#         return jsonify(preference_response["response"]), 200
-#     else:
-#         return jsonify({"error": "Error creating preference"}), 500
 
 @app.route('/create_preference', methods=['POST'])
 def create_preference():
     try:
         data = request.json
         
+                # Verificar stock disponible antes de crear la preferencia
+        for item in data["items"]:
+            product = Products.query.get(item["id"])
+            if not product or product.stock < item["quantity"]:
+                logger.error(f"Insufficient stock for product {item['id']}")
+                return jsonify({"error": "Insufficient stock"}), 400
+            
         # Log de la solicitud recibida
         logger.info(f"Received payment request: {json.dumps(data, indent=2)}")
         
@@ -326,16 +309,51 @@ def create_preference():
         logger.error(f"Exception in create_preference: {json.dumps(error_details, indent=2)}")
         return jsonify({"error": "Internal server error"}), 500
 
+# @app.route('/webhook', methods=['POST'])
+# def webhook():
+#     try:
+#         payload = request.json
+#         logger.info(f"Received webhook notification: {json.dumps(payload, indent=2)}")
+
+#         # Verificar el tipo de notificación
+#         if payload.get('type') == 'payment':
+#             payment_info = sdk.payment().get(payload['data']['id'])
+#             logger.info(f"Payment information: {json.dumps(payment_info, indent=2)}")
+
+#         return jsonify({'status': 'ok'}), 200
+
+#     except Exception as e:
+#         error_details = {
+#             "error": str(e),
+#             "traceback": traceback.format_exc()
+#         }
+#         logger.error(f"Exception in webhook: {json.dumps(error_details, indent=2)}")
+#         return jsonify({"error": "Internal server error"}), 500
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
     try:
         payload = request.json
         logger.info(f"Received webhook notification: {json.dumps(payload, indent=2)}")
 
-        # Verificar el tipo de notificación
         if payload.get('type') == 'payment':
             payment_info = sdk.payment().get(payload['data']['id'])
             logger.info(f"Payment information: {json.dumps(payment_info, indent=2)}")
+
+            if payment_info["response"]["status"] == "approved":
+                items = payment_info["response"]["additional_info"]["items"]
+                
+                stock_updates_successful = True
+                for item in items:
+                    if not update_product_stock(item["id"], item["quantity"]):
+                        stock_updates_successful = False
+                        break
+                
+                if stock_updates_successful:
+                    logger.info("All stock updates completed successfully")
+                else:
+                    logger.error("Some stock updates failed")
+                    # Aquí podrías implementar una lógica de reversión si es necesario
 
         return jsonify({'status': 'ok'}), 200
 
@@ -346,7 +364,8 @@ def webhook():
         }
         logger.error(f"Exception in webhook: {json.dumps(error_details, indent=2)}")
         return jsonify({"error": "Internal server error"}), 500
-    
+
+
 # Main entry point
 if __name__ == '__main__':
     PORT = int(os.getenv("PORT", 3001))

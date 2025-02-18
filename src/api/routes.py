@@ -27,21 +27,6 @@ def handle_hello():
 def redirect_to_main():
     return redirect('https://www.bolaca.cl')
 
-# @api.route("/admin_login", methods=["POST"])
-# def admin_login():
-#     email = request.json.get("email", None)
-#     password = request.json.get("password", None)
-#     user = User.query.filter_by(email=email).first()
-   
-#     if user is None:
-#         return jsonify({"msg": "User is not registered"}), 401
-    
-#     if password != user.password :
-#         return jsonify({"msg": "Wrong password"}), 401
-
-#     access_token = create_access_token(identity=email)
-#     return jsonify(access_token=access_token)
-
 @api.route("/admin_login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "GET":
@@ -209,15 +194,6 @@ def delete_product(product_id):
     }
       
     return jsonify(response_body), 200
-
-# @api.route('/get_category', methods=['GET', 'OPTIONS'])
-# def get_all_categories():
-#     if request.method == "OPTIONS":
-#         return make_response()
-        
-#     all_categories = ProductCategory.query.all()
-#     result = list(map(lambda item: item.serialize(), all_categories))
-#     return jsonify(result)
 
 @api.route('/get_category', methods=['GET'])
 def get_all_categories():

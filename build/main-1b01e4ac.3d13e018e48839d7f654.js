@@ -526,7 +526,7 @@ var AdminRedirect = function AdminRedirect() {
       window.history.replaceState(null, "", url.pathname);
     }
     // Then redirect to the admin page
-    var adminUrl = "https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev";
+    var adminUrl = "https://api.bolaca.cl";
     window.location.href = "".concat(adminUrl, "/admin");
   }, []);
   return null;
@@ -1059,7 +1059,7 @@ var ShoppingCart = function ShoppingCart() {
               };
             });
             _context.next = 4;
-            return axios__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .A.post("".concat("https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev", "/create_preference"), {
+            return axios__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .A.post("".concat("https://api.bolaca.cl", "/create_preference"), {
               items: items
             }, {
               withCredentials: true,
