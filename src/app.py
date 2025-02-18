@@ -11,6 +11,44 @@ from api.commands import setup_commands
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
 from datetime import datetime
+# Agregar estos imports al inicio del archivo
+import logging
+from logging.handlers import RotatingFileHandler
+import traceback
+import json
+
+# Agregar después de los imports iniciales
+# Configuración del sistema de logging
+def setup_logging():
+    # Crear el directorio de logs si no existe
+    log_dir = 'logs'
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+
+    # Configurar el logger principal
+    logger = logging.getLogger('mercadopago_app')
+    logger.setLevel(logging.DEBUG)
+
+    # Crear un manejador para archivo que rota
+    file_handler = RotatingFileHandler(
+        os.path.join(log_dir, 'mercadopago.log'),
+        maxBytes=1024 * 1024,  # 1MB
+        backupCount=10
+    )
+    
+    # Formato del log
+    formatter = logging.Formatter(
+        '%(asctime)s - %(levelname)s - %(message)s'
+    )
+    file_handler.setFormatter(formatter)
+    
+    # Agregar el manejador al logger
+    logger.addHandler(file_handler)
+    
+    return logger
+
+# Inicializar el logger
+logger = setup_logging()
 
 
 # Load environment variables first
@@ -158,53 +196,142 @@ def serve_static_files(path):
 sdk = mercadopago.SDK(os.getenv("MERCADOPAGO_ACCESS_TOKEN"))
 
 
+# @app.route('/create_preference', methods=['POST'])
+# def create_preference():
+#     data = request.json
+    
+#     # Check if 'items' exist in the request
+#     if "items" not in data:
+#         return jsonify({"error": "Items not found in request body"}), 400
+
+#     # Prepare the list of items in the format required by Mercado Pago
+#     items = data["items"]
+#     total_amount = sum(item["quantity"] * float(item["unit_price"]) for item in items)
+
+#     preference_data = {
+#         "items": [
+#             {
+#                 "id": str(item.get("id", "")),
+#                 "title": item["title"],
+#                 "quantity": int(item["quantity"]),
+#                 "unit_price": float(item["unit_price"]),
+#                 "currency_id": "CLP",
+#                 "description": item.get("description", ""),
+#                 "picture_url": item["product_image"],  # Image URL (if available)
+#                 "category_id": "products"
+#             }
+#             for item in items
+#         ],
+#         "back_urls": {
+#         "success": "https://bolaca.cl/success",
+#         "failure": "https://bolaca.cl/failure",
+#         "pending": "https://bolaca.cl/pending"
+#         },
+#         "auto_return": "approved",
+#         "statement_descriptor": "Bolaca",
+#         "external_reference": "Order-" + str(datetime.now().timestamp()),
+#         "notification_url": "https://api.bolaca.cl/webhook"
+#     }
+
+#     # Create the preference with Mercado Pago
+#     preference_response = sdk.preference().create(preference_data)
+#     print("Mercado Pago Response:", preference_response)
+
+
+#     if preference_response["status"] == 201:
+#         return jsonify(preference_response["response"]), 200
+#     else:
+#         return jsonify({"error": "Error creating preference"}), 500
+
 @app.route('/create_preference', methods=['POST'])
 def create_preference():
-    data = request.json
+    try:
+        data = request.json
+        
+        # Log de la solicitud recibida
+        logger.info(f"Received payment request: {json.dumps(data, indent=2)}")
+        
+        # Check if 'items' exist in the request
+        if "items" not in data:
+            logger.error("Items not found in request body")
+            return jsonify({"error": "Items not found in request body"}), 400
+
+        # Prepare the list of items
+        items = data["items"]
+        total_amount = sum(item["quantity"] * float(item["unit_price"]) for item in items)
+        
+        logger.info(f"Processing payment for total amount: {total_amount}")
+
+        preference_data = {
+            "items": [
+                {
+                    "id": str(item.get("id", "")),
+                    "title": item["title"],
+                    "quantity": int(item["quantity"]),
+                    "unit_price": float(item["unit_price"]),
+                    "currency_id": "CLP",
+                    "description": item.get("description", ""),
+                    "picture_url": item["product_image"],
+                    "category_id": "products"
+                }
+                for item in items
+            ],
+            "back_urls": {
+                "success": "https://bolaca.cl/success",
+                "failure": "https://bolaca.cl/failure",
+                "pending": "https://bolaca.cl/pending"
+            },
+            "auto_return": "approved",
+            "statement_descriptor": "Bolaca",
+            "external_reference": "Order-" + str(datetime.now().timestamp()),
+            "notification_url": "https://api.bolaca.cl/webhook"
+        }
+
+        # Log preference data before sending to Mercado Pago
+        logger.info(f"Sending preference to Mercado Pago: {json.dumps(preference_data, indent=2)}")
+
+        # Create the preference with Mercado Pago
+        preference_response = sdk.preference().create(preference_data)
+        
+        # Log Mercado Pago response
+        logger.info(f"Mercado Pago Response: {json.dumps(preference_response, indent=2)}")
+
+        if preference_response["status"] == 201:
+            logger.info("Preference created successfully")
+            return jsonify(preference_response["response"]), 200
+        else:
+            logger.error(f"Error creating preference: {preference_response}")
+            return jsonify({"error": "Error creating preference"}), 500
+
+    except Exception as e:
+        error_details = {
+            "error": str(e),
+            "traceback": traceback.format_exc()
+        }
+        logger.error(f"Exception in create_preference: {json.dumps(error_details, indent=2)}")
+        return jsonify({"error": "Internal server error"}), 500
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    try:
+        payload = request.json
+        logger.info(f"Received webhook notification: {json.dumps(payload, indent=2)}")
+
+        # Verificar el tipo de notificación
+        if payload.get('type') == 'payment':
+            payment_info = sdk.payment().get(payload['data']['id'])
+            logger.info(f"Payment information: {json.dumps(payment_info, indent=2)}")
+
+        return jsonify({'status': 'ok'}), 200
+
+    except Exception as e:
+        error_details = {
+            "error": str(e),
+            "traceback": traceback.format_exc()
+        }
+        logger.error(f"Exception in webhook: {json.dumps(error_details, indent=2)}")
+        return jsonify({"error": "Internal server error"}), 500
     
-    # Check if 'items' exist in the request
-    if "items" not in data:
-        return jsonify({"error": "Items not found in request body"}), 400
-
-    # Prepare the list of items in the format required by Mercado Pago
-    items = data["items"]
-    total_amount = sum(item["quantity"] * float(item["unit_price"]) for item in items)
-
-    preference_data = {
-        "items": [
-            {
-                "id": str(item.get("id", "")),
-                "title": item["title"],
-                "quantity": int(item["quantity"]),
-                "unit_price": float(item["unit_price"]),
-                "currency_id": "CLP",
-                "description": item.get("description", ""),
-                "picture_url": item["product_image"],  # Image URL (if available)
-                "category_id": "products"
-            }
-            for item in items
-        ],
-        "back_urls": {
-        "success": "https://bolaca.cl/success",
-        "failure": "https://bolaca.cl/failure",
-        "pending": "https://bolaca.cl/pending"
-        },
-        "auto_return": "approved",
-        "statement_descriptor": "Bolaca",
-        "external_reference": "Order-" + str(datetime.now().timestamp()),
-        "notification_url": "https://api.bolaca.cl/webhook"
-    }
-
-    # Create the preference with Mercado Pago
-    preference_response = sdk.preference().create(preference_data)
-    print("Mercado Pago Response:", preference_response)
-
-
-    if preference_response["status"] == 201:
-        return jsonify(preference_response["response"]), 200
-    else:
-        return jsonify({"error": "Error creating preference"}), 500
-
 # Main entry point
 if __name__ == '__main__':
     PORT = int(os.getenv("PORT", 3001))
