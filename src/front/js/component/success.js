@@ -1,6 +1,20 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
+// En tu página de success
+useEffect(() => {
+    // Verificar que el pago fue exitoso
+    const status = new URLSearchParams(window.location.search).get('status');
+    
+    if (status === 'approved') {
+
+        localStorage.removeItem('cart'); 
+                
+        alert('¡Compra realizada con éxito!');
+    }
+}, []);
+
+
 const Success = () => {
 
     return(

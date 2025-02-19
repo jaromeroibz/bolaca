@@ -309,26 +309,6 @@ def create_preference():
         logger.error(f"Exception in create_preference: {json.dumps(error_details, indent=2)}")
         return jsonify({"error": "Internal server error"}), 500
 
-# @app.route('/webhook', methods=['POST'])
-# def webhook():
-#     try:
-#         payload = request.json
-#         logger.info(f"Received webhook notification: {json.dumps(payload, indent=2)}")
-
-#         # Verificar el tipo de notificación
-#         if payload.get('type') == 'payment':
-#             payment_info = sdk.payment().get(payload['data']['id'])
-#             logger.info(f"Payment information: {json.dumps(payment_info, indent=2)}")
-
-#         return jsonify({'status': 'ok'}), 200
-
-#     except Exception as e:
-#         error_details = {
-#             "error": str(e),
-#             "traceback": traceback.format_exc()
-#         }
-#         logger.error(f"Exception in webhook: {json.dumps(error_details, indent=2)}")
-#         return jsonify({"error": "Internal server error"}), 500
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
