@@ -1159,28 +1159,33 @@ var ShoppingCart = function ShoppingCart() {
         height: 100
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "d-flex"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "px-xs-2 px-sm-3 px-md-4 px-lg-5"
+      className: "d-flex align-items-center"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-      className: "card-img-top",
+      className: "card-img-top ms-4 me-4",
       src: item.image,
       alt: "Card image cap",
       style: {
-        width: 60,
-        height: 60
+        width: 90,
+        height: 90
       }
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
-      className: "px-xs-2 px-sm-3 px-md-4 px-lg-5"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+      className: "product-name mb-0 me-4",
+      style: {
+        width: '450px'
+      }
     }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "qty px-xs-2 px-sm-3 px-md-4 px-lg-5"
-    }, item ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+      className: "d-flex align-items-center"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "qty me-3"
+    }, item ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "d-flex align-items-center"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
       className: "qty-btn border-0 shadow-none",
       onClick: function onClick() {
         return actions.removeFromCart(item);
       }
     }, "-"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: "p-1"
+      className: "px-2"
     }, item.qty), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
       className: "qty-btn border-0 shadow-none",
       onClick: function onClick() {
@@ -1193,8 +1198,8 @@ var ShoppingCart = function ShoppingCart() {
         return actions.addToCart(item);
       }
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "total-price px-xs-2 px-sm-3 px-md-4 px-lg-5"
-    }, "$", item.price * item.qty)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
+      className: "total-price"
+    }, "$", item.price * item.qty))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
       className: "custom-hr"
     })));
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -1232,6 +1237,15 @@ var ShoppingCart = function ShoppingCart() {
 
 
 var Success = function Success() {
+  // En tu página de success
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // Verificar que el pago fue exitoso
+    var status = new URLSearchParams(window.location.search).get('status');
+    if (status === 'approved') {
+      localStorage.removeItem('cart');
+      alert('¡Compra realizada con éxito!');
+    }
+  }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container",
     style: {

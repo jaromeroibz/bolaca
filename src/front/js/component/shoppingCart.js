@@ -89,23 +89,38 @@ const ShoppingCart = () => {
                                 {store.cart.map((item, id) => (
                                     <div className="py-3" key={id}>
                                         <div className="cart-product" style={{ width: 800, height: 100 }}>
-                                            <div className="d-flex">
-                                                <div className="px-xs-2 px-sm-3 px-md-4 px-lg-5">
-                                                    <img className="card-img-top" src={item.image} alt="Card image cap" style={{ width: 60, height: 60 }} />
+                                            <div className="d-flex align-items-center">
+                                                <img
+                                                    className="card-img-top ms-4 me-4"
+                                                    src={item.image}
+                                                    alt="Card image cap"
+                                                    style={{ width: 90, height: 90 }}
+                                                />
+                                                <h6 className="product-name mb-0 me-4" style={{ width: '450px' }}>{item.name}</h6>
+                                                <div className="d-flex align-items-center">
+                                                    <div className="qty me-3">
+                                                        {item ? (
+                                                            <div className="d-flex align-items-center">
+                                                                <button
+                                                                    className="qty-btn border-0 shadow-none"
+                                                                    onClick={() => actions.removeFromCart(item)}
+                                                                >
+                                                                    -
+                                                                </button>
+                                                                <span className="px-2">{item.qty}</span>
+                                                                <button
+                                                                    className="qty-btn border-0 shadow-none"
+                                                                    onClick={() => actions.addToCart(item)}
+                                                                >
+                                                                    <i className="fa-regular fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        ) : (
+                                                            <button onClick={() => actions.addToCart(item)}></button>
+                                                        )}
+                                                    </div>
+                                                    <div className="total-price">${item.price * item.qty}</div>
                                                 </div>
-                                                <h6 className="px-xs-2 px-sm-3 px-md-4 px-lg-5">{item.name}</h6>
-                                                <div className="qty px-xs-2 px-sm-3 px-md-4 px-lg-5">
-                                                    {item ? (
-                                                        <div>
-                                                            <button className="qty-btn border-0 shadow-none" onClick={() => actions.removeFromCart(item)}>-</button>
-                                                            <span className="p-1">{item.qty}</span>
-                                                            <button className="qty-btn border-0 shadow-none" onClick={() => actions.addToCart(item)}><i className="fa-regular fa-plus"></i></button>
-                                                        </div>
-                                                    ) : (
-                                                        <button onClick={() => actions.addToCart(item)}></button>
-                                                    )}
-                                                </div>
-                                                <div className="total-price px-xs-2 px-sm-3 px-md-4 px-lg-5">${item.price * item.qty}</div>
                                             </div>
                                             <hr className="custom-hr" />
                                         </div>

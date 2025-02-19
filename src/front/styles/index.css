@@ -109,19 +109,23 @@ li::marker{font-size:0;}
     font-size: 0.8rem;
     border-radius: 6px;
 }
-.add-cart-button{
-    align-items: center;
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    background: black;
-    color: white;
-    font-family: "Poppins", sans-serif;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 0.8rem;
-    border-radius: 6px;
+.add-cart-button {
+  align-items: center;
+  display: flex;
+  height: 48px;  /* Specific height instead of 100% */
+  justify-content: center;
+  background: black;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  padding: 12px 20px;  /* Added padding for better proportions */
+  border: none;  /* Optional: removes default button border */
+  width: 100%;  /* Makes sure button takes full width of container */
 }
+
 .buy-now-button{
     align-items: center;
     padding: 10px 90px 10px 89px;
@@ -186,6 +190,25 @@ li::marker{font-size:0;}
 .cart{
     padding-top: 200px;
 }
+.product-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cart-product {
+  padding: 0 10px;
+}
+
+.qty {
+  min-width: 70px;
+}
+
+.total-price {
+  min-width: 60px;
+  text-align: right;
+}
+
 .card-img-top{
     align-items: center;
 }

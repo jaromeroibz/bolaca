@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 
-// En tu página de success
+const Success = () => {
+    
+    // En tu página de success
 useEffect(() => {
     // Verificar que el pago fue exitoso
     const status = new URLSearchParams(window.location.search).get('status');
@@ -13,9 +15,6 @@ useEffect(() => {
         alert('¡Compra realizada con éxito!');
     }
 }, []);
-
-
-const Success = () => {
 
     return(
 
