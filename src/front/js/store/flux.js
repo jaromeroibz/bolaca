@@ -257,7 +257,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			filterProducts: (query) => {
                 const store = getStore();
                 const lowerCaseQuery = query.toLowerCase();
-
+				console.log(lowerCaseQuery)
                 const filtered = store.products.filter(product => {
                     return (
                         product.name.toLowerCase().includes(lowerCaseQuery) ||
@@ -265,6 +265,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                         product.category_name.toLowerCase().includes(lowerCaseQuery)
                     );
                 });
+				console.log(filtered)
 
                 setStore({ filteredProducts: filtered });
             },
