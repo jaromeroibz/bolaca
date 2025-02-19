@@ -1159,12 +1159,23 @@ var getState = function getState(_ref) {
       filterProducts: function filterProducts(query) {
         var store = getStore();
         var lowerCaseQuery = query.toLowerCase();
+        console.log("Current store:", store); // Check initial state
+        console.log("Search query:", lowerCaseQuery);
+
+        // First, make sure products exist in your store
+        if (!store.products) {
+          console.error("No products found in store");
+          return;
+        }
         var filtered = store.products.filter(function (product) {
+          console.log("Checking product:", product);
           return product.name.toLowerCase().includes(lowerCaseQuery) || product.description.toLowerCase().includes(lowerCaseQuery) || product.category_name.toLowerCase().includes(lowerCaseQuery);
         });
-        setStore({
+        console.log("Filtered results:", filtered);
+        setStore(_objectSpread(_objectSpread({}, store), {}, {
           filteredProducts: filtered
-        });
+        }));
+        console.log("Updated store:", getStore());
       },
       emptyCart: function emptyCart() {
         setStore({

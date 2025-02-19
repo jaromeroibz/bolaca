@@ -257,17 +257,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 			filterProducts: (query) => {
                 const store = getStore();
                 const lowerCaseQuery = query.toLowerCase();
-				console.log(lowerCaseQuery)
+
+				console.log("Current store:", store); // Check initial state
+    			console.log("Search query:", lowerCaseQuery);
+
+				// First, make sure products exist in your store
+				if (!store.products) {
+					console.error("No products found in store");
+					return;
+				}
                 const filtered = store.products.filter(product => {
+					console.log("Checking product:", product);
                     return (
                         product.name.toLowerCase().includes(lowerCaseQuery) ||
                         product.description.toLowerCase().includes(lowerCaseQuery) ||
                         product.category_name.toLowerCase().includes(lowerCaseQuery)
                     );
                 });
-				console.log(filtered)
+				console.log("Filtered results:", filtered);
 
-                setStore({ filteredProducts: filtered });
+                setStore({ ...store, filteredProducts: filtered });
+
+				console.log("Updated store:", getStore());
             },
 			emptyCart: () => {
 				setStore({cart:{}})
