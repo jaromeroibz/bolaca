@@ -254,32 +254,74 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(data.id) 
 
 			},
+			// filterProducts: (query) => {
+            //     const store = getStore();
+            //     const lowerCaseQuery = query.toLowerCase();
+
+			// 	console.log("Current store:", store); // Check initial state
+    		// 	console.log("Search query:", lowerCaseQuery);
+
+			// 	// First, make sure products exist in your store
+			// 	if (!store.products) {
+			// 		console.error("No products found in store");
+			// 		return;
+			// 	}
+            //     const filtered = store.products.filter(product => {
+			// 		console.log("Checking product:", product);
+            //         return (
+            //             product.name.toLowerCase().includes(lowerCaseQuery) ||
+            //             product.description.toLowerCase().includes(lowerCaseQuery) ||
+            //             product.category_name.toLowerCase().includes(lowerCaseQuery)
+            //         );
+            //     });
+			// 	console.log("Filtered results:", filtered);
+
+            //     setStore({ ...store, filteredProducts: filtered });
+
+			// 	console.log("Updated store:", getStore());
+            // },
 			filterProducts: (query) => {
-                const store = getStore();
-                const lowerCaseQuery = query.toLowerCase();
+				const store = getStore();
+				const lowerCaseQuery = query.toLowerCase();
 
-				console.log("Current store:", store); // Check initial state
-    			console.log("Search query:", lowerCaseQuery);
-
-				// First, make sure products exist in your store
-				if (!store.products) {
-					console.error("No products found in store");
+				// If products aren't loaded yet, load them first
+				if (!store.products || store.products.length === 0) {
+					actions.getProducts(); // Make sure you have this action
 					return;
 				}
-                const filtered = store.products.filter(product => {
-					console.log("Checking product:", product);
-                    return (
-                        product.name.toLowerCase().includes(lowerCaseQuery) ||
-                        product.description.toLowerCase().includes(lowerCaseQuery) ||
-                        product.category_name.toLowerCase().includes(lowerCaseQuery)
-                    );
-                });
+				
+				// Debug logs
+				console.log("Current store products:", store.products);
+				console.log("Query:", lowerCaseQuery);
+				
+				// Check if products exist and have data
+				if (!store.products || store.products.length === 0) {
+					console.error("No products in store");
+					return;
+				}
+			
+				// Log a sample product to check its structure
+				console.log("Sample product structure:", store.products[0]);
+			
+				const filtered = store.products.filter(product => {
+					// Debug each product comparison
+					console.log("Checking product:", {
+						name: product.name?.toLowerCase(),
+						description: product.description?.toLowerCase(),
+						category: product.category_name?.toLowerCase()
+					});
+					
+					// Add null checks for each property
+					const nameMatch = product.name && product.name.toLowerCase().includes(lowerCaseQuery);
+					const descMatch = product.description && product.description.toLowerCase().includes(lowerCaseQuery);
+					const catMatch = product.category_name && product.category_name.toLowerCase().includes(lowerCaseQuery);
+					
+					return nameMatch || descMatch || catMatch;
+				});
+			
 				console.log("Filtered results:", filtered);
-
-                setStore({ ...store, filteredProducts: filtered });
-
-				console.log("Updated store:", getStore());
-            },
+				setStore({ ...store, filteredProducts: filtered });
+			},			
 			emptyCart: () => {
 				setStore({cart:{}})
 			}
