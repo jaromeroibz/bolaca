@@ -93,7 +93,7 @@ const Productos = () => {
                                         <h1>No hay productos que coincidan con el filtro seleccionado.</h1>
                                     ) : (
                                         filteredProducts.map((item) =>
-                                            <div className="card" style={{ width: 284, height: 477 }} key={item.id}>
+                                            <div className="card" key={item.id}>
                                                 <img className="card-img-top" loading="lazy" src={item.image} alt="Card image cap"></img>
                                                 <div className="card-body">
                                                     <h5 className="card-title">{item.name}</h5>
@@ -110,6 +110,7 @@ const Productos = () => {
                                                     </div>
                                                 </div>
                                             </div>
+
                                         )
                                     )
                                 )}
