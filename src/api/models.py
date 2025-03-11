@@ -101,6 +101,7 @@ class Products(db.Model):
     max_age = db.Column(db.Integer, unique=False, nullable=True)
     price = db.Column(db.String(10), unique=False, nullable=False)
     stock = db.Column(db.Integer, unique=False, nullable=False)
+    isAvailable = db.Column(db.Boolean(), unique=False, nullable=False)
     isDestacado = db.Column(db.Boolean(), unique=False, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('product_category.id', ondelete="CASCADE"))
     product_category = db.relationship(ProductCategory, back_populates="products")
@@ -120,6 +121,7 @@ class Products(db.Model):
             "price": self.price,
             "stock": self.stock,
             "isDestacado": self.isDestacado,
+            "isAvailable": self.isAvailable,
             "category_id": self.category_id,
             "category_name": self.product_category.category_name,
             "min_age": self.min_age,

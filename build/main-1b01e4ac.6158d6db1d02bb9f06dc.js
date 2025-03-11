@@ -823,14 +823,14 @@ var Productos = function Productos() {
     range: [7, 10]
   }];
   var priceRanges = [{
-    label: "$0 - $50",
-    range: [0, 50]
+    label: "$10000 - $15000",
+    range: [10000, 15000]
   }, {
-    label: "$51 - $100",
-    range: [51, 100]
+    label: "$15001 - $25000",
+    range: [15001, 25000]
   }, {
-    label: "$101 - $200",
-    range: [101, 200]
+    label: "$25001 - $30000",
+    range: [25001, 30000]
   }];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container"
@@ -1211,7 +1211,11 @@ var ShoppingCart = function ShoppingCart() {
     className: "mx-auto"
   }, "Resumen compra"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "d-flex justify-content-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Productos: (", store.cart.length, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, itemsPrice)), !preferenceId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Productos: (", store.cart.length, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, itemsPrice)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-flex justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Costo de env\xEDo:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, shippingPrice)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-flex justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Total:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, totalPrice)), !preferenceId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     onClick: handleBuy,
     className: "add-cart-button"
   }, "Ir a pagar") : renderCheckoutButton(preferenceId)))))));
