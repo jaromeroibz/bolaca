@@ -92,26 +92,26 @@ const Productos = () => {
                                     filteredProducts.length === 0 ? (
                                         <h1>No hay productos que coincidan con el filtro seleccionado.</h1>
                                     ) : (
-                                        filteredProducts.map((item) =>
+// Change this in your Productos component
+                                        filteredProducts.map((item) => (
                                             <div className="card" key={item.id}>
-                                                <img className="card-img-top" loading="lazy" src={item.image} alt="Card image cap"></img>
-                                                <div className="card-body">
-                                                    <h5 className="card-title">{item.name}</h5>
-                                                    <p className="card-text">${item.price}</p>
-                                                    <div className="d-flex">
-                                                        <div>
-                                                            <Link to={`/detalleproductos/${item.id}`} style={{ textDecoration: 'none' }}>
-                                                                <button className="see-more-button d-inline">Ver Más</button>
-                                                            </Link>
-                                                        </div>
-                                                        <div className="px-3">
-                                                            <button onClick={() => actions.addToCart(item)} className="add-cart-button">Agregar al carrito</button>
-                                                        </div>
-                                                    </div>
+                                            <img className="card-img-top" loading="lazy" src={item.image} alt={item.name}></img>
+                                            <div className="card-body">
+                                                <h5 className="card-title">{item.name}</h5>
+                                                <p className="card-text">${item.price}</p>
+                                                <div className="d-flex">
+                                                <div>
+                                                    <Link to={`/detalleproductos/${item.id}`} style={{ textDecoration: 'none' }}>
+                                                    <button className="see-more-button d-inline">Ver Más</button>
+                                                    </Link>
+                                                </div>
+                                                <div className="px-3">
+                                                    <button onClick={() => actions.addToCart(item)} className="add-cart-button">Agregar al carrito</button>
+                                                </div>
                                                 </div>
                                             </div>
-
-                                        )
+                                            </div>
+                                        ))  
                                     )
                                 )}
                             </div>
