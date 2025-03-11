@@ -259,14 +259,14 @@ def create_preference():
                 }
                 for item in items
             ],
-           "shipments": {
-                "mode": "me2",
-                "dimensions": "30x30x30,500",  # Dimensiones en cm y gramos
-                "default_shipping_method": None,  
-                "free_methods": [],
-                "receiver_address": {}
-            },
-            "payer": {},
+        #    "shipments": {
+        #         "mode": "me2",
+        #         "dimensions": "30x30x30,500",  # Dimensiones en cm y gramos
+        #         "default_shipping_method": None,  
+        #         "free_methods": [],
+        #         "receiver_address": {}
+        #     },
+        #     "payer": {},
             "back_urls": {
                 "success": "https://bolaca.cl/success",
                 "failure": "https://bolaca.cl/failure",
