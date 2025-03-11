@@ -135,14 +135,6 @@ const ShoppingCart = () => {
                                         <p>Productos: ({store.cart.length})</p>
                                         <p>{itemsPrice}</p>
                                     </div>
-                                    <div className="d-flex justify-content-between">
-                                        <p>Costo de envío:</p>
-                                        <p>{shippingPrice}</p>
-                                    </div>
-                                    <div className="d-flex justify-content-between">
-                                        <p>Total:</p>
-                                        <p>{totalPrice}</p>
-                                    </div>
                                     {!preferenceId ? (
                                         <button onClick={handleBuy} className="add-cart-button">
                                             Ir a pagar

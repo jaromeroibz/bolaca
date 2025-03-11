@@ -92,6 +92,68 @@ li::marker{font-size:0;}
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     gap: 2rem;
 }
+
+/* Update these CSS rules */
+
+/* Card container - make sure all cards have exactly the same dimensions */
+.card {
+  height: 477px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  overflow: hidden; /* This prevents content from spilling out */
+}
+
+/* Image container - fixed height with object-fit */
+.card-img-top {
+  width: 100%;
+  height: 250px; /* Fixed height for all images */
+  object-fit: contain; /* This maintains aspect ratio */
+  object-position: center; /* Centers the image */
+  padding: 10px;
+  background-color: #ffffff; /* Optional: adds a white background */
+}
+
+/* Card body - takes remaining space */
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+/* Product title - control height and overflow */
+.card-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical;
+  height: 48px; /* Fixed height for title */
+}
+
+/* Price - consistent styling */
+.card-text {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Button container - push to bottom */
+.card-body .d-flex {
+  margin-top: auto;
+  width: 100%;
+}
+
+/* Cards grid - ensure consistent sizing */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
 .card-price, .card-body{
     font-weight: normal;
 }
