@@ -72,9 +72,9 @@ const Productos = () => {
     ];
 
     const priceRanges = [
-        { label: "$0 - $50", range: [0, 50] },
-        { label: "$51 - $100", range: [51, 100] },
-        { label: "$101 - $200", range: [101, 200] }
+        { label: "$10000 - $15000", range: [10000, 15000] },
+        { label: "$15001 - $25000", range: [15001, 25000] },
+        { label: "$25001 - $30000", range: [25001, 30000] }
     ];
 
     return (
