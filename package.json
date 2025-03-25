@@ -8,6 +8,7 @@
 	"description": "A web application built with React and Flask",
 	"main": "index.js",
 	"homepage": "/",
+	"proxy": "https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev",
 	"scripts": {
 		"start": "python app.py",
 		"dev:frontend": "webpack serve --config webpack.dev.js --mode development --port 3000",

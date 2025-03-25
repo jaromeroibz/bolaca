@@ -93,7 +93,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const url = `${process.env.BACKEND_URL}/api/get_all_products`;
 					console.log("Attempting to fetch products from:", url);
 					
-					const response = await fetch(url);
+					const response = await fetch(url, {
+						method: 'GET',
+						credentials: 'include', // Include cookies for cross-origin requests
+						headers: {
+							'Content-Type': 'application/json',
+							'Accept': 'application/json',
+							// You can add custom headers here if needed for your API
+						},
+						mode: 'cors' // Explicitly set CORS mode
+					});
 					
 					// Log full response details
 					console.log("Response status:", response.status);
@@ -124,7 +133,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error fetching products:", error);
 					// You could also add state handling for the error
 					// setStore({ productError: error.message });
-				}
+				}				
 			},			
 			getProductDetails: async (result) => {
 				try {
@@ -229,6 +238,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			loginAdmin: async (email, password) => {
 				console.log('Login desde flux')
+				console.log(process.env.BACKEND_URL)
 				const requestOptions = {
 					method: 'POST',
 					credentials: 'include',
