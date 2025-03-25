@@ -1,22 +1,30 @@
 import React, { useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const ContactForm = () => {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [captchaVerified, setCaptchaVerified] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!captchaVerified) {
-      setError("Por favor verifica el reCAPTCHA.");
+    if (!executeRecaptcha) {
+      console.error("reCAPTCHA not available");
       return;
     }
-    if (!email || !message) {
-      setError("Todos los campos son obligatorios.");
-      return;
-    }
+
+    const token = await executeRecaptcha("contact_form");
+
+    const response = await fetch(`${process.env.BACKEND_URL}/submit`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...formData, "g-recaptcha-response": token }),
+    });
+
+    const result = await response.json();
+    alert(result.message || result.error);
 
     console.log("Formulario enviado:", { email, message });
     setError("");

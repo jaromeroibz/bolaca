@@ -1,5 +1,7 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+
 
 // Direct imports for components
 // import ScrollToTop from "./component/scrollToTop.js";
@@ -49,7 +51,9 @@ const Layout = () => {
                                 <Route element={<Productos />} path="/productos" />
                                 <Route element={<DetalleProductos />} path="/detalleproductos/:theid" />
                                 <Route element={<ShoppingCart />} path="/cart" />
-                                <Route element={<ContactForm />} path="/contacto" />
+                                <GoogleReCaptchaProvider reCaptchaKey="6Ldl6v8qAAAAADN4R2hbNfeBQdSnpFiQHx7PHscx">
+                                    <Route element={<ContactForm />} path="/contacto" />
+                                </GoogleReCaptchaProvider>
                                 <Route element={<Success />} path="/success" />
                                 <Route element={<SearchBarResults />} path="/searchbarresults" />
                                 <Route element={<LogIn />} path="/login" />

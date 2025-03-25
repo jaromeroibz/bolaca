@@ -548,6 +548,8 @@ var update = injectStylesIntoStyleTag_default()(styles/* default */.A, options);
 var dist = __webpack_require__(4976);
 // EXTERNAL MODULE: ./node_modules/react-router/dist/index.js
 var react_router_dist = __webpack_require__(7767);
+// EXTERNAL MODULE: ./node_modules/react-google-recaptcha-v3/dist/react-google-recaptcha-v3.esm.js
+var react_google_recaptcha_v3_esm = __webpack_require__(9123);
 // EXTERNAL MODULE: ./src/front/js/component/backendURL.js + 1 modules
 var backendURL = __webpack_require__(6690);
 // EXTERNAL MODULE: ./src/front/js/store/appContext.js + 1 modules
@@ -579,6 +581,7 @@ var creadores = __webpack_require__(71);
 // EXTERNAL MODULE: ./src/front/js/component/errorBoundary.js
 var errorBoundary = __webpack_require__(8247);
 ;// ./src/front/js/layout.js
+
 
 
 
@@ -637,10 +640,12 @@ var Layout = function Layout() {
   }), /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
     element: /*#__PURE__*/react.createElement(shoppingCart/* default */.A, null),
     path: "/cart"
-  }), /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
+  }), /*#__PURE__*/react.createElement(react_google_recaptcha_v3_esm/* GoogleReCaptchaProvider */.G3, {
+    reCaptchaKey: "6Ldl6v8qAAAAADN4R2hbNfeBQdSnpFiQHx7PHscx"
+  }, /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
     element: /*#__PURE__*/react.createElement(contacto/* default */.A, null),
     path: "/contacto"
-  }), /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
+  })), /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
     element: /*#__PURE__*/react.createElement(success/* default */.A, null),
     path: "/success"
   }), /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
@@ -1670,7 +1675,7 @@ var withContext = function withContext(Component) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [264,997,472,758,861,645,814,176,765,854,489,807,906], () => (__webpack_require__(4769)))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [264,997,472,861,891,645,814,176,765,854,489,807,906], () => (__webpack_require__(4769)))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

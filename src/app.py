@@ -15,6 +15,8 @@ import logging
 from logging.handlers import RotatingFileHandler
 import traceback
 import json
+import requests
+
 
 # Agregar después de los imports iniciales
 # Configuración del sistema de logging
@@ -91,6 +93,26 @@ CORS(app, resources={
     }
 })
 
+SECRET_KEY = "6Ldl6v8qAAAAABvwxRe547V7haDP9hjWGMIHQvG1"
+
+def verify_recaptcha(token):
+    url = "https://www.google.com/recaptcha/api/siteverify"
+    data = {
+        "secret": SECRET_KEY,
+        "response": token
+    }
+    response = requests.post(url, data=data)
+    return response.json()
+
+@app.route('/submit', methods=['POST'])
+def handle_form():
+    token = request.form.get("g-recaptcha-response")
+    result = verify_recaptcha(token)
+    
+    if result["success"] and result["score"] > 0.5:
+        return jsonify({"message": "Form submitted successfully!"})
+    else:
+        return jsonify({"error": "reCAPTCHA verification failed!"}), 400
 
 # Add request logger middleware
 
