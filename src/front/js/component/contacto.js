@@ -7,21 +7,6 @@ const ContactForm = () => {
   const [captchaVerified, setCaptchaVerified] = useState(false);
   const [error, setError] = useState("");
 
-  // Execute reCAPTCHA when the form is submitted
-document.getElementById('my-form').addEventListener('submit', function(event) {
-  event.preventDefault();
-  
-  grecaptcha.ready(function() {
-      grecaptcha.execute('YOUR_SITE_KEY', {action: 'submit'})
-      .then(function(token) {
-          // Add the token to a hidden field in your form
-          document.getElementById('recaptcha-token').value = token;
-          // Submit the form
-          document.getElementById('my-form').submit();
-      });
-  });
-});
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!captchaVerified) {

@@ -102,21 +102,6 @@ var ContactForm = function ContactForm() {
     _useState8 = _slicedToArray(_useState7, 2),
     error = _useState8[0],
     setError = _useState8[1];
-
-  // Execute reCAPTCHA when the form is submitted
-  document.getElementById('my-form').addEventListener('submit', function (event) {
-    event.preventDefault();
-    grecaptcha.ready(function () {
-      grecaptcha.execute('YOUR_SITE_KEY', {
-        action: 'submit'
-      }).then(function (token) {
-        // Add the token to a hidden field in your form
-        document.getElementById('recaptcha-token').value = token;
-        // Submit the form
-        document.getElementById('my-form').submit();
-      });
-    });
-  });
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
     if (!captchaVerified) {
