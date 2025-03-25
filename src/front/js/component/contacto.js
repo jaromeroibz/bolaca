@@ -8,25 +8,38 @@ const ContactForm = () => {
   const [captchaVerified, setCaptchaVerified] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (!executeRecaptcha) {
+        console.warn("reCAPTCHA is not ready yet.");
+    }
+  }, [executeRecaptcha]); // Runs when `executeRecaptcha` becomes available
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    
     if (!executeRecaptcha) {
-      console.error("reCAPTCHA not available");
+      console.error("ReCAPTCHA is not ready yet. Try again later.");
       return;
     }
 
-    const token = await executeRecaptcha("contact_form");
+    try{
+      const token = await executeRecaptcha("contact_form");
+      const response = await fetch(`${process.env.BACKEND_URL}/submit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, "g-recaptcha-response": token }),
+      });
+  
+      const result = await response.json();
+      alert(result.message || result.error);
 
-    const response = await fetch(`${process.env.BACKEND_URL}/submit`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...formData, "g-recaptcha-response": token }),
-    });
+    } catch (error){
 
-    const result = await response.json();
-    alert(result.message || result.error);
+      console.log("Error submitting form:", error);
 
-    console.log("Formulario enviado:", { email, message });
+    }
+    
     setError("");
     alert("Mensaje enviado exitosamente.");
   };
