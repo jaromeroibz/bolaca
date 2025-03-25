@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: b46ee3d10873
+Revision ID: ea205935f8e6
 Revises: 
-Create Date: 2025-02-04 18:52:30.200685
+Create Date: 2025-03-25 23:07:37.802802
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b46ee3d10873'
+revision = 'ea205935f8e6'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -49,7 +49,7 @@ def upgrade():
     )
     op.create_table('product_category',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('category_name', sa.String(length=80), nullable=True),
+    sa.Column('category_name', sa.String(length=80), nullable=False),
     sa.Column('image', sa.String(length=500), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('image')
@@ -82,6 +82,7 @@ def upgrade():
     sa.Column('max_age', sa.Integer(), nullable=True),
     sa.Column('price', sa.String(length=10), nullable=False),
     sa.Column('stock', sa.Integer(), nullable=False),
+    sa.Column('isAvailable', sa.Boolean(), nullable=True),
     sa.Column('isDestacado', sa.Boolean(), nullable=False),
     sa.Column('category_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['brand_id'], ['brands.id'], ),
