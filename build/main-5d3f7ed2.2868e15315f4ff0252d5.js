@@ -132,7 +132,7 @@ var ContactForm = function ContactForm() {
           case 6:
             token = _context.sent;
             _context.next = 9;
-            return fetch("".concat("https://scaling-carnival-qwwrqg4745vhx4pr-3001.app.github.dev", "/submit"), {
+            return fetch("".concat("https://api.bolaca.cl", "/submit"), {
               method: "POST",
               headers: {
                 "Content-Type": "application/json"
