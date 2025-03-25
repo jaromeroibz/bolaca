@@ -89,15 +89,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.error("BACKEND_URL is not defined.");
 						return;
 					}
-					const response = await fetch(`${process.env.BACKEND_URL}/api/get_all_products`);
-					const data = await response.json();
-					if (response.ok) {
-						setStore({ products: data });
+					
+					const url = `${process.env.BACKEND_URL}/api/get_all_products`;
+					console.log("Attempting to fetch products from:", url);
+					
+					const response = await fetch(url);
+					
+					// Log full response details
+					console.log("Response status:", response.status);
+					console.log("Response headers:", Object.fromEntries([...response.headers]));
+					
+					// Check if response is ok before parsing JSON
+					if (!response.ok) {
+						const errorText = await response.text();
+						console.error(`Server returned ${response.status} ${response.statusText}`);
+						console.error("Error response body:", errorText);
+						throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorText.substring(0, 200)}`);
 					}
+					
+					// Check content type
+					const contentType = response.headers.get('content-type');
+					if (!contentType || !contentType.includes('application/json')) {
+						const textResponse = await response.text();
+						console.error("Expected JSON but received:", contentType);
+						console.error("Response preview:", textResponse.substring(0, 200));
+						throw new TypeError(`Expected JSON response but received ${contentType || 'unknown'} content type`);
+					}
+					
+					const data = await response.json();
+					console.log("Successfully parsed JSON data:", data);
+					setStore({ products: data });
+					
 				} catch (error) {
 					console.error("Error fetching products:", error);
+					// You could also add state handling for the error
+					// setStore({ productError: error.message });
 				}
-			},
+			},			
 			getProductDetails: async (result) => {
 				try {
 					const idToDisplay = result.id				
