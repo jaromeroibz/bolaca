@@ -5,7 +5,6 @@ const ContactForm = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [captchaVerified, setCaptchaVerified] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -92,12 +91,6 @@ const ContactForm = () => {
             required
           ></textarea>
           <small style={{ display: "block", textAlign: "right" }}>{message.length} / 300</small>
-        </div>
-        <div style={{ marginBottom: "15px" }}>
-          <ReCAPTCHA
-            sitekey="6Ldl6v8qAAAAADN4R2hbNfeBQdSnpFiQHx7PHscx" // Reemplaza con tu clave de sitio de Google reCAPTCHA
-            onChange={handleCaptchaChange}
-          />
         </div>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <button
