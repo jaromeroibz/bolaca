@@ -7,6 +7,21 @@ const ContactForm = () => {
   const [captchaVerified, setCaptchaVerified] = useState(false);
   const [error, setError] = useState("");
 
+  // Execute reCAPTCHA when the form is submitted
+document.getElementById('my-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  
+  grecaptcha.ready(function() {
+      grecaptcha.execute('YOUR_SITE_KEY', {action: 'submit'})
+      .then(function(token) {
+          // Add the token to a hidden field in your form
+          document.getElementById('recaptcha-token').value = token;
+          // Submit the form
+          document.getElementById('my-form').submit();
+      });
+  });
+});
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!captchaVerified) {
@@ -74,7 +89,7 @@ const ContactForm = () => {
         </div>
         <div style={{ marginBottom: "15px" }}>
           <ReCAPTCHA
-            sitekey="6LfkgNoqAAAAAHDByLHwH2fKqIjlTZoCQuK4Pkna" // Reemplaza con tu clave de sitio de Google reCAPTCHA
+            sitekey="6Ldl6v8qAAAAADN4R2hbNfeBQdSnpFiQHx7PHscx" // Reemplaza con tu clave de sitio de Google reCAPTCHA
             onChange={handleCaptchaChange}
           />
         </div>

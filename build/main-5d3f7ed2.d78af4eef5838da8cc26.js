@@ -102,6 +102,21 @@ var ContactForm = function ContactForm() {
     _useState8 = _slicedToArray(_useState7, 2),
     error = _useState8[0],
     setError = _useState8[1];
+
+  // Execute reCAPTCHA when the form is submitted
+  document.getElementById('my-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    grecaptcha.ready(function () {
+      grecaptcha.execute('YOUR_SITE_KEY', {
+        action: 'submit'
+      }).then(function (token) {
+        // Add the token to a hidden field in your form
+        document.getElementById('recaptcha-token').value = token;
+        // Submit the form
+        document.getElementById('my-form').submit();
+      });
+    });
+  });
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
     if (!captchaVerified) {
@@ -197,7 +212,7 @@ var ContactForm = function ContactForm() {
       marginBottom: "15px"
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_google_recaptcha__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .A, {
-    sitekey: "6LfkgNoqAAAAAHDByLHwH2fKqIjlTZoCQuK4Pkna" // Reemplaza con tu clave de sitio de Google reCAPTCHA
+    sitekey: "6Ldl6v8qAAAAADN4R2hbNfeBQdSnpFiQHx7PHscx" // Reemplaza con tu clave de sitio de Google reCAPTCHA
     ,
     onChange: handleCaptchaChange
   })), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
