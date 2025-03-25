@@ -586,7 +586,6 @@ var errorBoundary = __webpack_require__(8247);
 
 
 // Direct imports for components
-// import ScrollToTop from "./component/scrollToTop.js";
 
 
 
@@ -624,9 +623,11 @@ var Layout = function Layout() {
 
   // Render BackendURL if BACKEND_URL is missing
   if (false) {}
-  return /*#__PURE__*/react.createElement(errorBoundary/* default */.A, null, /*#__PURE__*/react.createElement(appContext/* AppContextProvider */.QG, null, /*#__PURE__*/react.createElement(react.Suspense, {
+  return /*#__PURE__*/react.createElement(errorBoundary/* default */.A, null, /*#__PURE__*/react.createElement(appContext/* AppContextProvider */.QG, null, /*#__PURE__*/react.createElement(react_google_recaptcha_v3_esm/* GoogleReCaptchaProvider */.G3, {
+    reCaptchaKey: "6Ldl6v8qAAAAADN4R2hbNfeBQdSnpFiQHx7PHscx"
+  }, /*#__PURE__*/react.createElement(react.Suspense, {
     fallback: /*#__PURE__*/react.createElement(LoadingSpinner, null)
-  }, /*#__PURE__*/react.createElement("div", null, /*#__PURE__*/react.createElement(dist/* BrowserRouter */.Kd, {
+  }, /*#__PURE__*/react.createElement(dist/* BrowserRouter */.Kd, {
     basename: basename
   }, /*#__PURE__*/react.createElement(navbar/* default */.A, null), /*#__PURE__*/react.createElement(react_router_dist/* Routes */.BV, null, /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
     element: /*#__PURE__*/react.createElement(landingPage/* default */.A, null),
@@ -640,12 +641,10 @@ var Layout = function Layout() {
   }), /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
     element: /*#__PURE__*/react.createElement(shoppingCart/* default */.A, null),
     path: "/cart"
-  }), /*#__PURE__*/react.createElement(react_google_recaptcha_v3_esm/* GoogleReCaptchaProvider */.G3, {
-    reCaptchaKey: "6Ldl6v8qAAAAADN4R2hbNfeBQdSnpFiQHx7PHscx"
-  }, /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
+  }), /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
     element: /*#__PURE__*/react.createElement(contacto/* default */.A, null),
     path: "/contacto"
-  })), /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
+  }), /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
     element: /*#__PURE__*/react.createElement(success/* default */.A, null),
     path: "/success"
   }), /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {

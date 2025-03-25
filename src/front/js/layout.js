@@ -2,9 +2,7 @@ import React, { Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
-
 // Direct imports for components
-// import ScrollToTop from "./component/scrollToTop.js";
 import BackendURL from "./component/backendURL.js";
 import { AppContextProvider } from "./store/appContext.js";
 import Navbar from "./component/navbar.js";
@@ -41,19 +39,17 @@ const Layout = () => {
 
     return (
         <ErrorBoundary>
-        <AppContextProvider>
-            <Suspense fallback={<LoadingSpinner />}>
-                <div>
-                    <BrowserRouter basename={basename}>
+            <AppContextProvider>
+                <GoogleReCaptchaProvider reCaptchaKey="6Ldl6v8qAAAAADN4R2hbNfeBQdSnpFiQHx7PHscx">
+                    <Suspense fallback={<LoadingSpinner />}>
+                        <BrowserRouter basename={basename}>
                             <Navbar />
                             <Routes>
                                 <Route element={<LandingPage />} path="/" />
                                 <Route element={<Productos />} path="/productos" />
                                 <Route element={<DetalleProductos />} path="/detalleproductos/:theid" />
                                 <Route element={<ShoppingCart />} path="/cart" />
-                                <GoogleReCaptchaProvider reCaptchaKey="6Ldl6v8qAAAAADN4R2hbNfeBQdSnpFiQHx7PHscx">
-                                    <Route element={<ContactForm />} path="/contacto" />
-                                </GoogleReCaptchaProvider>
+                                <Route element={<ContactForm />} path="/contacto" />
                                 <Route element={<Success />} path="/success" />
                                 <Route element={<SearchBarResults />} path="/searchbarresults" />
                                 <Route element={<LogIn />} path="/login" />
@@ -67,12 +63,11 @@ const Layout = () => {
                                 } />
                             </Routes>
                             <Footer />
-                    </BrowserRouter>
-                </div>
-            </Suspense>
-        </AppContextProvider>
+                        </BrowserRouter>
+                    </Suspense>
+                </GoogleReCaptchaProvider>
+            </AppContextProvider>
         </ErrorBoundary>
-
     );
 };
 
