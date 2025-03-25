@@ -818,7 +818,7 @@ var getState = function getState(_ref) {
       },
       getProducts: function () {
         var _getProducts = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-          var response, data;
+          var url, response, errorText, contentType, textResponse, data;
           return _regeneratorRuntime().wrap(function _callee$(_context) {
             while (1) switch (_context.prev = _context.next) {
               case 0:
@@ -830,30 +830,64 @@ var getState = function getState(_ref) {
                 console.error("BACKEND_URL is not defined.");
                 return _context.abrupt("return");
               case 4:
-                _context.next = 6;
-                return fetch("".concat("https://api.bolaca.cl", "/api/get_all_products"));
-              case 6:
+                url = "".concat("https://api.bolaca.cl", "/api/get_all_products");
+                console.log("Attempting to fetch products from:", url);
+                _context.next = 8;
+                return fetch(url);
+              case 8:
                 response = _context.sent;
-                _context.next = 9;
-                return response.json();
-              case 9:
-                data = _context.sent;
+                // Log full response details
+                console.log("Response status:", response.status);
+                console.log("Response headers:", Object.fromEntries(_toConsumableArray(response.headers)));
+
+                // Check if response is ok before parsing JSON
                 if (response.ok) {
-                  setStore({
-                    products: data
-                  });
+                  _context.next = 18;
+                  break;
                 }
-                _context.next = 16;
+                _context.next = 14;
+                return response.text();
+              case 14:
+                errorText = _context.sent;
+                console.error("Server returned ".concat(response.status, " ").concat(response.statusText));
+                console.error("Error response body:", errorText);
+                throw new Error("HTTP error! Status: ".concat(response.status, ", Message: ").concat(errorText.substring(0, 200)));
+              case 18:
+                // Check content type
+                contentType = response.headers.get('content-type');
+                if (!(!contentType || !contentType.includes('application/json'))) {
+                  _context.next = 26;
+                  break;
+                }
+                _context.next = 22;
+                return response.text();
+              case 22:
+                textResponse = _context.sent;
+                console.error("Expected JSON but received:", contentType);
+                console.error("Response preview:", textResponse.substring(0, 200));
+                throw new TypeError("Expected JSON response but received ".concat(contentType || 'unknown', " content type"));
+              case 26:
+                _context.next = 28;
+                return response.json();
+              case 28:
+                data = _context.sent;
+                console.log("Successfully parsed JSON data:", data);
+                setStore({
+                  products: data
+                });
+                _context.next = 36;
                 break;
-              case 13:
-                _context.prev = 13;
+              case 33:
+                _context.prev = 33;
                 _context.t0 = _context["catch"](0);
                 console.error("Error fetching products:", _context.t0);
-              case 16:
+                // You could also add state handling for the error
+                // setStore({ productError: error.message });
+              case 36:
               case "end":
                 return _context.stop();
             }
-          }, _callee, null, [[0, 13]]);
+          }, _callee, null, [[0, 33]]);
         }));
         function getProducts() {
           return _getProducts.apply(this, arguments);
