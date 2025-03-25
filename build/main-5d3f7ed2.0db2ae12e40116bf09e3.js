@@ -105,14 +105,16 @@ var ContactForm = function ContactForm() {
     _useState4 = _slicedToArray(_useState3, 2),
     message = _useState4[0],
     setMessage = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
     _useState6 = _slicedToArray(_useState5, 2),
-    captchaVerified = _useState6[0],
-    setCaptchaVerified = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
-    _useState8 = _slicedToArray(_useState7, 2),
-    error = _useState8[0],
-    setError = _useState8[1];
+    error = _useState6[0],
+    setError = _useState6[1];
+  useEffect(function () {
+    if (!executeRecaptcha) {
+      console.warn("reCAPTCHA is not ready yet.");
+    }
+  }, [executeRecaptcha]); // Runs when `executeRecaptcha` becomes available
+
   var handleSubmit = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
       var token, response, result;
@@ -124,14 +126,15 @@ var ContactForm = function ContactForm() {
               _context.next = 4;
               break;
             }
-            console.error("reCAPTCHA not available");
+            console.error("ReCAPTCHA is not ready yet. Try again later.");
             return _context.abrupt("return");
           case 4:
-            _context.next = 6;
+            _context.prev = 4;
+            _context.next = 7;
             return executeRecaptcha("contact_form");
-          case 6:
+          case 7:
             token = _context.sent;
-            _context.next = 9;
+            _context.next = 10;
             return fetch("".concat("https://api.bolaca.cl", "/submit"), {
               method: "POST",
               headers: {
@@ -141,24 +144,27 @@ var ContactForm = function ContactForm() {
                 "g-recaptcha-response": token
               }))
             });
-          case 9:
+          case 10:
             response = _context.sent;
-            _context.next = 12;
+            _context.next = 13;
             return response.json();
-          case 12:
+          case 13:
             result = _context.sent;
             alert(result.message || result.error);
-            console.log("Formulario enviado:", {
-              email: email,
-              message: message
-            });
+            _context.next = 20;
+            break;
+          case 17:
+            _context.prev = 17;
+            _context.t0 = _context["catch"](4);
+            console.log("Error submitting form:", _context.t0);
+          case 20:
             setError("");
             alert("Mensaje enviado exitosamente.");
-          case 17:
+          case 22:
           case "end":
             return _context.stop();
         }
-      }, _callee);
+      }, _callee, null, [[4, 17]]);
     }));
     return function handleSubmit(_x) {
       return _ref.apply(this, arguments);
@@ -237,15 +243,7 @@ var ContactForm = function ContactForm() {
       display: "block",
       textAlign: "right"
     }
-  }, message.length, " / 300")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    style: {
-      marginBottom: "15px"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(ReCAPTCHA, {
-    sitekey: "6Ldl6v8qAAAAADN4R2hbNfeBQdSnpFiQHx7PHscx" // Reemplaza con tu clave de sitio de Google reCAPTCHA
-    ,
-    onChange: handleCaptchaChange
-  })), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+  }, message.length, " / 300")), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
     style: {
       color: "red"
     }
