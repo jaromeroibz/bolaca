@@ -109,7 +109,7 @@ var ContactForm = function ContactForm() {
     _useState6 = _slicedToArray(_useState5, 2),
     error = _useState6[0],
     setError = _useState6[1];
-  useEffect(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (!executeRecaptcha) {
       console.warn("reCAPTCHA is not ready yet.");
     }
