@@ -74,7 +74,7 @@ frontend_url = os.getenv("FRONTEND_URL")
 allowed_origins = [
     "https://bolaca.cl",
     "https://www.bolaca.cl",
-    "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev"
+    # "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev"
 ]   
 
 # Apply CORS with the updated origins
@@ -124,7 +124,7 @@ def handle_preflight():
         # Get the Origin header from the request, uncomment first one for dev. Uncomment bolaca.cl for production
         origin = request.headers.get("Origin")
         allowed_origins = [
-            "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev",
+            # "https://scaling-carnival-qwwrqg4745vhx4pr-3000.app.github.dev",
             "https://www.bolaca.cl",
             "https://bolaca.cl"
         ]
