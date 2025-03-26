@@ -347,7 +347,7 @@ hr.custom-hr {
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap");
 
 .footer-container {
-  background-color: hsl(60, 52%, 72%);
+  background-color: hsl(0, 0%, 100%);
   color: #ffffff; /* White text */
   padding: 30px 0;
   text-align: center;

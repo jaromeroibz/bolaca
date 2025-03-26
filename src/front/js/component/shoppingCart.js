@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AppContext  } from "../store/appContext.js";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 import axios from "axios";
 
@@ -80,12 +80,12 @@ const ShoppingCart = () => {
     return (
         <>
             <div className="container">
-                {/* <Link
+                <Link
                     to={`/productos`}
                     style={{ textDecoration: "none" }}
                 >
                     Volver al listado
-                </Link> */}
+                </Link>
                 {store.cart.length === 0 ? (
                     <h1>Tu carrito está vacío</h1>
                 ) : (

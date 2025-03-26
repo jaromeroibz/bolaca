@@ -366,7 +366,7 @@ hr.custom-hr {
 /* Import Google Fonts for the matching style */
 
 .footer-container {
-  background-color: hsl(60, 52%, 72%);
+  background-color: hsl(0, 0%, 100%);
   color: #ffffff; /* White text */
   padding: 30px 0;
   text-align: center;
@@ -1113,31 +1113,32 @@ var getState = function getState(_ref) {
             while (1) switch (_context7.prev = _context7.next) {
               case 0:
                 _context7.prev = 0;
+                console.log(result);
                 idToDisplay = result.id;
-                _context7.next = 4;
+                _context7.next = 5;
                 return fetch("https://api.bolaca.cl" + '/api/get_all_product_by_brand/' + idToDisplay);
-              case 4:
+              case 5:
                 response = _context7.sent;
-                _context7.next = 7;
+                _context7.next = 8;
                 return response.json();
-              case 7:
+              case 8:
                 data = _context7.sent;
                 if (response.ok) {
                   setStore({
                     productsByBrands: data
                   });
                 }
-                _context7.next = 14;
+                _context7.next = 15;
                 break;
-              case 11:
-                _context7.prev = 11;
+              case 12:
+                _context7.prev = 12;
                 _context7.t0 = _context7["catch"](0);
                 console.log(_context7.t0);
-              case 14:
+              case 15:
               case "end":
                 return _context7.stop();
             }
-          }, _callee7, null, [[0, 11]]);
+          }, _callee7, null, [[0, 12]]);
         }));
         function getProductsByBrands(_x4) {
           return _getProductsByBrands.apply(this, arguments);
@@ -1674,7 +1675,7 @@ var withContext = function withContext(Component) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [264,997,472,861,891,645,814,176,765,854,489,807,906], () => (__webpack_require__(4769)))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [264,997,472,861,891,645,548,425,176,765,854,489,807,906], () => (__webpack_require__(4769)))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
