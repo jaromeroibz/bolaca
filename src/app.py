@@ -17,7 +17,6 @@ import traceback
 import json
 import requests
 
-
 # Agregar después de los imports iniciales
 # Configuración del sistema de logging
 def setup_logging():
