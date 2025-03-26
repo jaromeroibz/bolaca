@@ -1,11 +1,30 @@
-import React, { useEffect, useContext, useState } from "react";
-import { Link, useParams, useLocation  } from "react-router-dom";
-import { AppContext  } from "../store/appContext.js";
+import React, { useEffect, useContext, useState, useRef, useCallback } from "react";
+import { Link, useParams, useLocation } from "react-router-dom";
+import { AppContext } from "../store/appContext.js";
 
 const Productos = () => {
-
-    const { store, actions } = useContext(AppContext );
-    const location = useLocation(); // Get the current URL and query parameters
+    const { store, actions } = useContext(AppContext);
+    const location = useLocation();
+    const [page, setPage] = useState(1);
+    const [displayedProducts, setDisplayedProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const productsPerPage = 9;
+    
+    // Create a ref for the loading element
+    const observer = useRef();
+    const loadingRef = useCallback(node => {
+        if (loading) return;
+        if (observer.current) observer.current.disconnect();
+        
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                loadMoreProducts();
+            }
+        });
+        
+        if (node) observer.current.observe(node);
+    }, [loading, hasMore]);
 
     useEffect(() => {
         // Retrieve query params on each change
@@ -16,16 +35,39 @@ const Productos = () => {
         actions.getCategories();
 
         if (category) {
-            // Update local state so filtering functions know which category is selected
             setselectedCategory(category);
-            // Get filtered products using the category query parameter.
             actions.getProductByCategory(category);
         } else {
-            // Clear the selected category and load all products.
             setselectedCategory(null);
             actions.getProducts();
         }
+        
+        // Reset pagination when filters change
+        setPage(1);
+        setHasMore(true);
     }, [location.search]);
+    
+    // Update displayed products when store.products changes or filters change
+    useEffect(() => {
+        if (filteredProducts.length > 0) {
+            setDisplayedProducts(filteredProducts.slice(0, page * productsPerPage));
+            setHasMore(filteredProducts.length > page * productsPerPage);
+        } else {
+            setDisplayedProducts([]);
+            setHasMore(false);
+        }
+    }, [store.products, selectedCategory, selectedAgeRange, selectedPriceRange, selectedBrand, page]);
+
+    const loadMoreProducts = () => {
+        if (loading || !hasMore) return;
+        
+        setLoading(true);
+        // Simulate a delay to show loading state (remove in production)
+        setTimeout(() => {
+            setPage(prevPage => prevPage + 1);
+            setLoading(false);
+        }, 500);
+    };
 
     const [selectedCategory, setselectedCategory] = useState(null); 
     const [selectedAgeRange, setSelectedAgeRange] = useState(null); 
@@ -33,24 +75,24 @@ const Productos = () => {
     const [selectedBrand, setSelectedBrand] = useState(null);  
 
     const filterProductsByAgeRange = (products) => {
-        if (!selectedAgeRange) return products; // Si no hay un rango de edad seleccionado, devolver todos los productos
+        if (!selectedAgeRange) return products;
         const [minAge, maxAge] = selectedAgeRange;
         return products.filter((item) => item.min_age >= minAge && item.max_age <= maxAge);
     };
 
     const filterProductsByPriceRange = (products) => {
-        if (!selectedPriceRange) return products; // Si no hay un rango de precios seleccionado, devolver todos los productos
+        if (!selectedPriceRange) return products;
         const [minPrice, maxPrice] = selectedPriceRange;
         return products.filter((item) => item.price >= minPrice && item.price <= maxPrice);
     };
 
     const filterProductsByBrand = (products) => {
-        if (!selectedBrand) return products; // Si no hay una marca seleccionada, devolver todos los productos
+        if (!selectedBrand) return products;
         return products.filter((item) => item.brand.name.toLowerCase() === selectedBrand.toLowerCase());
     };
 
     const filterProductsByCategory = (products) => {
-        if (!selectedCategory) return products; // Si no hay una marca seleccionada, devolver todos los productos
+        if (!selectedCategory) return products;
         return products.filter((item) => item.category_name.toLowerCase() === selectedCategory.toLowerCase());
     };
 
@@ -92,26 +134,34 @@ const Productos = () => {
                                     filteredProducts.length === 0 ? (
                                         <h1>No hay productos que coincidan con el filtro seleccionado.</h1>
                                     ) : (
-// Change this in your Productos component
-                                        filteredProducts.map((item) => (
-                                            <div className="card" key={item.id}>
-                                            <img className="card-img-top" loading="lazy" src={item.image} alt={item.name}></img>
-                                            <div className="card-body">
-                                                <h5 className="card-title">{item.name}</h5>
-                                                <p className="card-text">${item.price}</p>
-                                                <div className="d-flex">
-                                                <div>
-                                                    <Link to={`/detalleproductos/${item.id}`} style={{ textDecoration: 'none' }}>
-                                                    <button className="see-more-button d-inline">Ver Más</button>
-                                                    </Link>
+                                        <>
+                                            {displayedProducts.map((item) => (
+                                                <div className="card" key={item.id}>
+                                                    <img className="card-img-top" loading="lazy" src={item.image} alt={item.name}></img>
+                                                    <div className="card-body">
+                                                        <h5 className="card-title">{item.name}</h5>
+                                                        <p className="card-text">${item.price}</p>
+                                                        <div className="d-flex">
+                                                            <div>
+                                                                <Link to={`/detalleproductos/${item.id}`} style={{ textDecoration: 'none' }}>
+                                                                    <button className="see-more-button d-inline">Ver Más</button>
+                                                                </Link>
+                                                            </div>
+                                                            <div className="px-3">
+                                                                <button onClick={() => actions.addToCart(item)} className="add-cart-button">Agregar al carrito</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="px-3">
-                                                    <button onClick={() => actions.addToCart(item)} className="add-cart-button">Agregar al carrito</button>
+                                            ))}
+                                            
+                                            {/* Loading indicator and intersection observer target */}
+                                            {hasMore && (
+                                                <div ref={loadingRef} className="loading-indicator text-center my-4 w-100">
+                                                    {loading ? "Cargando más productos..." : ""}
                                                 </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        ))  
+                                            )}
+                                        </>
                                     )
                                 )}
                             </div>
@@ -124,6 +174,7 @@ const Productos = () => {
                                         setSelectedPriceRange(range.range); 
                                         setSelectedAgeRange(null); 
                                         setSelectedBrand(null);
+                                        setPage(1); // Reset pagination when filter changes
                                     }} 
                                     style={{ cursor: 'pointer', color: selectedPriceRange === range.range ? 'blue' : 'black' }}
                                 >
@@ -137,9 +188,10 @@ const Productos = () => {
                                     key={index}
                                     onClick={() => {
                                         setSelectedBrand(brand.name);
-                                        setSelectedAgeRange(null); // Limpiar rango de edad
-                                        setSelectedPriceRange(null); // Limpiar rango de precios
+                                        setSelectedAgeRange(null);
+                                        setSelectedPriceRange(null);
                                         actions.getProductsByBrands(brand.id);
+                                        setPage(1); // Reset pagination when filter changes
                                     }}
                                     style={{ cursor: 'pointer', color: selectedBrand === brand ? 'blue' : 'black' }}
                                 >
@@ -153,8 +205,9 @@ const Productos = () => {
                                     key={index}
                                     onClick={() => {
                                         setSelectedAgeRange(range.range);
-                                        setSelectedPriceRange(null); // Limpiar rango de precios
-                                        setSelectedBrand(null);      // Limpiar marca
+                                        setSelectedPriceRange(null);
+                                        setSelectedBrand(null);
+                                        setPage(1); // Reset pagination when filter changes
                                     }}
                                     style={{ cursor: 'pointer', color: selectedAgeRange === range.range ? 'blue' : 'black' }}
                                 >
@@ -168,10 +221,11 @@ const Productos = () => {
                                     key={index}
                                     onClick={() => {
                                         setselectedCategory(item.category_name);
-                                        setSelectedAgeRange(null); // Limpiar rango de edad
+                                        setSelectedAgeRange(null);
                                         setSelectedPriceRange(null);
-                                        setSelectedBrand(null); // Limpiar rango de precios
+                                        setSelectedBrand(null);
                                         actions.getProductByCategory(item.id);
+                                        setPage(1); // Reset pagination when filter changes
                                     }}
                                     style={{ cursor: 'pointer', color: selectedCategory === item ? 'blue' : 'black' }}
                                 >

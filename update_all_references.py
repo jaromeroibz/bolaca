@@ -145,7 +145,7 @@ if os.path.exists(admin_file):
     content = re.sub(r'column_list\s*=\s*\([^)]*"isDestacado"', 'column_list = ("is_destacado"', content)
     
     # General replacements
-    content = re.sub(r'is_available', 'is_available', content)
+    content = re.sub(r content)
     content = re.sub(r'is_destacado', 'is_destacado', content)
     
     # Check if content was modified

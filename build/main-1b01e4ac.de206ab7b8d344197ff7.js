@@ -638,8 +638,37 @@ var Productos = function Productos() {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_store_appContext_js__WEBPACK_IMPORTED_MODULE_1__/* .AppContext */ .BR),
     store = _useContext.store,
     actions = _useContext.actions;
-  var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .useLocation */ .zy)(); // Get the current URL and query parameters
+  var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .useLocation */ .zy)();
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
+    _useState2 = _slicedToArray(_useState, 2),
+    page = _useState2[0],
+    setPage = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+    _useState4 = _slicedToArray(_useState3, 2),
+    displayedProducts = _useState4[0],
+    setDisplayedProducts = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    loading = _useState6[0],
+    setLoading = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+    _useState8 = _slicedToArray(_useState7, 2),
+    hasMore = _useState8[0],
+    setHasMore = _useState8[1];
+  var productsPerPage = 9;
 
+  // Create a ref for the loading element
+  var observer = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var loadingRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (node) {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && hasMore) {
+        loadMoreProducts();
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [loading, hasMore]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // Retrieve query params on each change
     var searchParams = new URLSearchParams(location.search);
@@ -647,34 +676,57 @@ var Productos = function Productos() {
     actions.getBrands();
     actions.getCategories();
     if (category) {
-      // Update local state so filtering functions know which category is selected
       setselectedCategory(category);
-      // Get filtered products using the category query parameter.
       actions.getProductByCategory(category);
     } else {
-      // Clear the selected category and load all products.
       setselectedCategory(null);
       actions.getProducts();
     }
+
+    // Reset pagination when filters change
+    setPage(1);
+    setHasMore(true);
   }, [location.search]);
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-    _useState2 = _slicedToArray(_useState, 2),
-    selectedCategory = _useState2[0],
-    setselectedCategory = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-    _useState4 = _slicedToArray(_useState3, 2),
-    selectedAgeRange = _useState4[0],
-    setSelectedAgeRange = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-    _useState6 = _slicedToArray(_useState5, 2),
-    selectedPriceRange = _useState6[0],
-    setSelectedPriceRange = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-    _useState8 = _slicedToArray(_useState7, 2),
-    selectedBrand = _useState8[0],
-    setSelectedBrand = _useState8[1];
+
+  // Update displayed products when store.products changes or filters change
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (filteredProducts.length > 0) {
+      setDisplayedProducts(filteredProducts.slice(0, page * productsPerPage));
+      setHasMore(filteredProducts.length > page * productsPerPage);
+    } else {
+      setDisplayedProducts([]);
+      setHasMore(false);
+    }
+  }, [store.products, selectedCategory, selectedAgeRange, selectedPriceRange, selectedBrand, page]);
+  var loadMoreProducts = function loadMoreProducts() {
+    if (loading || !hasMore) return;
+    setLoading(true);
+    // Simulate a delay to show loading state (remove in production)
+    setTimeout(function () {
+      setPage(function (prevPage) {
+        return prevPage + 1;
+      });
+      setLoading(false);
+    }, 500);
+  };
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState10 = _slicedToArray(_useState9, 2),
+    selectedCategory = _useState10[0],
+    setselectedCategory = _useState10[1];
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState12 = _slicedToArray(_useState11, 2),
+    selectedAgeRange = _useState12[0],
+    setSelectedAgeRange = _useState12[1];
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState14 = _slicedToArray(_useState13, 2),
+    selectedPriceRange = _useState14[0],
+    setSelectedPriceRange = _useState14[1];
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState16 = _slicedToArray(_useState15, 2),
+    selectedBrand = _useState16[0],
+    setSelectedBrand = _useState16[1];
   var filterProductsByAgeRange = function filterProductsByAgeRange(products) {
-    if (!selectedAgeRange) return products; // Si no hay un rango de edad seleccionado, devolver todos los productos
+    if (!selectedAgeRange) return products;
     var _selectedAgeRange = _slicedToArray(selectedAgeRange, 2),
       minAge = _selectedAgeRange[0],
       maxAge = _selectedAgeRange[1];
@@ -683,7 +735,7 @@ var Productos = function Productos() {
     });
   };
   var filterProductsByPriceRange = function filterProductsByPriceRange(products) {
-    if (!selectedPriceRange) return products; // Si no hay un rango de precios seleccionado, devolver todos los productos
+    if (!selectedPriceRange) return products;
     var _selectedPriceRange = _slicedToArray(selectedPriceRange, 2),
       minPrice = _selectedPriceRange[0],
       maxPrice = _selectedPriceRange[1];
@@ -692,13 +744,13 @@ var Productos = function Productos() {
     });
   };
   var filterProductsByBrand = function filterProductsByBrand(products) {
-    if (!selectedBrand) return products; // Si no hay una marca seleccionada, devolver todos los productos
+    if (!selectedBrand) return products;
     return products.filter(function (item) {
       return item.brand.name.toLowerCase() === selectedBrand.toLowerCase();
     });
   };
   var filterProductsByCategory = function filterProductsByCategory(products) {
-    if (!selectedCategory) return products; // Si no hay una marca seleccionada, devolver todos los productos
+    if (!selectedCategory) return products;
     return products.filter(function (item) {
       return item.category_name.toLowerCase() === selectedCategory.toLowerCase();
     });
@@ -745,9 +797,7 @@ var Productos = function Productos() {
     className: "col-9"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "cards"
-  }, store.products.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Cargando productos...") : filteredProducts.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "No hay productos que coincidan con el filtro seleccionado.") :
-  // Change this in your Productos component
-  filteredProducts.map(function (item) {
+  }, store.products.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Cargando productos...") : filteredProducts.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "No hay productos que coincidan con el filtro seleccionado.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, displayedProducts.map(function (item) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "card",
       key: item.id
@@ -779,7 +829,10 @@ var Productos = function Productos() {
       },
       className: "add-cart-button"
     }, "Agregar al carrito")))));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }), hasMore && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    ref: loadingRef,
+    className: "loading-indicator text-center my-4 w-100"
+  }, loading ? "Cargando más productos..." : "")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-3 px-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "Precio"), priceRanges.map(function (range, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
@@ -788,6 +841,7 @@ var Productos = function Productos() {
         setSelectedPriceRange(range.range);
         setSelectedAgeRange(null);
         setSelectedBrand(null);
+        setPage(1); // Reset pagination when filter changes
       },
       style: {
         cursor: 'pointer',
@@ -799,9 +853,10 @@ var Productos = function Productos() {
       key: index,
       onClick: function onClick() {
         setSelectedBrand(brand.name);
-        setSelectedAgeRange(null); // Limpiar rango de edad
-        setSelectedPriceRange(null); // Limpiar rango de precios
+        setSelectedAgeRange(null);
+        setSelectedPriceRange(null);
         actions.getProductsByBrands(brand.id);
+        setPage(1); // Reset pagination when filter changes
       },
       style: {
         cursor: 'pointer',
@@ -813,8 +868,9 @@ var Productos = function Productos() {
       key: index,
       onClick: function onClick() {
         setSelectedAgeRange(range.range);
-        setSelectedPriceRange(null); // Limpiar rango de precios
-        setSelectedBrand(null); // Limpiar marca
+        setSelectedPriceRange(null);
+        setSelectedBrand(null);
+        setPage(1); // Reset pagination when filter changes
       },
       style: {
         cursor: 'pointer',
@@ -826,10 +882,11 @@ var Productos = function Productos() {
       key: index,
       onClick: function onClick() {
         setselectedCategory(item.category_name);
-        setSelectedAgeRange(null); // Limpiar rango de edad
+        setSelectedAgeRange(null);
         setSelectedPriceRange(null);
-        setSelectedBrand(null); // Limpiar rango de precios
+        setSelectedBrand(null);
         actions.getProductByCategory(item.id);
+        setPage(1); // Reset pagination when filter changes
       },
       style: {
         cursor: 'pointer',
