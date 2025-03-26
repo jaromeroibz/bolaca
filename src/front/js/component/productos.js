@@ -9,7 +9,7 @@ const Productos = () => {
     const [displayedProducts, setDisplayedProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
-    const productsPerPage = 9;
+    const productsPerPage = 6;
     
     // Create a ref for the loading element
     const observer = useRef();
@@ -140,6 +140,9 @@ const Productos = () => {
                                                     <img className="card-img-top" loading="lazy" src={item.image} alt={item.name}></img>
                                                     <div className="card-body">
                                                         <h5 className="card-title">{item.name}</h5>
+                                                        {item.stock === 0 && (
+                                                        <p className="text-danger fw-bold mb-2">Sin Stock</p>
+                                                         )}
                                                         <p className="card-text">${item.price}</p>
                                                         <div className="d-flex">
                                                             <div>

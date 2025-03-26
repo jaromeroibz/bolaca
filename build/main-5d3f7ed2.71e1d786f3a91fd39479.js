@@ -562,7 +562,7 @@ var DetalleProductos = function DetalleProductos() {
     style: {
       fontWeight: "300"
     }
-  }, "\xA1Pocas unidades disponibles!") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, "\xA1Pocas unidades disponibles!") : '', product.stock >= 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "py-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
     className: "quantity-form"
@@ -630,7 +630,7 @@ var DetalleProductos = function DetalleProductos() {
     },
     className: "add-cart-details-button",
     disabled: product.stock === 0
-  }, "Agregar al carrito"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, "Agregar al carrito"))) : '')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-1"

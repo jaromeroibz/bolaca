@@ -655,7 +655,7 @@ var Productos = function Productos() {
     _useState8 = _slicedToArray(_useState7, 2),
     hasMore = _useState8[0],
     setHasMore = _useState8[1];
-  var productsPerPage = 9;
+  var productsPerPage = 6;
 
   // Create a ref for the loading element
   var observer = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
@@ -810,7 +810,9 @@ var Productos = function Productos() {
       className: "card-body"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
       className: "card-title"
-    }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+    }, item.name), item.stock === 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+      className: "text-danger fw-bold mb-2"
+    }, "Sin Stock"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
       className: "card-text"
     }, "$", item.price), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "d-flex"

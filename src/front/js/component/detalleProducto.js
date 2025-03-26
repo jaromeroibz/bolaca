@@ -104,6 +104,7 @@ const DetalleProductos = () => {
                                                     ¡Pocas unidades disponibles!
                                                 </h4>
                                             ) : ''}
+                                            {product.stock >= 1 ? (
                                             <div className="py-5">
                                                 {/* Quantity Selector */}
                                                 <form className="quantity-form">
@@ -204,7 +205,7 @@ const DetalleProductos = () => {
                                                         Agregar al carrito
                                                     </button>
                                                 </div>
-                                            </div>
+                                            </div>) : ''}
                                         </div>
                                     </div>
                                 </div>
