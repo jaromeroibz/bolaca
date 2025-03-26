@@ -79,6 +79,12 @@ const ShoppingCart = () => {
     return (
         <>
             <div className="container">
+                <Link
+                    to={`/productos`}
+                    style={{ textDecoration: "none" }}
+                >
+                    Volver al listado
+                </Link>
                 {store.cart.length === 0 ? (
                     <h1>Tu carrito está vacío</h1>
                 ) : (

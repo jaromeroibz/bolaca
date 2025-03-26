@@ -64,7 +64,7 @@ class ProductCategory(db.Model):
   
 
     def __repr__(self):
-        return f'<ProductCategory {self.id}>' 
+        return f'{self.category_name}' 
     
     def serialize(self):
         return{
@@ -80,7 +80,7 @@ class Brands(db.Model):
     products = db.relationship('Products', backref='brand', lazy=True)
 
     def __repr__(self):
-        return f'<Brands {self.id}>' 
+        return f'{self.name}' 
     
     def serialize(self):
         return{
@@ -106,7 +106,7 @@ class Products(db.Model):
     product_category = db.relationship(ProductCategory, back_populates="products")
 
     def __repr__(self):
-        return f'<Products {self.id}>' 
+        return f'{self.name}' 
     
     def serialize(self):
         return{
