@@ -76,7 +76,7 @@ const DetalleProductos = () => {
                                 <div className="col-4 product-info">
                                     <div className="card">
                                         <div className="card-body">
-                                            {product.is_destacado && (
+                                            {product.isDestacado && (
                                                 <h6 style={{ color: "grey" }}>Destacado</h6>
                                             )}
                                             <h4

@@ -50,7 +50,7 @@ const LandingPage = () => {
     // Safe access to products
     const result = React.useMemo(() => {
         return Array.isArray(store?.products) 
-            ? store.products.filter(item => item?.is_destacado === true)
+            ? store.products.filter(item => item?.isDestacado === true)
             : [];
     }, [store?.products]);
 

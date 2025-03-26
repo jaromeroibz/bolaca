@@ -536,7 +536,7 @@ var DetalleProductos = function DetalleProductos() {
     className: "card"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "card-body"
-  }, product.isDestacado && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+  }, product.is_destacado && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
     style: {
       color: "grey"
     }

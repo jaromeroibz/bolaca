@@ -95,7 +95,7 @@ var LandingPage = function LandingPage() {
   // Safe access to products
   var result = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(function () {
     return Array.isArray(store === null || store === void 0 ? void 0 : store.products) ? store.products.filter(function (item) {
-      return (item === null || item === void 0 ? void 0 : item.isDestacado) === true;
+      return (item === null || item === void 0 ? void 0 : item.is_destacado) === true;
     }) : [];
   }, [store === null || store === void 0 ? void 0 : store.products]);
   function filterProducts(item) {
