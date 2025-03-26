@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import request, jsonify, Blueprint, redirect, make_response, session, url_for
-from .models import db, User, ProductCategory, Products, PaymentType, Preferences, Brands, ProductBrand
+from .models import db, User, ProductCategory, Products, Preferences, Brands, ProductBrand
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
@@ -276,71 +276,6 @@ def delete_category(category_id):
       
     return jsonify(response_body), 200
 
-@api.route('/get_payment_type', methods=['GET'])
-def get_all_payment_types():
-    
-    all_payment_types = PaymentType.query.all()
-    result = list(map(lambda item: item.serialize(), all_payment_types))
-
-    return jsonify(result) 
-
-@api.route('/get_payment_type/<int:payment_type_id>', methods=['GET'])
-def get_payment_type(payment_type_id):
-    
-    payment_type = PaymentType.query.filter_by(id=payment_type_id).first()
-
-    return jsonify(payment_type.serialize())
-
-
-@api.route('/add_payment_type', methods=['POST'])
-@jwt_required()
-def add_payment_type():
-    
-    body = request.get_json()
-    payment_type = PaymentType.query.filter_by(payment_type=body["payment_type"]).first()
-
-    if payment_type == None:
-
-        payment_type = PaymentType(payment_type = body['payment_type'])
-        db.session.add(payment_type)
-        db.session.commit()
-
-        response_body = {
-            "message": "Payment type created"
-        }
-
-        return jsonify(response_body), 200
-    else:
-        return jsonify({"msg": "Payment type already exists with this name"}), 401
-    
-@api.route('/update_payment_type/<int:payment_type_id>', methods =['PUT'])
-@jwt_required()
-def update_payment_type(payment_type_id):
-    body = request.get_json()
-    update_payment_type = PaymentType.query.filter_by(id=payment_type_id).first()
-
-    if body['payment_type']: update_payment_type.payment_type = body['payment_type']
-
-    db.session.commit()
-
-    response_body = {
-        "message": "Payment type updated"
-    }
-      
-    return jsonify(response_body), 200
-
-@api.route('/delete_payment_type/<int:payment_type_id>', methods =['DELETE'])
-def delete_payment_type(payment_type_id):
-    delete_payment_type = PaymentType.query.filter_by(id=payment_type_id).first()
-
-    db.session.delete(delete_payment_type)
-    db.session.commit()
-
-    response_body = {
-        "message": "Payment type deleted"
-    }
-      
-    return jsonify(response_body), 200
 
 @api.route('/add_preference', methods=['POST'])
 def add_preference():
