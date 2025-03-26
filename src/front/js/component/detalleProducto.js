@@ -210,15 +210,27 @@ const DetalleProductos = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
+                            <div className="row mt-4">
                                 <div className="col-1"></div>
                                 <div className="col-7">
-                                    <div className="card-body">
-                                        <h6>Características principales</h6>
-                                        Marca {product.brand.name}
-                                        Nombre {product.name}
-                                        <h6>Descripción</h6>
-                                        {product.description}
+                                    <div className="card-body p-0">
+                                        <h6 className="fw-bold mb-3" style={{ fontSize: '18px', color: '#333' }}>Características principales</h6>
+                                        
+                                        <div className="mb-3">
+                                            <div className="d-flex mb-1">
+                                                <span className="fw-bold me-2" style={{ fontSize: '14px', color: '#555' }}>Marca:</span>
+                                                <span style={{ fontSize: '14px' }}>{product.brand.name}</span>
+                                            </div>
+                                            <div className="d-flex">
+                                                <span className="fw-bold me-2" style={{ fontSize: '14px', color: '#555' }}>Nombre:</span>
+                                                <span style={{ fontSize: '14px' }}>{product.name}</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <h6 className="fw-bold mb-3" style={{ fontSize: '18px', color: '#333' }}>Descripción</h6>
+                                        <p style={{ fontSize: '14px', lineHeight: '1.5', color: '#333', textAlign: 'justify' }}>
+                                            {product.description}
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="col-4"></div>

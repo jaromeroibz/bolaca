@@ -150,9 +150,10 @@ const Productos = () => {
                                                                     <button className="see-more-button d-inline">Ver Más</button>
                                                                 </Link>
                                                             </div>
+                                                            {item.stock >= 1 ? (
                                                             <div className="px-3">
                                                                 <button onClick={() => actions.addToCart(item)} className="add-cart-button">Agregar al carrito</button>
-                                                            </div>
+                                                            </div> ) : ''}
                                                         </div>
                                                     </div>
                                                 </div>

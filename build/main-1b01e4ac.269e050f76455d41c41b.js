@@ -823,14 +823,14 @@ var Productos = function Productos() {
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
       className: "see-more-button d-inline"
-    }, "Ver M\xE1s"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    }, "Ver M\xE1s"))), item.stock >= 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "px-3"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
       onClick: function onClick() {
         return actions.addToCart(item);
       },
       className: "add-cart-button"
-    }, "Agregar al carrito")))));
+    }, "Agregar al carrito")) : '')));
   }), hasMore && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     ref: loadingRef,
     className: "loading-indicator text-center my-4 w-100"

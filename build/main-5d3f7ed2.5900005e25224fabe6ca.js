@@ -631,14 +631,59 @@ var DetalleProductos = function DetalleProductos() {
     className: "add-cart-details-button",
     disabled: product.stock === 0
   }, "Agregar al carrito"))) : '')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "row"
+    className: "row mt-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-1"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-7"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "card-body"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "Caracter\xEDsticas principales"), "Marca ", product.brand.name, "Nombre ", product.name, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "Descripci\xF3n"), product.description)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card-body p-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+    className: "fw-bold mb-3",
+    style: {
+      fontSize: '18px',
+      color: '#333'
+    }
+  }, "Caracter\xEDsticas principales"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "mb-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-flex mb-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "fw-bold me-2",
+    style: {
+      fontSize: '14px',
+      color: '#555'
+    }
+  }, "Marca:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    style: {
+      fontSize: '14px'
+    }
+  }, product.brand.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-flex"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "fw-bold me-2",
+    style: {
+      fontSize: '14px',
+      color: '#555'
+    }
+  }, "Nombre:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    style: {
+      fontSize: '14px'
+    }
+  }, product.name))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+    className: "fw-bold mb-3",
+    style: {
+      fontSize: '18px',
+      color: '#333'
+    }
+  }, "Descripci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+    style: {
+      fontSize: '14px',
+      lineHeight: '1.5',
+      color: '#333',
+      textAlign: 'justify'
+    }
+  }, product.description))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-4"
   })))))));
 };
