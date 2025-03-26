@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# simple_build.sh
+# comprehensive_build.sh
 
 # Exit on error
 set -o errexit
 
-echo "Starting simple build process..."
+echo "Starting comprehensive build process..."
 
 # Install dependencies
 echo "Installing dependencies..."
 pipenv install
 
-# Run the direct fix script
-echo "Running direct fix script..."
-pipenv run python fix_is_destacado.py
+# Run the comprehensive fix script
+echo "Running comprehensive fix script..."
+pipenv run python fix_database_issues.py
 
 # Remove existing migrations directory
 echo "Removing existing migrations directory..."
@@ -24,7 +24,7 @@ pipenv run flask db init
 
 # Create initial migration
 echo "Creating initial migration..."
-pipenv run flask db migrate -m "Fresh start"
+pipenv run flask db migrate -m "Fresh start with fixed column types"
 
 # Apply migration
 echo "Applying migration..."
