@@ -24,10 +24,6 @@ def setup_admin(app):
     admin.add_view(ModelView(User, db.session))
     admin.add_view(ModelView(Brands, db.session))
     admin.add_view(ModelView(ProductBrand, db.session))
-    admin.add_view(ModelView(CustomerDetails, db.session))
     admin.add_view(ProductCategoryAdmin(ProductCategory, db.session))  # Use the custom ModelView class
     admin.add_view(ModelView(Products, db.session))
-    admin.add_view(ModelView(PaymentType, db.session))
-    admin.add_view(ModelView(ShopOrder, db.session))
-    admin.add_view(ModelView(OrderLine, db.session))
     admin.add_view(LogoutView(name='Logout'))  # Add the logout button to the menu
