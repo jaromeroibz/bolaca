@@ -6,7 +6,7 @@ services:
       region: ohio
       name: sample-service-name
       env: python # valid values: https://render.com/docs/yaml-spec#environment
-      buildCommand: "./render_build.sh"
+      buildCommand: pipenv install && pipenv run python -m flask db upgrade
       startCommand: "gunicorn wsgi --chdir ./src/"
       plan: free # optional; defaults to starter
       numInstances: 1
