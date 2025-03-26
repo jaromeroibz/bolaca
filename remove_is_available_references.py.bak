@@ -1,0 +1,179 @@
+import os
+import sys
+import re
+import glob
+import shutil
+
+# Add the src directory to the Python path
+project_root = os.getcwd()
+src_path = os.path.join(project_root, 'src')
+
+print("Searching for and removing references to is_available and isAvailable in your codebase...")
+
+# Find all Python files in the project
+python_files = glob.glob(os.path.join(project_root, '**', '*.py'), recursive=True)
+
+# Track files that were modified
+modified_files = []
+
+# Function to process each file
+def process_file(file_path, is_python=True):
+    # Skip virtual environment files
+    if '.venv' in file_path or 'venv' in file_path or '__pycache__' in file_path:
+        return False
+    
+    # Read the file content
+    try:
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as file:
+            try:
+                content = file.read()
+            except UnicodeDecodeError:
+                print(f"Could not read {file_path} due to encoding issues. Skipping.")
+                return False
+    except:
+        return False
+    
+    # Check if the file contains references to the problematic columns
+    if 'is_available' in content or 'isAvailable' in content:
+        print(f"\nFound references in: {file_path}")
+        
+        # Create backup
+        backup_path = f"{file_path}.bak"
+        shutil.copy2(file_path, backup_path)
+        
+        # Replace references
+        original_content = content
+        
+        if is_python:
+            # Python-specific replacements
+            
+            # Remove model field definition
+            content = re.sub(r'\s*is_available\s*=\s*db\.Column$[^)]*$.*\n', '\n', content)
+            content = re.sub(r'\s*isAvailable\s*=\s*db\.Column$[^)]*$.*\n', '\n', content)
+            
+            # Remove from serialize method
+            content = re.sub(r'\s*"is_available":\s*self\.is_available,?\n', '\n', content)
+            content = re.sub(r'\s*"isAvailable":\s*self\.isAvailable,?\n', '\n', content)
+            
+            # Remove from filter conditions
+            content = re.sub(r'\.filter$.*?is_available.*?$', '.filter()', content)
+            content = re.sub(r'\.filter$.*?isAvailable.*?$', '.filter()', content)
+            content = re.sub(r'\.filter_by$.*?is_available.*?=.*?$', '.filter_by()', content)
+            content = re.sub(r'\.filter_by$.*?isAvailable.*?=.*?$', '.filter_by()', content)
+            
+            # Remove from form fields or column lists
+            content = re.sub(r',\s*["\']is_available["\']', '', content)
+            content = re.sub(r',\s*["\']isAvailable["\']', '', content)
+            content = re.sub(r'["\']is_available["\']\s*,', '', content)
+            content = re.sub(r'["\']isAvailable["\']\s*,', '', content)
+            
+            # Fix any broken commas in lists/tuples
+            content = re.sub(r',\s*,', ',', content)
+            content = re.sub(r',\s*\)', ')', content)
+            content = re.sub(r'\(\s*,', '(', content)
+        else:
+            # HTML/JS replacements
+            
+            # Remove from templates
+            content = re.sub(r'<[^>]*?is_available[^>]*?>.*?</[^>]*?>', '', content)
+            content = re.sub(r'<[^>]*?isAvailable[^>]*?>.*?</[^>]*?>', '', content)
+            
+            # Remove from JavaScript
+            content = re.sub(r',\s*["\']is_available["\']:\s*[^,}]*', '', content)
+            content = re.sub(r',\s*["\']isAvailable["\']:\s*[^,}]*', '', content)
+            content = re.sub(r'["\']is_available["\']:\s*[^,}]*,', '', content)
+            content = re.sub(r'["\']isAvailable["\']:\s*[^,}]*,', '', content)
+            
+            # Fix any broken JSON syntax
+            content = re.sub(r',\s*,', ',', content)
+            content = re.sub(r',\s*}', '}', content)
+            content = re.sub(r'{\s*,', '{', content)
+        
+        # Check if content was modified
+        if content != original_content:
+            # Write the updated content
+            with open(file_path, 'w', encoding='utf-8') as file:
+                file.write(content)
+            
+            print(f"  Updated references in {file_path}")
+            return True
+        else:
+            print(f"  No changes needed in {file_path}")
+            return False
+    
+    return False
+
+# Process Python files
+for file_path in python_files:
+    if process_file(file_path, is_python=True):
+        modified_files.append(file_path)
+
+# Process HTML/JS/Template files
+template_files = glob.glob(os.path.join(project_root, '**', '*.html'), recursive=True)
+template_files += glob.glob(os.path.join(project_root, '**', '*.js'), recursive=True)
+template_files += glob.glob(os.path.join(project_root, 'src', 'front', '**', '*.*'), recursive=True)
+
+for file_path in template_files:
+    if process_file(file_path, is_python=False):
+        modified_files.append(file_path)
+
+# Specifically check admin views
+admin_file = os.path.join(src_path, 'api', 'admin.py')
+if os.path.exists(admin_file):
+    print(f"\nSpecifically checking admin file: {admin_file}")
+    
+    with open(admin_file, 'r', encoding='utf-8') as file:
+        content = file.read()
+    
+    # Create backup
+    backup_path = f"{admin_file}.bak"
+    shutil.copy2(admin_file, backup_path)
+    
+    # Replace references
+    original_content = content
+    
+    # Remove from column_labels
+    content = re.sub(r'"is_available"\s*:\s*[^,}]*,?', '', content)
+    content = re.sub(r'"isAvailable"\s*:\s*[^,}]*,?', '', content)
+    
+    # Remove from form_columns
+    content = re.sub(r',\s*"is_available"', '', content)
+    content = re.sub(r',\s*"isAvailable"', '', content)
+    content = re.sub(r'"is_available"\s*,', '', content)
+    content = re.sub(r'"isAvailable"\s*,', '', content)
+    
+    # Remove from column_list
+    content = re.sub(r',\s*"is_available"', '', content)
+    content = re.sub(r',\s*"isAvailable"', '', content)
+    content = re.sub(r'"is_available"\s*,', '', content)
+    content = re.sub(r'"isAvailable"\s*,', '', content)
+    
+    # Fix any broken syntax
+    content = re.sub(r',\s*,', ',', content)
+    content = re.sub(r',\s*\)', ')', content)
+    content = re.sub(r'\(\s*,', '(', content)
+    content = re.sub(r',\s*}', '}', content)
+    content = re.sub(r'{\s*,', '{', content)
+    
+    # Check if content was modified
+    if content != original_content:
+        # Write the updated content
+        with open(admin_file, 'w', encoding='utf-8') as file:
+            file.write(content)
+        
+        print(f"  Updated references in {admin_file}")
+        modified_files.append(admin_file)
+    else:
+        print(f"  No changes needed in {admin_file}")
+
+# Summary
+print("\n" + "="*50)
+print(f"Modified {len(modified_files)} files:")
+for file in modified_files:
+    print(f"  - {file}")
+print("="*50)
+
+print("\nNext steps:")
+print("1. Check the modified files to ensure the changes are correct")
+print("2. Run your application locally to test the changes")
+print("3. Commit and push the changes to deploy to Render")
