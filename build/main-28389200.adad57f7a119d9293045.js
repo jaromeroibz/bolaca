@@ -367,7 +367,7 @@ hr.custom-hr {
 
 .footer-container {
   background-color: hsl(0, 0%, 100%);
-  color: #ffffff; /* White text */
+  color: #000000; /* White text */
   padding: 30px 0;
   text-align: center;
   font-family: "Montserrat", Arial, sans-serif; /* Matching the font style */
