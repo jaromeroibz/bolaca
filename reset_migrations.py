@@ -1,71 +1,86 @@
 import os
 import sys
-import subprocess
+import psycopg2
+import re
+from urllib.parse import urlparse
 
 # Add the src directory to the Python path
 project_root = os.getcwd()
 src_path = os.path.join(project_root, 'src')
-sys.path.insert(0, src_path)  # This makes 'api' directly importable
+sys.path.insert(0, src_path)
 
-# Now import the app and db
-print("Importing app and db...")
+# Import app configuration to get database URL
+print("Importing app...")
 from app import app
-from api.models import db
 
-print("Successfully imported app and db")
+# Get database URL from app config
+db_url = app.config['SQLALCHEMY_DATABASE_URI']
+print(f"Database URL: {db_url}")
 
-# Reset migrations
-print("Starting migration reset...")
-with app.app_context():
-    from flask_migrate import Migrate
+# Parse the database URL to get connection parameters
+parsed_url = urlparse(db_url)
+dbname = parsed_url.path[1:]  # Remove leading slash
+user = parsed_url.username
+password = parsed_url.password
+host = parsed_url.hostname
+port = parsed_url.port or 5432
+
+print(f"Connecting to database {dbname} on {host}:{port}...")
+
+try:
+    # Connect directly to the database
+    conn = psycopg2.connect(
+        dbname=dbname,
+        user=user,
+        password=password,
+        host=host,
+        port=port
+    )
+    conn.autocommit = False  # We'll manage transactions ourselves
+    print("Connected successfully!")
     
-    # Initialize Migrate
-    migrate = Migrate(app, db)
+    cursor = conn.cursor()
     
-    # Check if migrations directory exists
-    migrations_dir = os.path.join(project_root, 'migrations')
+    # 1. Check if alembic_version table exists
+    print("\nChecking for alembic_version table...")
+    cursor.execute("SELECT to_regclass('public.alembic_version')")
+    table_exists = cursor.fetchone()[0]
     
-    # Delete alembic_version entries if the table exists
-    from sqlalchemy import text, inspect
-    inspector = inspect(db.engine)
-    if 'alembic_version' in inspector.get_table_names():
-        print("Deleting alembic_version entries...")
-        db.session.execute(text("DELETE FROM alembic_version"))
-        db.session.commit()
-    
-    # Remove existing migrations directory if it exists
-    if os.path.exists(migrations_dir):
-        print(f"Removing existing migrations directory: {migrations_dir}")
-        import shutil
-        shutil.rmtree(migrations_dir)
-    
-    # Initialize migrations
-    print("Initializing migrations...")
-    result = subprocess.run(["flask", "db", "init"], cwd=project_root, capture_output=True, text=True)
-    if result.returncode != 0:
-        print(f"Error initializing migrations: {result.stderr}")
-        sys.exit(1)
+    if table_exists:
+        # Clear the alembic_version table
+        print("Clearing alembic_version table...")
+        cursor.execute("DELETE FROM alembic_version")
+        print("Alembic version table cleared")
     else:
-        print("Migrations initialized successfully")
+        print("Alembic version table doesn't exist - nothing to clear")
     
-    # Create initial migration
-    print("Creating initial migration...")
-    result = subprocess.run(["flask", "db", "migrate", "-m", "Initial migration"], 
-                           cwd=project_root, capture_output=True, text=True)
-    if result.returncode != 0:
-        print(f"Error creating migration: {result.stderr}")
-        sys.exit(1)
+    # 2. Check for the problematic columns
+    print("\nChecking for problematic columns...")
+    cursor.execute("""
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = 'products' 
+        AND column_name IN ('is_available', 'isAvailable', 'is_destacado', 'isDestacado')
+    """)
+    
+    columns_to_drop = cursor.fetchall()
+    
+    if columns_to_drop:
+        print(f"Found columns to drop: {[col[0] for col in columns_to_drop]}")
+        for col in columns_to_drop:
+            print(f"Dropping column {col[0]}...")
+            cursor.execute(f'ALTER TABLE products DROP COLUMN IF EXISTS "{col[0]}"')
+        print("Columns dropped successfully")
     else:
-        print("Initial migration created successfully")
+        print("No problematic columns found")
     
-    # Apply the migration
-    print("Applying migration...")
-    result = subprocess.run(["flask", "db", "upgrade"], 
-                           cwd=project_root, capture_output=True, text=True)
-    if result.returncode != 0:
-        print(f"Error applying migration: {result.stderr}")
-        sys.exit(1)
-    else:
-        print("Migration applied successfully")
+    # Commit all changes
+    conn.commit()
+    print("\nAll database changes committed successfully")
     
-    print("Migration reset completed successfully!")
+except Exception as e:
+    conn.rollback() if 'conn' in locals() else None
+    print(f"Error: {str(e)}")
+finally:
+    if 'conn' in locals():
+        conn.close()
