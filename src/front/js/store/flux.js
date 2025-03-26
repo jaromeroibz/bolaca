@@ -211,7 +211,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getProductsByBrands: async (result) => {
 
 				try {
-
+				   console.log(result)
 				   const idToDisplay = result.id				
 				   const response = await fetch(process.env.BACKEND_URL+'/api/get_all_product_by_brand/' + idToDisplay)	
 				   const data = await response.json()
