@@ -1150,84 +1150,78 @@ var ShoppingCart = function ShoppingCart() {
     to: "/productos",
     style: {
       textDecoration: "none"
-    }
+    },
+    className: "mb-3 d-inline-block"
   }, "Volver al listado"), store.cart.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Tu carrito est\xE1 vac\xEDo") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "cart"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "Tu carrito"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "d-xl-inline-flex py-3"
+    className: "row py-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "card product-list"
-  }, store.cart.map(function (item, id) {
+    className: "col-md-8 mb-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card-body"
+  }, store.cart.map(function (item, idx) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "py-3",
-      key: id
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "cart-product",
-      style: {
-        width: 800,
-        height: 100
-      }
+      className: "mb-3",
+      key: idx
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "d-flex align-items-center"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-      className: "card-img-top ms-4 me-4",
+      className: "img-fluid me-3",
       src: item.image,
-      alt: "Card image cap",
+      alt: item.name,
       style: {
         width: 90,
-        height: 90
+        height: 90,
+        objectFit: 'contain'
       }
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
-      className: "product-name mb-0 me-4",
-      style: {
-        width: '450px'
-      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "flex-grow-1"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+      className: "mb-1"
     }, item.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "d-flex align-items-center"
+      className: "d-flex justify-content-between align-items-center"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "qty me-3"
-    }, item ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "d-flex align-items-center"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      className: "qty-btn border-0 shadow-none",
+      className: "btn btn-sm btn-outline-secondary",
       onClick: function onClick() {
         return actions.removeFromCart(item);
       }
     }, "-"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "px-2"
     }, item.qty), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      className: "qty-btn border-0 shadow-none",
+      className: "btn btn-sm btn-outline-secondary",
       onClick: function onClick() {
         return actions.addToCart(item);
       }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
-      className: "fa-regular fa-plus"
-    }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      onClick: function onClick() {
-        return actions.addToCart(item);
-      }
-    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "total-price"
-    }, "$", item.price * item.qty))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
-      className: "custom-hr"
-    })));
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "px-5"
+    }, "+")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "fw-bold"
+    }, "$", item.price * item.qty)))), idx < store.cart.length - 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
+      className: "my-3"
+    }));
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "col-md-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "card py-3 py-md-3 px-5",
-    style: {
-      width: 450
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    className: "mx-auto"
+    className: "card"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "card-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
+    className: "card-title text-center mb-3"
   }, "Resumen compra"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "d-flex justify-content-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Productos: (", store.cart.length, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, itemsPrice)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "d-flex justify-content-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Costo de env\xEDo:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, shippingPrice)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "d-flex justify-content-between"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Total:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, totalPrice)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    className: "mx-auto mt-4"
+    className: "d-flex justify-content-between mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "Productos: (", store.cart.length, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "$", itemsPrice)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-flex justify-content-between mb-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "Costo de env\xEDo:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "$", shippingPrice)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-flex justify-content-between mb-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "fw-bold"
+  }, "Total:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "fw-bold"
+  }, "$", totalPrice)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
+    className: "card-title text-center mt-4 mb-3"
   }, "Datos de contacto"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
     onSubmit: handleSubmit
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -1332,10 +1326,10 @@ var ShoppingCart = function ShoppingCart() {
     required: true
   }))), !preferenceId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     type: "submit",
-    className: "add-cart-button w-100 mt-3"
+    className: "btn btn-dark w-100 mt-3"
   }, "Ir a pagar") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "mt-3"
-  }, renderCheckoutButton(preferenceId)))))))));
+  }, renderCheckoutButton(preferenceId))))))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShoppingCart);
 
