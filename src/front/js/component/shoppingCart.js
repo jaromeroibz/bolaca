@@ -129,53 +129,9 @@ const ShoppingCart = () => {
                     <div className="cart">
                         <h3>Tu carrito</h3>
                         <div className="row py-3">
-                            {/* Product list card - Now uses col-md-8 for responsive layout */}
-                            <div className="col-md-8 mb-3">
-                                <div className="card">
-                                    <div className="card-body">
-                                        {store.cart.map((item, idx) => (
-                                            <div className="mb-3" key={idx}>
-                                                <div className="d-flex align-items-center">
-                                                    <img
-                                                        className="img-fluid me-3"
-                                                        src={item.image}
-                                                        alt={item.name}
-                                                        style={{ width: 90, height: 90, objectFit: 'contain' }}
-                                                    />
-                                                    <div className="flex-grow-1">
-                                                        <h6 className="mb-1">{item.name}</h6>
-                                                        <div className="d-flex justify-content-between align-items-center">
-                                                            <div className="d-flex align-items-center">
-                                                                <button
-                                                                    className="btn btn-sm btn-outline-secondary"
-                                                                    onClick={() => actions.removeFromCart(item)}
-                                                                >
-                                                                    -
-                                                                </button>
-                                                                <span className="px-2">{item.qty}</span>
-                                                                <button
-                                                                    className="btn btn-sm btn-outline-secondary"
-                                                                    onClick={() => actions.addToCart(item)}
-                                                                >
-                                                                    +
-                                                                </button>
-                                                            </div>
-                                                            <div className="fw-bold">
-                                                                ${item.price * item.qty}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {idx < store.cart.length - 1 && <hr className="my-3" />}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            {/* Order summary and contact info card - Now uses col-md-4 for responsive layout */}
-                            <div className="col-md-4">
-                                <div className="card">
+                            {/* Customer details form - NOW ON LEFT SIDE */}
+                            <div className="col-md-5 mb-3">
+                                <div className="card h-100">
                                     <div className="card-body">
                                         <h4 className="card-title text-center mb-3">Resumen compra</h4>
                                         <hr />
@@ -304,6 +260,50 @@ const ShoppingCart = () => {
                                                 </div>
                                             )}
                                         </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Product list card - NOW ON RIGHT SIDE */}
+                            <div className="col-md-7 mb-3">
+                                <div className="card h-100">
+                                    <div className="card-body">
+                                        {store.cart.map((item, idx) => (
+                                            <div className="mb-3" key={idx}>
+                                                <div className="d-flex align-items-center">
+                                                    <img
+                                                        className="img-fluid me-3"
+                                                        src={item.image}
+                                                        alt={item.name}
+                                                        style={{ width: 90, height: 90, objectFit: 'contain' }}
+                                                    />
+                                                    <div className="flex-grow-1">
+                                                        <h6 className="mb-1">{item.name}</h6>
+                                                        <div className="d-flex justify-content-between align-items-center">
+                                                            <div className="d-flex align-items-center">
+                                                                <button
+                                                                    className="btn btn-sm btn-outline-secondary"
+                                                                    onClick={() => actions.removeFromCart(item)}
+                                                                >
+                                                                    -
+                                                                </button>
+                                                                <span className="px-2">{item.qty}</span>
+                                                                <button
+                                                                    className="btn btn-sm btn-outline-secondary"
+                                                                    onClick={() => actions.addToCart(item)}
+                                                                >
+                                                                    +
+                                                                </button>
+                                                            </div>
+                                                            <div className="fw-bold">
+                                                                ${item.price * item.qty}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {idx < store.cart.length - 1 && <hr className="my-3" />}
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
