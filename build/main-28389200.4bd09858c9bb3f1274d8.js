@@ -735,6 +735,16 @@ var getState = function getState(_ref) {
         initial: "white"
       }],
       products: [],
+      customerDetails: {
+        name: "",
+        email: "",
+        phone: "",
+        street: "",
+        streetNumber: "",
+        city: "",
+        province: "",
+        postalCode: ""
+      },
       categories: [],
       productDetails: [],
       category: [],
@@ -819,6 +829,11 @@ var getState = function getState(_ref) {
           });
           localStorage.setItem('cart', JSON.stringify(_newCartItems));
         }
+      },
+      setCustomerDetails: function setCustomerDetails(customerDetails) {
+        setStore(_objectSpread(_objectSpread({}, store), {}, {
+          customerDetails: customerDetails
+        }));
       },
       getProducts: function () {
         var _getProducts = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {

@@ -170,9 +170,6 @@ var ContactForm = function ContactForm() {
       return _ref.apply(this, arguments);
     };
   }();
-  var handleCaptchaChange = function handleCaptchaChange(value) {
-    setCaptchaVerified(!!value); // Valida que el captcha se haya completado
-  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     style: {
       maxWidth: "400px",

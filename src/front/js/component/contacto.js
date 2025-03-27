@@ -43,10 +43,6 @@ const ContactForm = () => {
     alert("Mensaje enviado exitosamente.");
   };
 
-  const handleCaptchaChange = (value) => {
-    setCaptchaVerified(!!value); // Valida que el captcha se haya completado
-  };
-
   return (
     <div style={{ maxWidth: "400px", margin: "auto", padding: "20px", fontFamily: "Arial, sans-serif", paddingTop:"150px" }}>
       <h2>Déjanos tu mensaje</h2>

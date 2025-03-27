@@ -11,6 +11,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				{ title: "SECOND", background: "white", initial: "white" },
 			],
 			products: [],
+			customerDetails: {
+				name: "",
+				email: "",
+				phone: "",
+				street: "",
+				streetNumber: "",
+				city: "",
+				province: "",
+				postalCode: ""
+			},
 			categories: [],
 			productDetails: [],
 			category: [],
@@ -82,7 +92,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ cart: newCartItems });
 					localStorage.setItem('cart', JSON.stringify(newCartItems));
 				}
-			},			
+			},
+			setCustomerDetails: (customerDetails) => {
+				setStore({ 
+					...store, 
+					customerDetails: customerDetails 
+				});
+			},
 			getProducts: async () => {
 				try {
 					if (!process.env.BACKEND_URL) {
