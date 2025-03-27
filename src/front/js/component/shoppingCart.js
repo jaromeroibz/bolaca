@@ -73,7 +73,7 @@ const ShoppingCart = () => {
         }
     };
 
-    const shippingCost = 3000;
+    const shippingCost = 0;
     const shippingPrice = itemsPrice > 20000 ? 0 : shippingCost;
     const totalPrice = itemsPrice + shippingPrice;
 

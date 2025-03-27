@@ -1097,7 +1097,7 @@ var ShoppingCart = function ShoppingCart() {
       return _ref2.apply(this, arguments);
     };
   }();
-  var shippingCost = 3000;
+  var shippingCost = 0;
   var shippingPrice = itemsPrice > 20000 ? 0 : shippingCost;
   var totalPrice = itemsPrice + shippingPrice;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
