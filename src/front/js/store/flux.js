@@ -11,16 +11,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				{ title: "SECOND", background: "white", initial: "white" },
 			],
 			products: [],
-			customerDetails: {
-				name: "",
-				email: "",
-				phone: "",
-				street: "",
-				streetNumber: "",
-				city: "",
-				province: "",
-				postalCode: ""
-			},
+			customerDetails: [],
 			categories: [],
 			productDetails: [],
 			category: [],

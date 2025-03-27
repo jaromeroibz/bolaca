@@ -735,16 +735,7 @@ var getState = function getState(_ref) {
         initial: "white"
       }],
       products: [],
-      customerDetails: {
-        name: "",
-        email: "",
-        phone: "",
-        street: "",
-        streetNumber: "",
-        city: "",
-        province: "",
-        postalCode: ""
-      },
+      customerDetails: [],
       categories: [],
       productDetails: [],
       category: [],

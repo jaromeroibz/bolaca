@@ -970,7 +970,7 @@ var SearchBarResults = function SearchBarResults() {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6540);
 /* harmony import */ var _store_appContext_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3398);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(4976);
-/* harmony import */ var _mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9938);
+/* harmony import */ var _mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5579);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6064);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -1000,10 +1000,14 @@ var ShoppingCart = function ShoppingCart() {
     _useState2 = _slicedToArray(_useState, 2),
     preferenceId = _useState2[0],
     setPreferenceId = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+    _useState4 = _slicedToArray(_useState3, 2),
+    currentOrder = _useState4[0],
+    setCurrentOrder = _useState4[1];
   var itemsPrice = store.cart.reduce(function (a, c) {
     return a + c.qty * c.price;
   }, 0);
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       name: "",
       email: "",
       phone: "",
@@ -1013,9 +1017,9 @@ var ShoppingCart = function ShoppingCart() {
       province: "",
       postalCode: ""
     }),
-    _useState4 = _slicedToArray(_useState3, 2),
-    customerDetails = _useState4[0],
-    setCustomerDetails = _useState4[1];
+    _useState6 = _slicedToArray(_useState5, 2),
+    customerDetails = _useState6[0],
+    setCustomerDetails = _useState6[1];
   (0,_mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__/* .initMercadoPago */ .Lz)("APP_USR-d706c38b-4f61-41c6-92e2-d3ae06f6f9c9", {
     locale: "es-CL"
   });
@@ -1038,7 +1042,9 @@ var ShoppingCart = function ShoppingCart() {
             });
             _context.next = 4;
             return axios__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .A.post("".concat("https://api.bolaca.cl", "/create_preference"), {
-              items: items
+              items: items,
+              // Include customer info in the preference if needed
+              customer: currentOrder
             }, {
               withCredentials: true,
               headers: {
@@ -1073,26 +1079,6 @@ var ShoppingCart = function ShoppingCart() {
     };
   }();
 
-  // Add MercadoPago Wallet customization
-  var renderCheckoutButton = function renderCheckoutButton(preferenceId) {
-    if (preferenceId) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__/* .Wallet */ .uW, {
-        initialization: {
-          preferenceId: preferenceId
-        },
-        customization: {
-          texts: {
-            valueProp: 'smart_option'
-          },
-          visual: {
-            buttonBackground: 'black',
-            borderRadius: '6px'
-          }
-        }
-      });
-    }
-  };
-
   // Handle form input changes
   var handleInputChange = function handleInputChange(e) {
     var _e$target = e.target,
@@ -1105,11 +1091,24 @@ var ShoppingCart = function ShoppingCart() {
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
 
-    // Store customer details in the global state
-    actions.setCustomerDetails(customerDetails);
+    // Validate form
+    if (!customerDetails.name || !customerDetails.email || !customerDetails.phone) {
+      alert("Por favor complete todos los campos requeridos");
+      return;
+    }
+    try {
+      // Add customer to the array of customers in the store
+      var newOrder = actions.addCustomerDetails(customerDetails);
 
-    // Proceed with payment
-    handleBuy();
+      // Store current order details locally
+      setCurrentOrder(newOrder);
+
+      // Proceed with payment
+      handleBuy();
+    } catch (error) {
+      console.error("Error saving customer details:", error);
+      alert("Hubo un problema al guardar sus datos. Por favor intente de nuevo.");
+    }
   };
   var handleBuy = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
@@ -1117,21 +1116,14 @@ var ShoppingCart = function ShoppingCart() {
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
-            if (!(!customerDetails.name || !customerDetails.email || !customerDetails.phone)) {
-              _context2.next = 3;
-              break;
-            }
-            alert("Please fill in all required fields");
-            return _context2.abrupt("return");
-          case 3:
-            _context2.next = 5;
+            _context2.next = 2;
             return createPreference();
-          case 5:
+          case 2:
             id = _context2.sent;
             if (id) {
               setPreferenceId(id);
             }
-          case 7:
+          case 4:
           case "end":
             return _context2.stop();
         }
@@ -1141,9 +1133,9 @@ var ShoppingCart = function ShoppingCart() {
       return _ref2.apply(this, arguments);
     };
   }();
-  var shippingCost = 0;
-  var shippingPrice = itemsPrice > 20000 ? 0 : shippingCost;
-  var totalPrice = itemsPrice + shippingPrice;
+
+  // Rest of your component code remains the same
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
