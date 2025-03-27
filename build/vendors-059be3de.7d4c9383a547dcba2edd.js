@@ -83,17 +83,18 @@ exports.r = loadMercadoPago;
 
 /***/ }),
 
-/***/ 5579:
+/***/ 9938:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
+  uW: () => (/* reexport */ wallet),
   Lz: () => (/* reexport */ mercadoPago_initMercadoPago)
 });
 
-// UNUSED EXPORTS: CardNumber, CardPayment, ExpirationDate, ExpirationMonth, ExpirationYear, Payment, SecurityCode, StatusScreen, Wallet, createCardToken, getIdentificationTypes, getInstallments, getIssuers, getPaymentMethods, updateCardToken
+// UNUSED EXPORTS: CardNumber, CardPayment, ExpirationDate, ExpirationMonth, ExpirationYear, Payment, SecurityCode, StatusScreen, createCardToken, getIdentificationTypes, getInstallments, getIssuers, getPaymentMethods, updateCardToken
 
 // EXTERNAL MODULE: ./node_modules/@mercadopago/sdk-js/dist/index.js
 var dist = __webpack_require__(9895);
@@ -202,7 +203,7 @@ var renderBrick_awaiter = (undefined && undefined.__awaiter) || function (thisAr
 };
 
 const renderBrick_initBrick = ({ settings, name, containerId, controller, }) => renderBrick_awaiter(void 0, void 0, void 0, function* () {
-    const instanceMercadoPago = yield MercadoPagoInstance.getInstance();
+    const instanceMercadoPago = yield initMercadoPago_MercadoPagoInstance.getInstance();
     const bricksBuilder = instanceMercadoPago === null || instanceMercadoPago === void 0 ? void 0 : instanceMercadoPago.bricks();
     window[controller] = yield (bricksBuilder === null || bricksBuilder === void 0 ? void 0 : bricksBuilder.create(name, containerId, settings));
 });
@@ -414,6 +415,10 @@ const StatusScreen = ({ onReady = onReadyDefault, onError = onErrorDefault, cust
 };
 /* harmony default export */ const statusScreen = ((/* unused pure expression or super */ null && (StatusScreen)));
 
+;// ./node_modules/@mercadopago/sdk-react/esm/bricks/util/constants/index.js
+// Bricks uses a debounce to prevent unnecessary reRenders.
+const constants_DEBOUNCE_TIME_RENDER = 200; //ms
+
 ;// ./node_modules/@mercadopago/sdk-react/esm/bricks/wallet/index.js
 
 
@@ -439,8 +444,8 @@ const StatusScreen = ({ onReady = onReadyDefault, onError = onErrorDefault, cust
  *
  * @see {@link https://www.mercadopago.com/developers/en/docs/checkout-bricks/wallet-brick/introduction Wallet Brick documentation} for more information.
  */
-const Wallet = ({ onReady = onReadyDefault, onError = onErrorDefault, onSubmit = onSubmitDefault, customization, initialization, brand, locale, id = 'walletBrick_container', }) => {
-    useEffect(() => {
+const Wallet = ({ onReady = initial_onReadyDefault, onError = initial_onErrorDefault, onSubmit = initial_onSubmitDefault, customization, initialization, brand, locale, id = 'walletBrick_container', }) => {
+    (0,react.useEffect)(() => {
         // CardPayment uses a debounce to prevent unnecessary reRenders.
         const WalletBrickConfig = {
             settings: {
@@ -459,17 +464,17 @@ const Wallet = ({ onReady = onReadyDefault, onError = onErrorDefault, onSubmit =
             controller: 'walletBrickController',
         };
         const timer = setTimeout(() => {
-            initBrick(WalletBrickConfig);
-        }, DEBOUNCE_TIME_RENDER);
+            renderBrick_initBrick(WalletBrickConfig);
+        }, constants_DEBOUNCE_TIME_RENDER);
         return () => {
             var _a;
             clearTimeout(timer);
             (_a = window.walletBrickController) === null || _a === void 0 ? void 0 : _a.unmount();
         };
     }, [customization, initialization, onReady, onError, onSubmit]);
-    return React.createElement("div", { id: id });
+    return react.createElement("div", { id: id });
 };
-/* harmony default export */ const wallet = ((/* unused pure expression or super */ null && (Wallet)));
+/* harmony default export */ const wallet = (Wallet);
 
 ;// ./node_modules/@mercadopago/sdk-react/esm/coreMethods/getIdentificationTypes/index.js
 var getIdentificationTypes_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {

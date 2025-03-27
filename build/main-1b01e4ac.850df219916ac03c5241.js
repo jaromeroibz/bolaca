@@ -970,7 +970,7 @@ var SearchBarResults = function SearchBarResults() {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6540);
 /* harmony import */ var _store_appContext_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3398);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(4976);
-/* harmony import */ var _mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5579);
+/* harmony import */ var _mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9938);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6064);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -1043,7 +1043,6 @@ var ShoppingCart = function ShoppingCart() {
             _context.next = 4;
             return axios__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .A.post("".concat("https://api.bolaca.cl", "/create_preference"), {
               items: items,
-              // Include customer info in the preference if needed
               customer: currentOrder
             }, {
               withCredentials: true,
@@ -1079,6 +1078,26 @@ var ShoppingCart = function ShoppingCart() {
     };
   }();
 
+  // Add MercadoPago Wallet customization
+  var renderCheckoutButton = function renderCheckoutButton(preferenceId) {
+    if (preferenceId) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__/* .Wallet */ .uW, {
+        initialization: {
+          preferenceId: preferenceId
+        },
+        customization: {
+          texts: {
+            valueProp: 'smart_option'
+          },
+          visual: {
+            buttonBackground: 'black',
+            borderRadius: '6px'
+          }
+        }
+      });
+    }
+  };
+
   // Handle form input changes
   var handleInputChange = function handleInputChange(e) {
     var _e$target = e.target,
@@ -1098,16 +1117,41 @@ var ShoppingCart = function ShoppingCart() {
     }
     try {
       // Add customer to the array of customers in the store
-      var newOrder = actions.addCustomerDetails(customerDetails);
-
-      // Store current order details locally
-      setCurrentOrder(newOrder);
+      // If addCustomerDetails doesn't exist yet, use setCustomerDetails as fallback
+      if (actions.addCustomerDetails) {
+        var newOrder = actions.addCustomerDetails(customerDetails);
+        setCurrentOrder(newOrder);
+      } else {
+        actions.setCustomerDetails(customerDetails);
+        setCurrentOrder(_objectSpread(_objectSpread({}, customerDetails), {}, {
+          orderId: "order-".concat(Date.now()),
+          timestamp: new Date().toISOString(),
+          items: store.cart
+        }));
+      }
 
       // Proceed with payment
       handleBuy();
     } catch (error) {
       console.error("Error saving customer details:", error);
-      alert("Hubo un problema al guardar sus datos. Por favor intente de nuevo.");
+
+      // Fallback: Store in localStorage if context update fails
+      var orderData = _objectSpread(_objectSpread({}, customerDetails), {}, {
+        orderId: "order-".concat(Date.now()),
+        timestamp: new Date().toISOString(),
+        items: store.cart
+      });
+
+      // Try to append to existing orders
+      try {
+        var existingOrders = JSON.parse(localStorage.getItem('customerOrders') || '[]');
+        existingOrders.push(orderData);
+        localStorage.setItem('customerOrders', JSON.stringify(existingOrders));
+      } catch (e) {
+        localStorage.setItem('currentOrder', JSON.stringify(orderData));
+      }
+      setCurrentOrder(orderData);
+      handleBuy();
     }
   };
   var handleBuy = /*#__PURE__*/function () {
@@ -1133,9 +1177,9 @@ var ShoppingCart = function ShoppingCart() {
       return _ref2.apply(this, arguments);
     };
   }();
-
-  // Rest of your component code remains the same
-
+  var shippingCost = 0;
+  var shippingPrice = itemsPrice > 20000 ? 0 : shippingCost;
+  var totalPrice = itemsPrice + shippingPrice;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
