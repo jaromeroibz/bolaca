@@ -831,6 +831,7 @@ var getState = function getState(_ref) {
         }
       },
       setCustomerDetails: function setCustomerDetails(customerDetails) {
+        var store = getStore();
         setStore(_objectSpread(_objectSpread({}, store), {}, {
           customerDetails: customerDetails
         }));

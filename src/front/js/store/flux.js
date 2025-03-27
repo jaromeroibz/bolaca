@@ -94,6 +94,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			setCustomerDetails: (customerDetails) => {
+				const store = getStore();
+
 				setStore({ 
 					...store, 
 					customerDetails: customerDetails 
