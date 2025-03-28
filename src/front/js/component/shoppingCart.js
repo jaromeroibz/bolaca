@@ -304,7 +304,6 @@ const ShoppingCart = () => {
                                 </div>
                             </div>
                             
-                            {/* Product list card - ON RIGHT SIDE */}
                             <div className="col-md-7 mb-3">
                                 <div className="card h-100">
                                     <div className="card-body">
