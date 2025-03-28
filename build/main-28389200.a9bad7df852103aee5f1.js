@@ -50,7 +50,7 @@ a {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Nav Links */
+/* Nav Links - Removed underline effect */
 .nav-link {
     color: black;
     text-decoration: none;
@@ -62,46 +62,6 @@ a {
 
 .nav-link:hover {
     color: #666;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: black;
-    transition: width 0.3s ease;
-}
-
-.nav-link:hover::after {
-    width: 100%;
-}
-
-/* Search Form */
-.search-form {
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.search-input {
-    border-radius: 20px 0 0 20px;
-    border: 1px solid #ddd;
-    font-size: 0.8rem;
-    padding-left: 15px;
-}
-
-.search-btn {
-    border-radius: 0 20px 20px 0;
-    border: 1px solid #ddd;
-    border-left: none;
-    background-color: white;
-}
-
-.search-btn:hover {
-    background-color: #f8f9fa;
 }
 
 /* Cart Icon */
@@ -674,11 +634,6 @@ hr.custom-hr {
         flex-direction: row;
     }
     
-    .search-form {
-        margin-left: 1rem;
-        width: 250px;
-    }
-    
     hr.custom-hr {
         width: 117%;
     }
@@ -691,10 +646,6 @@ hr.custom-hr {
     
     .offcanvas-body {
         padding-top: 1rem;
-    }
-    
-    .search-form {
-        width: 100%;
     }
     
     .nav-link {
@@ -789,10 +740,6 @@ hr.custom-hr {
     
     .navbar-brand img {
         max-width: 100px !important;
-    }
-    
-    .search-input {
-        font-size: 0.7rem;
     }
     
     .landing-page {
