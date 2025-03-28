@@ -64,6 +64,13 @@ a {
     color: #666;
 }
 
+/* Search bar specific styling */
+.navbar .form-control, 
+.offcanvas-body .form-control {
+    font-size: 85%;
+    font-family: "Playwrite IT Moderna", cursive;
+}
+
 /* Cart Icon */
 .nav-cart-link {
     color: black;
@@ -683,6 +690,11 @@ hr.custom-hr {
         max-height: 50px;
     }
     
+    .navbar .form-control, 
+    .offcanvas-body .form-control {
+        font-size: 80%;
+    }
+    
     .featured-products-slider {
         padding: 0;
     }
@@ -740,6 +752,11 @@ hr.custom-hr {
     
     .navbar-brand img {
         max-width: 100px !important;
+    }
+    
+    .navbar .form-control, 
+    .offcanvas-body .form-control {
+        font-size: 75%;
     }
     
     .landing-page {
