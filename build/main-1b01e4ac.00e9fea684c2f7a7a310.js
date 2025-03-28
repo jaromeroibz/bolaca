@@ -483,17 +483,65 @@ var Navbar = function Navbar() {
     _useState2 = _slicedToArray(_useState, 2),
     searchQuery = _useState2[0],
     setSearchQuery = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    isScrolled = _useState4[0],
+    setIsScrolled = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    isExpanded = _useState6[0],
+    setIsExpanded = _useState6[1];
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__/* .useNavigate */ .Zp)();
+
+  // Handle scroll effect for navbar
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var handleScroll = function handleScroll() {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return function () {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // Handle search functionality
   var handleSearch = function handleSearch(e) {
     e.preventDefault();
-    // Ejecuta la acción para filtrar productos
     actions.filterProducts(searchQuery);
     navigate("/searchbarresults");
+
+    // Close mobile menu after search on small screens
+    var offcanvas = document.getElementById('offcanvasNavbar');
+    if (offcanvas && window.innerWidth < 992) {
+      var bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvas);
+      if (bsOffcanvas) bsOffcanvas.hide();
+    }
+  };
+
+  // Toggle mobile menu
+  var toggleMenu = function toggleMenu() {
+    setIsExpanded(!isExpanded);
+  };
+
+  // Close mobile menu when a link is clicked
+  var closeMenu = function closeMenu() {
+    if (window.innerWidth < 992) {
+      var offcanvas = document.getElementById('offcanvasNavbar');
+      if (offcanvas) {
+        var bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvas);
+        if (bsOffcanvas) bsOffcanvas.hide();
+      }
+      setIsExpanded(false);
+    }
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("nav", {
-    className: "navbar navbar-expand-lg fixed-top"
+    className: "navbar navbar-expand-lg fixed-top ".concat(isScrolled ? 'navbar-scrolled' : '')
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "container-fluid px-5"
+    className: "container-fluid px-2 px-md-4 px-lg-5"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
     className: "navbar-brand d-flex align-items-center",
     to: "/"
@@ -502,25 +550,37 @@ var Navbar = function Navbar() {
     className: "img-fluid",
     alt: "Logo",
     style: {
-      maxWidth: "150px",
+      maxWidth: isScrolled ? "120px" : "150px",
       transition: "max-width 0.3s ease"
     }
-  }), "    "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-flex align-items-center order-lg-last me-2 me-lg-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
+    to: "/cart",
+    className: "nav-cart-link me-3 me-lg-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "position-relative"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
+    className: "fa-solid fa-cart-shopping"
+  }), store.cart.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "cart-badge"
+  }, store.cart.length))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     className: "navbar-toggler shadow-none border-0",
     type: "button",
     "data-bs-toggle": "offcanvas",
     "data-bs-target": "#offcanvasNavbar",
     "aria-controls": "offcanvasNavbar",
-    "aria-label": "Toggle navigation"
+    "aria-label": "Toggle navigation",
+    onClick: toggleMenu
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "navbar-toggler-icon"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "sidebar offcanvas offcanvas-start",
     tabIndex: "-1",
     id: "offcanvasNavbar",
     "aria-labelledby": "offcanvasNavbarLabel"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "offcanvas-header border-bottom"
+    className: "offcanvas-header border-bottom d-lg-none"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
     className: "offcanvas-title",
     id: "offcanvasNavbarLabel"
@@ -528,88 +588,71 @@ var Navbar = function Navbar() {
     type: "button",
     className: "btn-close shadow-none",
     "data-bs-dismiss": "offcanvas",
-    "aria-label": "Close"
+    "aria-label": "Close",
+    onClick: toggleMenu
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "offcanvas-body"
+    className: "offcanvas-body align-items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
-    className: "navbar-nav justify-content-center align-items-center  flex-grow-1 pe-3"
+    className: "navbar-nav justify-content-center align-items-center flex-grow-1 pe-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "nav-item px-3"
+    className: "nav-item px-1 px-lg-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
     to: "/",
-    style: {
-      textDecoration: 'none',
-      color: 'black'
-    }
+    className: "nav-link",
+    onClick: closeMenu
   }, "HOME")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "nav-item px-3"
+    className: "nav-item px-1 px-lg-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
     to: "/productos",
-    style: {
-      textDecoration: 'none',
-      color: 'black'
-    }
+    className: "nav-link",
+    onClick: closeMenu
   }, "PRODUCTOS")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "nav-item px-3"
+    className: "nav-item px-1 px-lg-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
     to: "/creadores",
-    style: {
-      textDecoration: 'none',
-      color: 'black'
-    }
+    className: "nav-link",
+    onClick: closeMenu
   }, "CREADORES")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "nav-item px-3"
+    className: "nav-item px-1 px-lg-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
     to: "/contacto",
-    style: {
-      textDecoration: 'none',
-      color: 'black'
-    }
+    className: "nav-link",
+    onClick: closeMenu
   }, "CONTACTO")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "nav-item px-3"
+    className: "nav-item px-1 px-lg-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
     to: "/login",
-    style: {
-      textDecoration: 'none',
-      color: 'black'
-    }
+    className: "nav-link",
+    onClick: closeMenu
   }, "LOGIN"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
-    className: "d-flex mt-3 my-3",
+    className: "d-flex mt-3 my-lg-0 search-form",
     role: "search",
     onSubmit: handleSearch
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "input-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
-    className: "form-control me-2 px-5 shadow-none",
+    className: "form-control shadow-none search-input",
     type: "search",
     value: searchQuery,
     onChange: function onChange(e) {
       return setSearchQuery(e.target.value);
     },
     "aria-label": "Search",
-    placeholder: "NOMBRE, CATEGOR\xCDA O MARCA",
-    style: {
-      fontSize: "xx-small"
-    }
+    placeholder: "NOMBRE, CATEGOR\xCDA O MARCA"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "btn border-0 shadow-none",
+    className: "btn search-btn",
     type: "submit"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
-    className: "fa-solid fa-magnifying-glass",
-    style: {
-      color: "black"
-    }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
+    className: "fa-solid fa-magnifying-glass"
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-lg-none mt-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
     to: "/cart",
-    className: "d-flex",
-    style: {
-      textDecoration: 'none'
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "btn border-0 shadow-none"
+    className: "mobile-cart-link d-flex align-items-center",
+    onClick: closeMenu
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
-    className: "fa-solid fa-cart-shopping"
-  })), store.cart.length ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "btn border-0 shadow-none"
-  }, store.cart.length) : ''))))));
+    className: "fa-solid fa-cart-shopping me-2"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "Carrito ", store.cart.length > 0 ? "(".concat(store.cart.length, ")") : ""))))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Navbar);
 
