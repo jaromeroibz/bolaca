@@ -869,7 +869,7 @@ var Productos = function Productos() {
   // Render the filter sidebar
   var renderFilterSidebar = function renderFilterSidebar() {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: window.innerWidth < 768 ? "filter-sidebar-mobile" + (showFilters ? " show" : "") : "col-md-3 col-lg-3 px-4"
+      className: window.innerWidth < 768 ? "filter-sidebar-mobile" + (showFilters ? " show" : "") : "col-md-4 col-lg-3 px-4"
     }, window.innerWidth < 768 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
       className: "close-filters-btn",
       onClick: function onClick() {
@@ -913,7 +913,7 @@ var Productos = function Productos() {
     }, "Precio"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "ps-2"
     }, priceRanges.map(function (range, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         key: index,
         onClick: function onClick() {
           return handleFilterClick('price', range.range);
@@ -929,7 +929,7 @@ var Productos = function Productos() {
     }, "Marca"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "ps-2"
     }, store.brands.map(function (brand, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         key: index,
         onClick: function onClick() {
           return handleFilterClick('brand', brand.name, function () {
@@ -947,7 +947,7 @@ var Productos = function Productos() {
     }, "Edad m\xEDnima recomendada"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "ps-2"
     }, ageRanges.map(function (range, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         key: index,
         onClick: function onClick() {
           return handleFilterClick('age', range.range);
@@ -963,7 +963,7 @@ var Productos = function Productos() {
     }, "Categor\xEDa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "ps-2"
     }, store.categories.map(function (item, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         key: index,
         onClick: function onClick() {
           return handleFilterClick('category', item.category_name, function () {
@@ -1006,9 +1006,9 @@ var Productos = function Productos() {
   }, "Limpiar filtros"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "d-none d-md-block col-md-3 col-lg-3"
+    className: "d-none d-md-block col-md-4 col-lg-3"
   }, renderFilterSidebar()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-12 col-md-9 col-lg-9"
+    className: "col-12 col-md-8 col-lg-9"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "product-grid"
   }, store.products.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {

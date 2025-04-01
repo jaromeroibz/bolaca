@@ -882,16 +882,18 @@ a {
     font-size: 0.8rem;
   }
   
-  /* Filter option with single line text */
+  /* Updated Filter Styles - Fix for truncated text */
   .filter-option {
     cursor: pointer;
     padding: 5px 0;
     transition: all 0.2s ease;
-    white-space: nowrap; /* Keep text in one line */
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal; /* Changed from nowrap to normal to allow wrapping */
+    overflow: visible; /* Changed from hidden to visible to show full text */
     margin: 0; /* Remove default paragraph margin */
     line-height: 1.5;
+    font-size: 14px; /* Slightly smaller font size */
+    width: 100%; /* Ensure it takes full width of container */
+    display: block; /* Ensure it's a block element */
   }
   
   .filter-option.active {
@@ -899,11 +901,20 @@ a {
     font-weight: bold;
   }
   
-  .price-range {
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  /* Ensure filter section has enough width */
+  .filter-section {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .filter-section h6 {
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  /* Adjust padding for filter container */
+  .ps-2 {
+    padding-left: 0.5rem !important;
   }
   
   /* Productos Component Responsive Adjustments */
@@ -984,16 +995,6 @@ a {
     .productos h6 {
       font-size: 0.9rem;
     }
-  }
-  
-  /* Filter Styles */
-  .filter-section {
-    margin-bottom: 20px;
-  }
-  
-  .filter-section h6 {
-    margin-bottom: 10px;
-    font-weight: 600;
   }
   
   /* Loading indicator */

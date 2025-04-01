@@ -162,7 +162,7 @@ const Productos = () => {
     // Render the filter sidebar
     const renderFilterSidebar = () => {
         return (
-            <div className={window.innerWidth < 768 ? "filter-sidebar-mobile" + (showFilters ? " show" : "") : "col-md-3 col-lg-3 px-4"}>
+            <div className={window.innerWidth < 768 ? "filter-sidebar-mobile" + (showFilters ? " show" : "") : "col-md-4 col-lg-3 px-4"}>
                 
                 {window.innerWidth < 768 && (
                     <button 
@@ -223,12 +223,13 @@ const Productos = () => {
                     <h6 className="mb-2">Precio</h6>
                     <div className="ps-2">
                         {priceRanges.map((range, index) => (
-                            <p key={index} 
+                            <div 
+                                key={index} 
                                 onClick={() => handleFilterClick('price', range.range)}
                                 className={`filter-option ${isFilterActive('price', range.range) ? 'active' : ''}`}
                             >
                                 {range.label}
-                            </p>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -239,7 +240,7 @@ const Productos = () => {
                     <h6 className="mb-2">Marca</h6>
                     <div className="ps-2">
                         {store.brands.map((brand, index) => (
-                            <p
+                            <div
                                 key={index}
                                 onClick={() => handleFilterClick(
                                     'brand', 
@@ -249,7 +250,7 @@ const Productos = () => {
                                 className={`filter-option ${isFilterActive('brand', brand.name) ? 'active' : ''}`}
                             >
                                 {brand.name}
-                            </p>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -260,13 +261,13 @@ const Productos = () => {
                     <h6 className="mb-2">Edad mínima recomendada</h6>
                     <div className="ps-2">
                         {ageRanges.map((range, index) => (
-                            <p
+                            <div
                                 key={index}
                                 onClick={() => handleFilterClick('age', range.range)}
                                 className={`filter-option ${isFilterActive('age', range.range) ? 'active' : ''}`}
                             >
                                 {range.label}
-                            </p>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -277,7 +278,7 @@ const Productos = () => {
                     <h6 className="mb-2">Categoría</h6>
                     <div className="ps-2">
                         {store.categories.map((item, index) => (
-                            <p
+                            <div
                                 key={index}
                                 onClick={() => handleFilterClick(
                                     'category', 
@@ -287,7 +288,7 @@ const Productos = () => {
                                 className={`filter-option ${isFilterActive('category', item.category_name) ? 'active' : ''}`}
                             >
                                 {item.category_name}
-                            </p>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -331,12 +332,12 @@ const Productos = () => {
                     
                     <div className="row">
                         {/* Filter sidebar for desktop */}
-                        <div className="d-none d-md-block col-md-3 col-lg-3">
+                        <div className="d-none d-md-block col-md-4 col-lg-3">
                             {renderFilterSidebar()}
                         </div>
                         
                         {/* Product grid */}
-                        <div className="col-12 col-md-9 col-lg-9">
+                        <div className="col-12 col-md-8 col-lg-9">
                             <div className="product-grid">
                                 {store.products.length === 0 ? (
                                     <div className="text-center py-5">
