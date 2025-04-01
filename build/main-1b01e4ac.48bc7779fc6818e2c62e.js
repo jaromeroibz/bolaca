@@ -699,6 +699,10 @@ var Productos = function Productos() {
     hasMore = _useState8[0],
     setHasMore = _useState8[1];
   var productsPerPage = 6;
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState10 = _slicedToArray(_useState9, 2),
+    showFilters = _useState10[0],
+    setShowFilters = _useState10[1]; // For mobile filter toggle
 
   // Create a ref for the loading element
   var observer = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
@@ -712,6 +716,16 @@ var Productos = function Productos() {
     });
     if (node) observer.current.observe(node);
   }, [loading, hasMore]);
+
+  // Filter states combined into a single state object
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+      type: null,
+      // 'category', 'age', 'price', or 'brand'
+      value: null
+    }),
+    _useState12 = _slicedToArray(_useState11, 2),
+    activeFilter = _useState12[0],
+    setActiveFilter = _useState12[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // Retrieve query params on each change
     var searchParams = new URLSearchParams(location.search);
@@ -719,10 +733,16 @@ var Productos = function Productos() {
     actions.getBrands();
     actions.getCategories();
     if (category) {
-      setselectedCategory(category);
+      setActiveFilter({
+        type: 'category',
+        value: category
+      });
       actions.getProductByCategory(category);
     } else {
-      setselectedCategory(null);
+      setActiveFilter({
+        type: null,
+        value: null
+      });
       actions.getProducts();
     }
 
@@ -740,7 +760,7 @@ var Productos = function Productos() {
       setDisplayedProducts([]);
       setHasMore(false);
     }
-  }, [store.products, selectedCategory, selectedAgeRange, selectedPriceRange, selectedBrand, page]);
+  }, [store.products, activeFilter, page]);
   var loadMoreProducts = function loadMoreProducts() {
     if (loading || !hasMore) return;
     setLoading(true);
@@ -752,62 +772,42 @@ var Productos = function Productos() {
       setLoading(false);
     }, 500);
   };
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-    _useState10 = _slicedToArray(_useState9, 2),
-    selectedCategory = _useState10[0],
-    setselectedCategory = _useState10[1];
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-    _useState12 = _slicedToArray(_useState11, 2),
-    selectedAgeRange = _useState12[0],
-    setSelectedAgeRange = _useState12[1];
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-    _useState14 = _slicedToArray(_useState13, 2),
-    selectedPriceRange = _useState14[0],
-    setSelectedPriceRange = _useState14[1];
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-    _useState16 = _slicedToArray(_useState15, 2),
-    selectedBrand = _useState16[0],
-    setSelectedBrand = _useState16[1];
-  var filterProductsByAgeRange = function filterProductsByAgeRange(products) {
-    if (!selectedAgeRange) return products;
-    var _selectedAgeRange = _slicedToArray(selectedAgeRange, 2),
-      minAge = _selectedAgeRange[0],
-      maxAge = _selectedAgeRange[1];
-    return products.filter(function (item) {
-      return item.min_age >= minAge && item.max_age <= maxAge;
-    });
+
+  // Filter functions
+  var filterProducts = function filterProducts(products) {
+    if (!activeFilter.type || !activeFilter.value) return products;
+    switch (activeFilter.type) {
+      case 'age':
+        var _activeFilter$value = _slicedToArray(activeFilter.value, 2),
+          minAge = _activeFilter$value[0],
+          maxAge = _activeFilter$value[1];
+        return products.filter(function (item) {
+          return item.min_age >= minAge && item.max_age <= maxAge;
+        });
+      case 'price':
+        var _activeFilter$value2 = _slicedToArray(activeFilter.value, 2),
+          minPrice = _activeFilter$value2[0],
+          maxPrice = _activeFilter$value2[1];
+        return products.filter(function (item) {
+          return item.price >= minPrice && item.price <= maxPrice;
+        });
+      case 'brand':
+        return products.filter(function (item) {
+          return item.brand.name.toLowerCase() === activeFilter.value.toLowerCase();
+        });
+      case 'category':
+        return products.filter(function (item) {
+          return item.category_name.toLowerCase() === activeFilter.value.toLowerCase();
+        });
+      default:
+        return products;
+    }
   };
-  var filterProductsByPriceRange = function filterProductsByPriceRange(products) {
-    if (!selectedPriceRange) return products;
-    var _selectedPriceRange = _slicedToArray(selectedPriceRange, 2),
-      minPrice = _selectedPriceRange[0],
-      maxPrice = _selectedPriceRange[1];
-    return products.filter(function (item) {
-      return item.price >= minPrice && item.price <= maxPrice;
-    });
-  };
-  var filterProductsByBrand = function filterProductsByBrand(products) {
-    if (!selectedBrand) return products;
-    return products.filter(function (item) {
-      return item.brand.name.toLowerCase() === selectedBrand.toLowerCase();
-    });
-  };
-  var filterProductsByCategory = function filterProductsByCategory(products) {
-    if (!selectedCategory) return products;
-    return products.filter(function (item) {
-      return item.category_name.toLowerCase() === selectedCategory.toLowerCase();
-    });
-  };
-  var filteredProducts = store.products;
-  if (selectedAgeRange) {
-    filteredProducts = filterProductsByAgeRange(filteredProducts);
-  } else if (selectedPriceRange) {
-    filteredProducts = filterProductsByPriceRange(filteredProducts);
-  } else if (selectedBrand) {
-    filteredProducts = filterProductsByBrand(filteredProducts);
-  } else if (selectedCategory) {
-    filteredProducts = filterProductsByCategory(filteredProducts);
-  }
+
+  // Apply the active filter to products
+  var filteredProducts = filterProducts(store.products);
+
+  // Filter option data
   var ageRanges = [{
     label: "0-2 años",
     range: [0, 2]
@@ -828,117 +828,263 @@ var Productos = function Productos() {
     label: "$25001 - $30000",
     range: [25001, 30000]
   }];
+
+  // Helper function to check if a filter is active
+  var isFilterActive = function isFilterActive(type, value) {
+    return activeFilter.type === type && (Array.isArray(activeFilter.value) && Array.isArray(value) ? activeFilter.value[0] === value[0] && activeFilter.value[1] === value[1] : activeFilter.value === value);
+  };
+
+  // Handler for filter clicks
+  var handleFilterClick = function handleFilterClick(type, value) {
+    var apiCallFn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    // If clicking the same filter that's already active, clear it
+    if (isFilterActive(type, value)) {
+      setActiveFilter({
+        type: null,
+        value: null
+      });
+      actions.getProducts(); // Reset to all products
+    } else {
+      // Set new active filter and clear others
+      setActiveFilter({
+        type: type,
+        value: value
+      });
+
+      // If there's an API call associated with this filter, make it
+      if (apiCallFn) {
+        apiCallFn();
+      }
+    }
+
+    // Reset pagination
+    setPage(1);
+
+    // On mobile, close the filter sidebar after selection
+    if (window.innerWidth < 768) {
+      setShowFilters(false);
+    }
+  };
+
+  // Render the filter sidebar
+  var renderFilterSidebar = function renderFilterSidebar() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: window.innerWidth < 768 ? "filter-sidebar-mobile" + (showFilters ? " show" : "") : "col-md-3 col-lg-3 px-4"
+    }, window.innerWidth < 768 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+      className: "close-filters-btn",
+      onClick: function onClick() {
+        return setShowFilters(false);
+      },
+      "aria-label": "Close filters"
+    }, "\xD7"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "filter-section"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
+      className: "mb-3"
+    }, "Filtros"), activeFilter.type && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "mb-3"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "d-flex align-items-center justify-content-between"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("small", {
+      className: "text-muted"
+    }, "Filtro activo:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+      className: "btn btn-sm btn-outline-secondary filter-clear-btn",
+      onClick: function onClick() {
+        setActiveFilter({
+          type: null,
+          value: null
+        });
+        actions.getProducts();
+        setPage(1);
+      }
+    }, "Limpiar")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "mt-2"
+    }, activeFilter.type === 'price' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+      className: "active-filter-badge"
+    }, "Precio: $", activeFilter.value[0], " - $", activeFilter.value[1]), activeFilter.type === 'brand' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+      className: "active-filter-badge"
+    }, "Marca: ", activeFilter.value), activeFilter.type === 'age' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+      className: "active-filter-badge"
+    }, "Edad: ", activeFilter.value[0], "-", activeFilter.value[1], " a\xF1os"), activeFilter.type === 'category' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+      className: "active-filter-badge"
+    }, "Categor\xEDa: ", activeFilter.value)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "filter-section"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+      className: "mb-2"
+    }, "Precio"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "ps-2"
+    }, priceRanges.map(function (range, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+        key: index,
+        onClick: function onClick() {
+          return handleFilterClick('price', range.range);
+        },
+        className: "filter-option ".concat(isFilterActive('price', range.range) ? 'active' : '')
+      }, range.label);
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
+      className: "my-3"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "filter-section"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+      className: "mb-2"
+    }, "Marca"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "ps-2"
+    }, store.brands.map(function (brand, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+        key: index,
+        onClick: function onClick() {
+          return handleFilterClick('brand', brand.name, function () {
+            return actions.getProductsByBrands(brand.id);
+          });
+        },
+        className: "filter-option ".concat(isFilterActive('brand', brand.name) ? 'active' : '')
+      }, brand.name);
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
+      className: "my-3"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "filter-section"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+      className: "mb-2"
+    }, "Edad m\xEDnima recomendada"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "ps-2"
+    }, ageRanges.map(function (range, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+        key: index,
+        onClick: function onClick() {
+          return handleFilterClick('age', range.range);
+        },
+        className: "filter-option ".concat(isFilterActive('age', range.range) ? 'active' : '')
+      }, range.label);
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
+      className: "my-3"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "filter-section"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+      className: "mb-2"
+    }, "Categor\xEDa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "ps-2"
+    }, store.categories.map(function (item, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+        key: index,
+        onClick: function onClick() {
+          return handleFilterClick('category', item.category_name, function () {
+            return actions.getProductByCategory(item.id);
+          });
+        },
+        className: "filter-option ".concat(isFilterActive('category', item.category_name) ? 'active' : '')
+      }, item.category_name);
+    }))));
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "productos"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Productos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
-    className: "py-5"
-  }, filteredProducts.length, " resultados"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-flex justify-content-between align-items-center mb-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Productos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-md-none"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "btn btn-sm btn-outline-dark",
+    onClick: function onClick() {
+      return setShowFilters(true);
+    }
+  }, "Filtros"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-flex justify-content-between align-items-center mb-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+    className: "m-0"
+  }, filteredProducts.length, " resultados"), activeFilter.type && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-none d-md-block"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "btn btn-sm btn-outline-secondary",
+    onClick: function onClick() {
+      setActiveFilter({
+        type: null,
+        value: null
+      });
+      actions.getProducts();
+      setPage(1);
+    }
+  }, "Limpiar filtros"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-9"
+    className: "d-none d-md-block col-md-3 col-lg-3"
+  }, renderFilterSidebar()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "col-12 col-md-9 col-lg-9"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "cards"
-  }, store.products.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Cargando productos...") : filteredProducts.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "No hay productos que coincidan con el filtro seleccionado.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, displayedProducts.map(function (item) {
+    className: "product-grid"
+  }, store.products.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "text-center py-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Cargando productos...")) : filteredProducts.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "empty-state"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "No hay productos que coincidan con el filtro seleccionado."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "btn btn-outline-primary mt-3",
+    onClick: function onClick() {
+      setActiveFilter({
+        type: null,
+        value: null
+      });
+      actions.getProducts();
+    }
+  }, "Ver todos los productos")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, displayedProducts.map(function (item) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "card",
+      className: "card product-card",
       key: item.id
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-      className: "card-img-top",
+      className: "card-img-top product-card-image",
       loading: "lazy",
       src: item.image,
       alt: item.name
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "card-body"
+      className: "card-body product-card-body"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-      className: "card-title"
+      className: "card-title product-card-title"
     }, item.name), item.stock === 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
       className: "text-danger fw-bold mb-2"
     }, "Sin Stock"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-      className: "card-text"
-    }, "$", item.price), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "d-flex"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__/* .Link */ .N_, {
+      className: "card-text fw-bold mb-3"
+    }, "$", item.price.toLocaleString()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "d-flex flex-column flex-sm-row gap-2 product-card-actions"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__/* .Link */ .N_, {
       to: "/detalleproductos/".concat(item.id),
       style: {
         textDecoration: 'none'
-      }
+      },
+      className: "flex-grow-1"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      className: "see-more-button d-inline"
-    }, "Ver M\xE1s"))), item.stock >= 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "px-3"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+      className: "see-more-button w-100"
+    }, "Ver M\xE1s")), item.stock >= 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
       onClick: function onClick() {
         return actions.addToCart(item);
       },
-      className: "add-cart-button"
-    }, "Agregar al carrito")) : '')));
+      className: "add-cart-button flex-grow-1"
+    }, "Agregar"))));
   }), hasMore && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     ref: loadingRef,
-    className: "loading-indicator text-center my-4 w-100"
-  }, loading ? "Cargando más productos..." : "")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-3 px-5"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "Precio"), priceRanges.map(function (range, index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-      key: index,
-      onClick: function onClick() {
-        setSelectedPriceRange(range.range);
-        setSelectedAgeRange(null);
-        setSelectedBrand(null);
-        setPage(1); // Reset pagination when filter changes
-      },
-      style: {
-        cursor: 'pointer',
-        color: selectedPriceRange === range.range ? 'blue' : 'black'
-      }
-    }, range.label);
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "Marca"), store.brands.map(function (brand, index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-      key: index,
-      onClick: function onClick() {
-        setSelectedBrand(brand.name);
-        setSelectedAgeRange(null);
-        setSelectedPriceRange(null);
-        actions.getProductsByBrands(brand.id);
-        setPage(1); // Reset pagination when filter changes
-      },
-      style: {
-        cursor: 'pointer',
-        color: selectedBrand === brand ? 'blue' : 'black'
-      }
-    }, brand.name);
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "Edad m\xEDnima recomendada"), ageRanges.map(function (range, index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-      key: index,
-      onClick: function onClick() {
-        setSelectedAgeRange(range.range);
-        setSelectedPriceRange(null);
-        setSelectedBrand(null);
-        setPage(1); // Reset pagination when filter changes
-      },
-      style: {
-        cursor: 'pointer',
-        color: selectedAgeRange === range.range ? 'blue' : 'black'
-      }
-    }, range.label);
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", null, "Categor\xEDa"), store.categories.map(function (item, index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-      key: index,
-      onClick: function onClick() {
-        setselectedCategory(item.category_name);
-        setSelectedAgeRange(null);
-        setSelectedPriceRange(null);
-        setSelectedBrand(null);
-        actions.getProductByCategory(item.id);
-        setPage(1); // Reset pagination when filter changes
-      },
-      style: {
-        cursor: 'pointer',
-        color: selectedCategory === item ? 'blue' : 'black'
-      }
-    }, item.category_name);
-  }))))));
+    className: "loading-indicator"
+  }, loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "spinner-border spinner-border-sm text-primary",
+    role: "status"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "visually-hidden"
+  }, "Cargando...")) : ""))))))), window.innerWidth < 768 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "filter-overlay".concat(showFilters ? " show" : ""),
+    onClick: function onClick() {
+      return setShowFilters(false);
+    }
+  }), renderFilterSidebar(), !showFilters && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "filter-toggle-btn",
+    onClick: function onClick() {
+      return setShowFilters(true);
+    },
+    "aria-label": "Show filters"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    fill: "currentColor",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
+    d: "M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
+  })))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Productos);
 
@@ -1247,7 +1393,7 @@ var ShoppingCart = function ShoppingCart() {
     className: "d-flex justify-content-between mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "Productos: (", store.cart.length, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "$", itemsPrice)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "d-flex justify-content-between mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "Costo de env\xEDo:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "$", shippingPrice)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "Costo de env\xEDo:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "Env\xEDo por pagar Starken")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "d-flex justify-content-between mb-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "fw-bold"

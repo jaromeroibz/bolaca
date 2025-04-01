@@ -10,6 +10,7 @@ const Productos = () => {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const productsPerPage = 6;
+    const [showFilters, setShowFilters] = useState(false); // For mobile filter toggle
     
     // Create a ref for the loading element
     const observer = useRef();
@@ -26,6 +27,12 @@ const Productos = () => {
         if (node) observer.current.observe(node);
     }, [loading, hasMore]);
 
+    // Filter states combined into a single state object
+    const [activeFilter, setActiveFilter] = useState({
+        type: null, // 'category', 'age', 'price', or 'brand'
+        value: null
+    });
+
     useEffect(() => {
         // Retrieve query params on each change
         const searchParams = new URLSearchParams(location.search);
@@ -35,10 +42,16 @@ const Productos = () => {
         actions.getCategories();
 
         if (category) {
-            setselectedCategory(category);
+            setActiveFilter({
+                type: 'category',
+                value: category
+            });
             actions.getProductByCategory(category);
         } else {
-            setselectedCategory(null);
+            setActiveFilter({
+                type: null,
+                value: null
+            });
             actions.getProducts();
         }
         
@@ -56,7 +69,7 @@ const Productos = () => {
             setDisplayedProducts([]);
             setHasMore(false);
         }
-    }, [store.products, selectedCategory, selectedAgeRange, selectedPriceRange, selectedBrand, page]);
+    }, [store.products, activeFilter, page]);
 
     const loadMoreProducts = () => {
         if (loading || !hasMore) return;
@@ -69,44 +82,38 @@ const Productos = () => {
         }, 500);
     };
 
-    const [selectedCategory, setselectedCategory] = useState(null); 
-    const [selectedAgeRange, setSelectedAgeRange] = useState(null); 
-    const [selectedPriceRange, setSelectedPriceRange] = useState(null);
-    const [selectedBrand, setSelectedBrand] = useState(null);  
+    // Filter functions
+    const filterProducts = (products) => {
+        if (!activeFilter.type || !activeFilter.value) return products;
 
-    const filterProductsByAgeRange = (products) => {
-        if (!selectedAgeRange) return products;
-        const [minAge, maxAge] = selectedAgeRange;
-        return products.filter((item) => item.min_age >= minAge && item.max_age <= maxAge);
+        switch (activeFilter.type) {
+            case 'age':
+                const [minAge, maxAge] = activeFilter.value;
+                return products.filter((item) => item.min_age >= minAge && item.max_age <= maxAge);
+            
+            case 'price':
+                const [minPrice, maxPrice] = activeFilter.value;
+                return products.filter((item) => item.price >= minPrice && item.price <= maxPrice);
+            
+            case 'brand':
+                return products.filter((item) => 
+                    item.brand.name.toLowerCase() === activeFilter.value.toLowerCase()
+                );
+            
+            case 'category':
+                return products.filter((item) => 
+                    item.category_name.toLowerCase() === activeFilter.value.toLowerCase()
+                );
+            
+            default:
+                return products;
+        }
     };
 
-    const filterProductsByPriceRange = (products) => {
-        if (!selectedPriceRange) return products;
-        const [minPrice, maxPrice] = selectedPriceRange;
-        return products.filter((item) => item.price >= minPrice && item.price <= maxPrice);
-    };
+    // Apply the active filter to products
+    const filteredProducts = filterProducts(store.products);
 
-    const filterProductsByBrand = (products) => {
-        if (!selectedBrand) return products;
-        return products.filter((item) => item.brand.name.toLowerCase() === selectedBrand.toLowerCase());
-    };
-
-    const filterProductsByCategory = (products) => {
-        if (!selectedCategory) return products;
-        return products.filter((item) => item.category_name.toLowerCase() === selectedCategory.toLowerCase());
-    };
-
-    let filteredProducts = store.products;
-    if (selectedAgeRange) {
-        filteredProducts = filterProductsByAgeRange(filteredProducts);
-    } else if (selectedPriceRange) {
-        filteredProducts = filterProductsByPriceRange(filteredProducts);
-    } else if (selectedBrand) {
-        filteredProducts = filterProductsByBrand(filteredProducts);
-    } else if (selectedCategory) {
-        filteredProducts = filterProductsByCategory(filteredProducts);
-    }
-
+    // Filter option data
     const ageRanges = [
         { label: "0-2 años", range: [0, 2] },
         { label: "3-6 años", range: [3, 6] },
@@ -119,41 +126,274 @@ const Productos = () => {
         { label: "$25001 - $30000", range: [25001, 30000] }
     ];
 
+    // Helper function to check if a filter is active
+    const isFilterActive = (type, value) => {
+        return activeFilter.type === type && 
+               (Array.isArray(activeFilter.value) && Array.isArray(value) 
+                ? activeFilter.value[0] === value[0] && activeFilter.value[1] === value[1]
+                : activeFilter.value === value);
+    };
+
+    // Handler for filter clicks
+    const handleFilterClick = (type, value, apiCallFn = null) => {
+        // If clicking the same filter that's already active, clear it
+        if (isFilterActive(type, value)) {
+            setActiveFilter({ type: null, value: null });
+            actions.getProducts(); // Reset to all products
+        } else {
+            // Set new active filter and clear others
+            setActiveFilter({ type, value });
+            
+            // If there's an API call associated with this filter, make it
+            if (apiCallFn) {
+                apiCallFn();
+            }
+        }
+        
+        // Reset pagination
+        setPage(1);
+        
+        // On mobile, close the filter sidebar after selection
+        if (window.innerWidth < 768) {
+            setShowFilters(false);
+        }
+    };
+
+    // Render the filter sidebar
+    const renderFilterSidebar = () => {
+        return (
+            <div className={window.innerWidth < 768 ? "filter-sidebar-mobile" + (showFilters ? " show" : "") : "col-md-3 col-lg-3 px-4"}>
+                
+                {window.innerWidth < 768 && (
+                    <button 
+                        className="close-filters-btn"
+                        onClick={() => setShowFilters(false)}
+                        aria-label="Close filters"
+                    >
+                        ×
+                    </button>
+                )}
+                
+                <div className="filter-section">
+                    <h5 className="mb-3">Filtros</h5>
+                    
+                    {/* Active filter indicator */}
+                    {activeFilter.type && (
+                        <div className="mb-3">
+                            <div className="d-flex align-items-center justify-content-between">
+                                <small className="text-muted">Filtro activo:</small>
+                                <button 
+                                    className="btn btn-sm btn-outline-secondary filter-clear-btn"
+                                    onClick={() => {
+                                        setActiveFilter({ type: null, value: null });
+                                        actions.getProducts();
+                                        setPage(1);
+                                    }}
+                                >
+                                    Limpiar
+                                </button>
+                            </div>
+                            <div className="mt-2">
+                                {activeFilter.type === 'price' && (
+                                    <span className="active-filter-badge">
+                                        Precio: ${activeFilter.value[0]} - ${activeFilter.value[1]}
+                                    </span>
+                                )}
+                                {activeFilter.type === 'brand' && (
+                                    <span className="active-filter-badge">
+                                        Marca: {activeFilter.value}
+                                    </span>
+                                )}
+                                {activeFilter.type === 'age' && (
+                                    <span className="active-filter-badge">
+                                        Edad: {activeFilter.value[0]}-{activeFilter.value[1]} años
+                                    </span>
+                                )}
+                                {activeFilter.type === 'category' && (
+                                    <span className="active-filter-badge">
+                                        Categoría: {activeFilter.value}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
+                
+                <div className="filter-section">
+                    <h6 className="mb-2">Precio</h6>
+                    <div className="ps-2">
+                        {priceRanges.map((range, index) => (
+                            <p key={index} 
+                                onClick={() => handleFilterClick('price', range.range)}
+                                className={`filter-option ${isFilterActive('price', range.range) ? 'active' : ''}`}
+                            >
+                                {range.label}
+                            </p>
+                        ))}
+                    </div>
+                </div>
+                
+                <hr className="my-3" />
+                
+                <div className="filter-section">
+                    <h6 className="mb-2">Marca</h6>
+                    <div className="ps-2">
+                        {store.brands.map((brand, index) => (
+                            <p
+                                key={index}
+                                onClick={() => handleFilterClick(
+                                    'brand', 
+                                    brand.name, 
+                                    () => actions.getProductsByBrands(brand.id)
+                                )}
+                                className={`filter-option ${isFilterActive('brand', brand.name) ? 'active' : ''}`}
+                            >
+                                {brand.name}
+                            </p>
+                        ))}
+                    </div>
+                </div>
+                
+                <hr className="my-3" />
+                
+                <div className="filter-section">
+                    <h6 className="mb-2">Edad mínima recomendada</h6>
+                    <div className="ps-2">
+                        {ageRanges.map((range, index) => (
+                            <p
+                                key={index}
+                                onClick={() => handleFilterClick('age', range.range)}
+                                className={`filter-option ${isFilterActive('age', range.range) ? 'active' : ''}`}
+                            >
+                                {range.label}
+                            </p>
+                        ))}
+                    </div>
+                </div>
+                
+                <hr className="my-3" />
+                
+                <div className="filter-section">
+                    <h6 className="mb-2">Categoría</h6>
+                    <div className="ps-2">
+                        {store.categories.map((item, index) => (
+                            <p
+                                key={index}
+                                onClick={() => handleFilterClick(
+                                    'category', 
+                                    item.category_name, 
+                                    () => actions.getProductByCategory(item.id)
+                                )}
+                                className={`filter-option ${isFilterActive('category', item.category_name) ? 'active' : ''}`}
+                            >
+                                {item.category_name}
+                            </p>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <>
             <div className="container">
                 <div className="productos">
-                    <h2>Productos</h2>
-                    <h6 className="py-5">{filteredProducts.length} resultados</h6>
+                    <div className="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Productos</h2>
+                        <div className="d-md-none">
+                            <button 
+                                className="btn btn-sm btn-outline-dark"
+                                onClick={() => setShowFilters(true)}
+                            >
+                                Filtros
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div className="d-flex justify-content-between align-items-center mb-4">
+                        <h6 className="m-0">{filteredProducts.length} resultados</h6>
+                        {activeFilter.type && (
+                            <div className="d-none d-md-block">
+                                <button 
+                                    className="btn btn-sm btn-outline-secondary"
+                                    onClick={() => {
+                                        setActiveFilter({ type: null, value: null });
+                                        actions.getProducts();
+                                        setPage(1);
+                                    }}
+                                >
+                                    Limpiar filtros
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                    
                     <div className="row">
-                        <div className="col-9">
-                            <div className="cards">
+                        {/* Filter sidebar for desktop */}
+                        <div className="d-none d-md-block col-md-3 col-lg-3">
+                            {renderFilterSidebar()}
+                        </div>
+                        
+                        {/* Product grid */}
+                        <div className="col-12 col-md-9 col-lg-9">
+                            <div className="product-grid">
                                 {store.products.length === 0 ? (
-                                    <p>Cargando productos...</p>
+                                    <div className="text-center py-5">
+                                        <p>Cargando productos...</p>
+                                    </div>
                                 ) : (
                                     filteredProducts.length === 0 ? (
-                                        <h1>No hay productos que coincidan con el filtro seleccionado.</h1>
+                                        <div className="empty-state">
+                                            <h5>No hay productos que coincidan con el filtro seleccionado.</h5>
+                                            <button 
+                                                className="btn btn-outline-primary mt-3"
+                                                onClick={() => {
+                                                    setActiveFilter({ type: null, value: null });
+                                                    actions.getProducts();
+                                                }}
+                                            >
+                                                Ver todos los productos
+                                            </button>
+                                        </div>
                                     ) : (
                                         <>
                                             {displayedProducts.map((item) => (
-                                                <div className="card" key={item.id}>
-                                                    <img className="card-img-top" loading="lazy" src={item.image} alt={item.name}></img>
-                                                    <div className="card-body">
-                                                        <h5 className="card-title">{item.name}</h5>
+                                                <div className="card product-card" key={item.id}>
+                                                    <img 
+                                                        className="card-img-top product-card-image" 
+                                                        loading="lazy" 
+                                                        src={item.image} 
+                                                        alt={item.name}
+                                                    />
+                                                    <div className="card-body product-card-body">
+                                                        <h5 className="card-title product-card-title">
+                                                            {item.name}
+                                                        </h5>
+                                                        
                                                         {item.stock === 0 && (
-                                                        <p className="text-danger fw-bold mb-2">Sin Stock</p>
-                                                         )}
-                                                        <p className="card-text">${item.price}</p>
-                                                        <div className="d-flex">
-                                                            <div>
-                                                                <Link to={`/detalleproductos/${item.id}`} style={{ textDecoration: 'none' }}>
-                                                                    <button className="see-more-button d-inline">Ver Más</button>
-                                                                </Link>
-                                                            </div>
-                                                            {item.stock >= 1 ? (
-                                                            <div className="px-3">
-                                                                <button onClick={() => actions.addToCart(item)} className="add-cart-button">Agregar al carrito</button>
-                                                            </div> ) : ''}
+                                                            <p className="text-danger fw-bold mb-2">Sin Stock</p>
+                                                        )}
+                                                        
+                                                        <p className="card-text fw-bold mb-3">${item.price.toLocaleString()}</p>
+                                                        
+                                                        <div className="d-flex flex-column flex-sm-row gap-2 product-card-actions">
+                                                            <Link 
+                                                                to={`/detalleproductos/${item.id}`} 
+                                                                style={{ textDecoration: 'none' }}
+                                                                className="flex-grow-1"
+                                                            >
+                                                                <button className="see-more-button w-100">Ver Más</button>
+                                                            </Link>
+                                                            
+                                                            {item.stock >= 1 && (
+                                                                <button 
+                                                                    onClick={() => actions.addToCart(item)} 
+                                                                    className="add-cart-button flex-grow-1"
+                                                                >
+                                                                    Agregar
+                                                                </button>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -161,8 +401,12 @@ const Productos = () => {
                                             
                                             {/* Loading indicator and intersection observer target */}
                                             {hasMore && (
-                                                <div ref={loadingRef} className="loading-indicator text-center my-4 w-100">
-                                                    {loading ? "Cargando más productos..." : ""}
+                                                <div ref={loadingRef} className="loading-indicator">
+                                                    {loading ? (
+                                                        <div className="spinner-border spinner-border-sm text-primary" role="status">
+                                                            <span className="visually-hidden">Cargando...</span>
+                                                        </div>
+                                                    ) : ""}
                                                 </div>
                                             )}
                                         </>
@@ -170,76 +414,30 @@ const Productos = () => {
                                 )}
                             </div>
                         </div>
-                        <div className="col-3 px-5">
-                            <h6>Precio</h6>
-                            {priceRanges.map((range, index) => (
-                                <p key={index} 
-                                    onClick={() => {
-                                        setSelectedPriceRange(range.range); 
-                                        setSelectedAgeRange(null); 
-                                        setSelectedBrand(null);
-                                        setPage(1); // Reset pagination when filter changes
-                                    }} 
-                                    style={{ cursor: 'pointer', color: selectedPriceRange === range.range ? 'blue' : 'black' }}
-                                >
-                                    {range.label}
-                                </p>
-                            ))}
-                            <hr></hr>
-                            <h6>Marca</h6>
-                            {store.brands.map((brand, index) => (
-                                <p
-                                    key={index}
-                                    onClick={() => {
-                                        setSelectedBrand(brand.name);
-                                        setSelectedAgeRange(null);
-                                        setSelectedPriceRange(null);
-                                        actions.getProductsByBrands(brand.id);
-                                        setPage(1); // Reset pagination when filter changes
-                                    }}
-                                    style={{ cursor: 'pointer', color: selectedBrand === brand ? 'blue' : 'black' }}
-                                >
-                                    {brand.name}
-                                </p>
-                            ))}
-                            <hr></hr>
-                            <h6>Edad mínima recomendada</h6>
-                            {ageRanges.map((range, index) => (
-                                <p
-                                    key={index}
-                                    onClick={() => {
-                                        setSelectedAgeRange(range.range);
-                                        setSelectedPriceRange(null);
-                                        setSelectedBrand(null);
-                                        setPage(1); // Reset pagination when filter changes
-                                    }}
-                                    style={{ cursor: 'pointer', color: selectedAgeRange === range.range ? 'blue' : 'black' }}
-                                >
-                                    {range.label}
-                                </p>
-                            ))}
-                            <hr></hr>
-                            <h6>Categoría</h6>
-                            {store.categories.map((item, index) => (
-                                <p
-                                    key={index}
-                                    onClick={() => {
-                                        setselectedCategory(item.category_name);
-                                        setSelectedAgeRange(null);
-                                        setSelectedPriceRange(null);
-                                        setSelectedBrand(null);
-                                        actions.getProductByCategory(item.id);
-                                        setPage(1); // Reset pagination when filter changes
-                                    }}
-                                    style={{ cursor: 'pointer', color: selectedCategory === item ? 'blue' : 'black' }}
-                                >
-                                    {item.category_name}
-                                </p>
-                            ))}
-                        </div>
                     </div>
                 </div>
             </div>
+            
+            {/* Mobile filter sidebar and overlay */}
+            {window.innerWidth < 768 && (
+                <>
+                    <div className={`filter-overlay${showFilters ? " show" : ""}`} onClick={() => setShowFilters(false)}></div>
+                    {renderFilterSidebar()}
+                    
+                    {/* Mobile filter toggle button */}
+                    {!showFilters && (
+                        <button 
+                            className="filter-toggle-btn"
+                            onClick={() => setShowFilters(true)}
+                            aria-label="Show filters"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                            </svg>
+                        </button>
+                    )}
+                </>
+            )}
         </>
     );
 };

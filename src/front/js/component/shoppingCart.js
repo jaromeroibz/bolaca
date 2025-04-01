@@ -181,7 +181,7 @@ const ShoppingCart = () => {
                                         </div>
                                         <div className="d-flex justify-content-between mb-2">
                                             <span>Costo de envío:</span>
-                                            <span>${shippingPrice}</span>
+                                            <span>Envío por pagar Starken</span>
                                         </div>
                                         <div className="d-flex justify-content-between mb-3">
                                             <span className="fw-bold">Total:</span>
