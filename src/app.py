@@ -291,7 +291,7 @@ def create_preference():
             "back_urls": {
                 "success": "https://bolaca.cl/success",
                 "failure": "https://bolaca.cl/failure",
-                "pending": "https://bolaca.cl/pending"
+                "pending": "https://bolaca.cl/pending" #terminar componente pending
             },
             "auto_return": "approved",
             "statement_descriptor": "Bolaca",

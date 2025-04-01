@@ -149,7 +149,7 @@ const ShoppingCart = () => {
         }
     };
 
-    const shippingCost = 4000;
+    const shippingPrice = 4000; // cambiar a shippingCost si se utiliza la promo
     // const shippingPrice = itemsPrice > 20000 ? 0 : shippingCost;
     const totalPrice = itemsPrice + shippingPrice;
 
