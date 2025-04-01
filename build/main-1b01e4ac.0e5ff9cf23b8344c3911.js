@@ -1220,8 +1220,8 @@ var ShoppingCart = function ShoppingCart() {
       return _ref2.apply(this, arguments);
     };
   }();
-  var shippingCost = 0;
-  var shippingPrice = itemsPrice > 20000 ? 0 : shippingCost;
+  var shippingCost = 4000;
+  // const shippingPrice = itemsPrice > 20000 ? 0 : shippingCost;
   var totalPrice = itemsPrice + shippingPrice;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container"
@@ -1338,7 +1338,7 @@ var ShoppingCart = function ShoppingCart() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
     htmlFor: "province",
     className: "form-label fw-bold"
-  }, "Provincia*"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+  }, "Comuna*"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
     type: "text",
     className: "form-control",
     id: "province",

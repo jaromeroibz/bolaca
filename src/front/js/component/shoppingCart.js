@@ -149,8 +149,8 @@ const ShoppingCart = () => {
         }
     };
 
-    const shippingCost = 0;
-    const shippingPrice = itemsPrice > 20000 ? 0 : shippingCost;
+    const shippingCost = 4000;
+    // const shippingPrice = itemsPrice > 20000 ? 0 : shippingCost;
     const totalPrice = itemsPrice + shippingPrice;
 
     return (
@@ -267,7 +267,7 @@ const ShoppingCart = () => {
                                             
                                             <div className="row mb-3">
                                                 <div className="col-6">
-                                                    <label htmlFor="province" className="form-label fw-bold">Provincia*</label>
+                                                    <label htmlFor="province" className="form-label fw-bold">Comuna*</label>
                                                     <input
                                                         type="text"
                                                         className="form-control"
