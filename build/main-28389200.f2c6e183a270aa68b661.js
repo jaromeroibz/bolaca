@@ -901,6 +901,30 @@ a {
     font-size: 0.8rem;
   }
   
+  /* Filter option with single line text */
+  .filter-option {
+    cursor: pointer;
+    padding: 5px 0;
+    transition: all 0.2s ease;
+    white-space: nowrap; /* Keep text in one line */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0; /* Remove default paragraph margin */
+    line-height: 1.5;
+  }
+  
+  .filter-option.active {
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  .price-range {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
   /* Productos Component Responsive Adjustments */
   @media (max-width: 992px) {
     .productos {
@@ -989,27 +1013,6 @@ a {
   .filter-section h6 {
     margin-bottom: 10px;
     font-weight: 600;
-  }
-  
-  .filter-option {
-    cursor: pointer;
-    padding: 5px 0;
-    transition: all 0.2s ease;
-  }
-  
-  .filter-option:hover {
-    color: #007bff;
-  }
-  
-  .filter-option.active {
-    color: #007bff;
-    font-weight: bold;
-  }
-  
-  .filter-clear-btn {
-    font-size: 0.8rem;
-    padding: 0.25rem 0.5rem;
-    margin-top: 10px;
   }
   
   /* Loading indicator */

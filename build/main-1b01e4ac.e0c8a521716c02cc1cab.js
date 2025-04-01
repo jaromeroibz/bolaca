@@ -819,14 +819,14 @@ var Productos = function Productos() {
     range: [7, 10]
   }];
   var priceRanges = [{
-    label: "$10000 - $15000",
-    range: [10000, 15000]
+    label: "$0 - $10000",
+    range: [0, 10000]
   }, {
-    label: "$15001 - $25000",
-    range: [15001, 25000]
+    label: "$10001 - $20000",
+    range: [10001, 20000]
   }, {
-    label: "$25001 - $30000",
-    range: [25001, 30000]
+    label: "$20001 - $25000",
+    range: [20001, 25000]
   }];
 
   // Helper function to check if a filter is active
