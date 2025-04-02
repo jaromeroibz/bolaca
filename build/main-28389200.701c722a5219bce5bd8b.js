@@ -158,8 +158,6 @@ li::marker{font-size:0;}
     gap: 2rem;
 }
 
-/* Update these CSS rules */
-
 /* Card container - make sure all cards have exactly the same dimensions */
 .card {
   height: 477px;
@@ -1153,8 +1151,6 @@ hr.custom-hr {
 .spinner-border {
   margin: 0 auto;
 }
-
-/* Empty state */
 
 `, ""]);
 // Exports
