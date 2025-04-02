@@ -1230,3 +1230,14 @@ hr.custom-hr {
     width: 100%;
   }
 }
+
+/* Add this to your CSS file to remove the cursor/caret from text elements */
+* {
+  caret-color: transparent;
+}
+
+/* If you need to keep the cursor in actual input fields, add this */
+input, textarea, [contenteditable="true"] {
+  caret-color: auto;
+}
+

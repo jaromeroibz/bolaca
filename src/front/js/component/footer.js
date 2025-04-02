@@ -23,7 +23,7 @@ const Footer = () => {
               </li>
               <li className="mb-2">
                 <Link to={`/productos?category=Libros Moviles`} className="text-decoration-none footer-link">
-                  Libros Móviles
+                  Libros
                 </Link>
               </li>
             </ul>

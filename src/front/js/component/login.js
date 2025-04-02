@@ -1,11 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AppContext } from "../store/appContext.js";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const LogIn = () => {
     const { store, actions } = useContext(AppContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     // Scroll to top when component mounts
     useEffect(() => {
@@ -14,66 +18,120 @@ const LogIn = () => {
     
     async function sendData(e) {
         e.preventDefault();
-        // loginAdmin now returns the redirect URL on success
-        const redirectUrl = await actions.loginAdmin(email, password);
-        if (redirectUrl && store.auth === true) {
-            window.location.href = redirectUrl;
-        } else {
-            setErrorMessage('Incorrect credentials. Please try again.');
-        }
+        setIsLoading(true);
+        setErrorMessage('');
+        
+        // Add a small delay to show loading state
+        setTimeout(async () => {
+            try {
+                // loginAdmin now returns the redirect URL on success
+                const redirectUrl = await actions.loginAdmin(email, password);
+                if (redirectUrl && store.auth === true) {
+                    window.location.href = redirectUrl;
+                } else {
+                    setErrorMessage('Incorrect credentials. Please try again.');
+                }
+            } catch (error) {
+                setErrorMessage('An error occurred. Please try again.');
+                console.error(error);
+            } finally {
+                setIsLoading(false);
+            }
+        }, 600);
     }
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
-        <div className="container" style={{ paddingTop: "200px", maxWidth: "400px" }}>
+        <div className="login-container">
             {store.auth === true ? (
                 <AdminRedirect />
             ) : (
-                <>
-                    <p>Sign in</p>
-                    <h1>Welcome back!</h1>
-                    <form onSubmit={sendData}>
-                        <div className="row">
-                            <div className="col-12 mb-4">
-                                <div className="position-relative mb-4">
-                                    <label className="my-2" htmlFor="exampleInputEmail1">
-                                        Email address
-                                    </label>
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        className="form-control my-2"
-                                        id="exampleInputEmail1"
-                                        placeholder="Enter email"
-                                    />
-                                </div>
-                            </div>
-                            <div className="col-12 mb-4">
-                                <div className="position-relative mb-4">
-                                    <label htmlFor="exampleInputPassword1">Password</label>
-                                    <input
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        className="form-control my-2"
-                                        id="exampleInputPassword1"
-                                        placeholder="Password"
-                                    />
-                                    {errorMessage && (
-                                        <small className="text-danger">{errorMessage}</small>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="col-12 mb-4">
-                                <div className="position-relative mb-4">
-                                    <button type="submit" className="buy-now-button">
-                                        Submit
-                                    </button>
-                                </div>
+                <div className="login-card">
+                    <div className="login-header">
+                        <span className="login-subtitle">Sign in</span>
+                        <h1 className="login-title">Welcome back!</h1>
+                    </div>
+                    
+                    <form onSubmit={sendData} className="login-form">
+                        <div className="form-group">
+                            <label htmlFor="email">Email address</label>
+                            <div className="input-group">
+                                <span className="input-icon">
+                                    <FontAwesomeIcon icon={faEnvelope} />
+                                </span>
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="form-control"
+                                    id="email"
+                                    placeholder="Enter your email"
+                                    required
+                                />
                             </div>
                         </div>
+                        
+                        <div className="form-group">
+                            <div className="password-label-group">
+                                <label htmlFor="password">Password</label>
+                                <a href="#" className="forgot-password">Forgot password?</a>
+                            </div>
+                            <div className="input-group">
+                                <span className="input-icon">
+                                    <FontAwesomeIcon icon={faLock} />
+                                </span>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="form-control"
+                                    id="password"
+                                    placeholder="Enter your password"
+                                    required
+                                />
+                                <button 
+                                    type="button" 
+                                    className="password-toggle" 
+                                    onClick={togglePasswordVisibility}
+                                    tabIndex="-1"
+                                >
+                                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                                </button>
+                            </div>
+                            {errorMessage && (
+                                <div className="error-message">
+                                    {errorMessage}
+                                </div>
+                            )}
+                        </div>
+                        
+                        <div className="form-group remember-me">
+                            <div className="custom-checkbox">
+                                <input type="checkbox" id="remember" />
+                                <label htmlFor="remember">Remember me</label>
+                            </div>
+                        </div>
+                        
+                        <button 
+                            type="submit" 
+                            className={`login-button ${isLoading ? 'loading' : ''}`}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? (
+                                <span className="spinner"></span>
+                            ) : (
+                                'Sign In'
+                            )}
+                        </button>
                     </form>
-                </>
+                    
+                    <div className="login-footer">
+                        <p>Don't have an account? <a href="#">Contact us</a></p>
+                    </div>
+                </div>
             )}
         </div>
     );

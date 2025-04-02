@@ -60,7 +60,9 @@
 		"webpack-merge": "^6.0.1"
 	},
 	"dependencies": {
-		"@fortawesome/fontawesome-svg-core": "^6.5.2",
+		"@fortawesome/fontawesome-svg-core": "^6.7.2",
+		"@fortawesome/free-solid-svg-icons": "^6.7.2",
+		"@fortawesome/react-fontawesome": "^0.2.2",
 		"@mercadopago/sdk-react": "^0.0.22",
 		"@sentry/react": "^8.50.0",
 		"@sentry/webpack-plugin": "^3.0.0",

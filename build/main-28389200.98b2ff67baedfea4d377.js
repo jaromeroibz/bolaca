@@ -1249,6 +1249,17 @@ hr.custom-hr {
     width: 100%;
   }
 }
+
+/* Add this to your CSS file to remove the cursor/caret from text elements */
+* {
+  caret-color: transparent;
+}
+
+/* If you need to keep the cursor in actual input fields, add this */
+input, textarea, [contenteditable="true"] {
+  caret-color: auto;
+}
+
 `, ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
@@ -2452,7 +2463,7 @@ var withContext = function withContext(Component) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [264,997,472,861,891,645,548,425,176,765,854,489,807,906], () => (__webpack_require__(4769)))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, [264,974,224,477,226,472,861,891,645,548,425,176,765,854,489,807,906], () => (__webpack_require__(4769)))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
