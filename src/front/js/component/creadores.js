@@ -28,6 +28,12 @@ const CreadorCard = ({ imageSrc, borderColor, name, role, description, alignment
 
 // Creators Component
 const Creadores = () => {
+
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]); // This will trigger when the route changes
+
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Creadores</h1>

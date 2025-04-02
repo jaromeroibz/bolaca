@@ -338,6 +338,11 @@ var LogIn = function LogIn() {
     _useState6 = _slicedToArray(_useState5, 2),
     errorMessage = _useState6[0],
     setErrorMessage = _useState6[1];
+
+  // Scroll to top when component mounts
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    window.scrollTo(0, 0);
+  }, [location.pathname]); // This will trigger when the route changes
   function sendData(_x) {
     return _sendData.apply(this, arguments);
   }
@@ -1271,6 +1276,12 @@ var ShoppingCart = function ShoppingCart() {
   var itemsPrice = store.cart.reduce(function (a, c) {
     return a + c.qty * c.price;
   }, 0);
+
+  // Scroll to top when component mounts
+  useEffect(function () {
+    window.scrollTo(0, 0);
+  }, [location.pathname]); // This will trigger when the route changes
+
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       name: "",
       email: "",

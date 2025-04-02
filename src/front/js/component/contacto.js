@@ -13,6 +13,11 @@ const ContactForm = () => {
     }
   }, [executeRecaptcha]); // Runs when `executeRecaptcha` becomes available
 
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]); // This will trigger when the route changes
+    
   const handleSubmit = async (e) => {
     e.preventDefault();
     

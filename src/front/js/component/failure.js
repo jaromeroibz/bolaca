@@ -11,6 +11,7 @@ const Failure = () => {
                         
             alert('Lo sentimos, hubo un error en tu compra');
         }
+        
     }, []);
 
     return(

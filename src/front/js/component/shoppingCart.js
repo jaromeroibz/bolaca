@@ -10,6 +10,12 @@ const ShoppingCart = () => {
     const [currentOrder, setCurrentOrder] = useState(null);
     const itemsPrice = store.cart.reduce((a, c) => a + c.qty * c.price, 0);
 
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]); // This will trigger when the route changes
+
+
     const [customerDetails, setCustomerDetails] = useState({
         name: "",
         email: "",

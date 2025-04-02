@@ -7,6 +7,11 @@ const LogIn = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]); // This will trigger when the route changes
+    
     async function sendData(e) {
         e.preventDefault();
         // loginAdmin now returns the redirect URL on success
