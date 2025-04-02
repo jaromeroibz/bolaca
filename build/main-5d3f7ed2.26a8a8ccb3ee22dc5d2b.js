@@ -331,7 +331,7 @@ var CreadorCard = function CreadorCard(_ref) {
 // Creators Component
 var Creadores = function Creadores() {
   // Scroll to top when component mounts
-  useEffect(function () {
+  (0,react.useEffect)(function () {
     window.scrollTo(0, 0);
   }, [location.pathname]); // This will trigger when the route changes
 

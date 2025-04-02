@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Angelo from "../../img/Angelo.png";
 import Natalia from "../../img/Natalia.png";
 
