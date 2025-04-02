@@ -1219,12 +1219,15 @@ var logout = __webpack_require__(3589);
 var creadores = __webpack_require__(71);
 // EXTERNAL MODULE: ./src/front/js/component/errorBoundary.js
 var errorBoundary = __webpack_require__(8247);
+// EXTERNAL MODULE: ./src/front/js/component/scrollToTop.js
+var scrollToTop = __webpack_require__(5348);
 ;// ./src/front/js/layout.js
 
 
 
 
 // Direct imports for components
+
 
 
 
@@ -1268,7 +1271,7 @@ var Layout = function Layout() {
     fallback: /*#__PURE__*/react.createElement(LoadingSpinner, null)
   }, /*#__PURE__*/react.createElement(dist/* BrowserRouter */.Kd, {
     basename: basename
-  }, /*#__PURE__*/react.createElement(navbar/* default */.A, null), /*#__PURE__*/react.createElement(react_router_dist/* Routes */.BV, null, /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
+  }, /*#__PURE__*/react.createElement(scrollToTop/* default */.A, null), /*#__PURE__*/react.createElement(navbar/* default */.A, null), /*#__PURE__*/react.createElement(react_router_dist/* Routes */.BV, null, /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {
     element: /*#__PURE__*/react.createElement(landingPage/* default */.A, null),
     path: "/"
   }), /*#__PURE__*/react.createElement(react_router_dist/* Route */.qh, {

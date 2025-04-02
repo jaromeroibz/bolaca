@@ -12,6 +12,11 @@ const Productos = () => {
     const productsPerPage = 6;
     const [showFilters, setShowFilters] = useState(false); // For mobile filter toggle
     
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]); // This will trigger when the route changes
+    
     // Create a ref for the loading element
     const observer = useRef();
     const loadingRef = useCallback(node => {
@@ -162,7 +167,7 @@ const Productos = () => {
     // Render the filter sidebar
     const renderFilterSidebar = () => {
         return (
-            <div className={window.innerWidth < 768 ? "filter-sidebar-mobile" + (showFilters ? " show" : "") : "col-md-4 col-lg-3 px-4"}>
+            <div className={window.innerWidth < 768 ? "filter-sidebar-mobile" + (showFilters ? " show" : "") : "col-md-4 col-lg-3 px-4"} style={{ minWidth: "200px" }}>
                 
                 {window.innerWidth < 768 && (
                     <button 
@@ -227,7 +232,7 @@ const Productos = () => {
                                 key={index} 
                                 onClick={() => handleFilterClick('price', range.range)}
                                 className={`filter-option ${isFilterActive('price', range.range) ? 'active' : ''}`}
-                                style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                style={{ whiteSpace: 'normal', width: '100%' }}
                             >
                                 {range.label}
                             </div>
@@ -249,7 +254,7 @@ const Productos = () => {
                                     () => actions.getProductsByBrands(brand.id)
                                 )}
                                 className={`filter-option ${isFilterActive('brand', brand.name) ? 'active' : ''}`}
-                                style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                style={{ whiteSpace: 'normal', width: '100%' }}
                             >
                                 {brand.name}
                             </div>
@@ -267,7 +272,7 @@ const Productos = () => {
                                 key={index}
                                 onClick={() => handleFilterClick('age', range.range)}
                                 className={`filter-option ${isFilterActive('age', range.range) ? 'active' : ''}`}
-                                style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                style={{ whiteSpace: 'normal', width: '100%' }}
                             >
                                 {range.label}
                             </div>
@@ -289,7 +294,7 @@ const Productos = () => {
                                     () => actions.getProductByCategory(item.id)
                                 )}
                                 className={`filter-option ${isFilterActive('category', item.category_name) ? 'active' : ''}`}
-                                style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                                style={{ whiteSpace: 'normal', width: '100%' }}
                             >
                                 {item.category_name}
                             </div>

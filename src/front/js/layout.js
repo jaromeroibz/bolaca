@@ -18,6 +18,7 @@ import LogIn from "./component/login.js";
 import LogOut from "./component/logout.js";
 import Creadores from "./component/creadores.js";
 import ErrorBoundary from "./component/errorBoundary.js";
+import ScrollToTop from "./component/scrollToTop.js";
 
 // Loading component
 const LoadingSpinner = () => (
@@ -43,6 +44,7 @@ const Layout = () => {
                 <GoogleReCaptchaProvider reCaptchaKey="6Ldl6v8qAAAAADN4R2hbNfeBQdSnpFiQHx7PHscx">
                     <Suspense fallback={<LoadingSpinner />}>
                         <BrowserRouter basename={basename}>
+                        <ScrollToTop />
                             <Navbar />
                             <Routes>
                                 <Route element={<LandingPage />} path="/" />
