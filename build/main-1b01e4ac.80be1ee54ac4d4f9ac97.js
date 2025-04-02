@@ -918,7 +918,12 @@ var Productos = function Productos() {
         onClick: function onClick() {
           return handleFilterClick('price', range.range);
         },
-        className: "filter-option ".concat(isFilterActive('price', range.range) ? 'active' : '')
+        className: "filter-option ".concat(isFilterActive('price', range.range) ? 'active' : ''),
+        style: {
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
+        }
       }, range.label);
     }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
       className: "my-3"
@@ -936,7 +941,12 @@ var Productos = function Productos() {
             return actions.getProductsByBrands(brand.id);
           });
         },
-        className: "filter-option ".concat(isFilterActive('brand', brand.name) ? 'active' : '')
+        className: "filter-option ".concat(isFilterActive('brand', brand.name) ? 'active' : ''),
+        style: {
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
+        }
       }, brand.name);
     }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
       className: "my-3"
@@ -952,7 +962,12 @@ var Productos = function Productos() {
         onClick: function onClick() {
           return handleFilterClick('age', range.range);
         },
-        className: "filter-option ".concat(isFilterActive('age', range.range) ? 'active' : '')
+        className: "filter-option ".concat(isFilterActive('age', range.range) ? 'active' : ''),
+        style: {
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
+        }
       }, range.label);
     }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
       className: "my-3"
@@ -970,7 +985,12 @@ var Productos = function Productos() {
             return actions.getProductByCategory(item.id);
           });
         },
-        className: "filter-option ".concat(isFilterActive('category', item.category_name) ? 'active' : '')
+        className: "filter-option ".concat(isFilterActive('category', item.category_name) ? 'active' : ''),
+        style: {
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
+        }
       }, item.category_name);
     }))));
   };

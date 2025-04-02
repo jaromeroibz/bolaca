@@ -227,6 +227,7 @@ const Productos = () => {
                                 key={index} 
                                 onClick={() => handleFilterClick('price', range.range)}
                                 className={`filter-option ${isFilterActive('price', range.range) ? 'active' : ''}`}
+                                style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                             >
                                 {range.label}
                             </div>
@@ -248,6 +249,7 @@ const Productos = () => {
                                     () => actions.getProductsByBrands(brand.id)
                                 )}
                                 className={`filter-option ${isFilterActive('brand', brand.name) ? 'active' : ''}`}
+                                style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                             >
                                 {brand.name}
                             </div>
@@ -265,6 +267,7 @@ const Productos = () => {
                                 key={index}
                                 onClick={() => handleFilterClick('age', range.range)}
                                 className={`filter-option ${isFilterActive('age', range.range) ? 'active' : ''}`}
+                                style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                             >
                                 {range.label}
                             </div>
@@ -286,6 +289,7 @@ const Productos = () => {
                                     () => actions.getProductByCategory(item.id)
                                 )}
                                 className={`filter-option ${isFilterActive('category', item.category_name) ? 'active' : ''}`}
+                                style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                             >
                                 {item.category_name}
                             </div>
