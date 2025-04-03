@@ -876,6 +876,7 @@ hr.custom-hr {
 
 /* Contact Form Styles */
 .contact-container {
+  padding-top: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
