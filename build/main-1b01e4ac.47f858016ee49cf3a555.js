@@ -1350,7 +1350,7 @@ var ShoppingCart = function ShoppingCart() {
   }, 0);
 
   // Scroll to top when component mounts
-  useEffect(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     window.scrollTo(0, 0);
   }, [location.pathname]); // This will trigger when the route changes
 

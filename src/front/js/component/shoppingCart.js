@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { AppContext } from "../store/appContext.js";
 import { Link } from "react-router-dom";
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';

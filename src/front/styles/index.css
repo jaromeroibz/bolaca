@@ -876,14 +876,15 @@ hr.custom-hr {
 
 /* Contact Form Styles */
 .contact-container {
-  padding-top: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   padding: 2rem 1rem;
+  padding-top: 150px;  
   background-color: #f8f9fa;
 }
+
 
 .contact-card {
   width: 100%;
