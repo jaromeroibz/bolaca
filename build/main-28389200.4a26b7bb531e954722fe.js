@@ -673,6 +673,226 @@ hr.custom-hr {
   }
 }
 
+/* Modern Login Styles */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background-color: #f8f9fa;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 2.5rem;
+  margin: 0 auto;
+  transition: transform 0.3s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-5px);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-subtitle {
+  font-size: 1rem;
+  color: #6c757d;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.login-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.login-form .form-group {
+  margin-bottom: 0.5rem;
+}
+
+.login-form .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #495057;
+  font-size: 0.95rem;
+}
+
+.login-form .input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-form .input-icon {
+  position: absolute;
+  left: 15px;
+  color: #adb5bd;
+}
+
+.login-form .form-control {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.5rem;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.login-form .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none;
+}
+
+.password-label-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.forgot-password {
+  font-size: 0.85rem;
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.forgot-password:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #adb5bd;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.password-toggle:hover {
+  color: #6c757d;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #007bff;
+}
+
+.login-button {
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.login-button:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+.login-button.loading {
+  background-color: #333;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 576px) {
+  .login-card {
+    padding: 1.5rem;
+  }
+  
+  .login-title {
+    font-size: 1.75rem;
+  }
+  
+  .login-form .form-control {
+    padding: 0.7rem 1rem 0.7rem 2.5rem;
+  }
+}
+
 .quantity-form {
   display: flex;
   flex-direction: column;
@@ -1010,159 +1230,28 @@ hr.custom-hr {
   box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
-.close-filters-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.active-filter-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  margin: 0 5px 5px 0;
-  background-color: #f0f0f0;
-  border-radius: 15px;
-  font-size: 0.8rem;
-}
-
-/* Updated Filter Styles - Fix for truncated text */
-.filter-option {
-  cursor: pointer;
-  padding: 5px 0;
-  transition: all 0.2s ease;
-  white-space: normal; /* Changed from nowrap to normal to allow wrapping */
-  overflow: visible; /* Changed from hidden to visible to show full text */
-  margin: 0; /* Remove default paragraph margin */
-  line-height: 1.5;
-  font-size: 14px; /* Slightly smaller font size */
-  width: 100%; /* Ensure it takes full width of container */
-  display: block; /* Ensure it's a block element */
-}
-
-.filter-option.active {
-  color: #007bff;
-  font-weight: bold;
-}
-
-/* Ensure filter section has enough width */
-.filter-section {
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.filter-section h6 {
-  margin-bottom: 10px;
-  font-weight: 600;
-}
-
-/* Adjust padding for filter container */
-.ps-2 {
-  padding-left: 0.5rem !important;
-}
-
-/* Productos Component Responsive Adjustments */
-@media (max-width: 992px) {
-  .productos {
-    padding-left: 30px;
-    padding-right: 30px;
-  }
-  
-  .productos .card-title {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 768px) {
-  .productos {
-    padding-top: 120px;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-  
-  .cards {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
-  }
-  
-  .card-img-top {
-    height: 180px;
-  }
-}
-
+/* Button container on mobile */
 @media (max-width: 576px) {
-  .productos {
-    padding-top: 100px;
-    padding-left: 10px;
-    padding-right: 10px;
+  .product-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
   
-  .cards {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
-  }
-  
-  .card-img-top {
-    height: 150px;
-  }
-  
-  .card {
-    margin-bottom: 15px;
-  }
-  
-  .card-body {
-    padding: 10px;
-  }
-  
-  .card-title {
-    font-size: 14px;
-    height: 42px;
-    margin-bottom: 8px;
-  }
-  
-  .card-text {
-    margin-bottom: 10px;
-    font-size: 14px;
-  }
-  
-  .see-more-button, .add-cart-button {
-    padding: 8px;
-    font-size: 0.75rem;
-    height: 40px;
-  }
-  
-  /* Adjust filters for mobile */
-  .productos h2 {
-    font-size: 1.5rem;
-  }
-  
-  .productos h6 {
-    font-size: 0.9rem;
+  .product-card-actions .see-more-button,
+  .product-card-actions .add-cart-button {
+    width: 100%;
   }
 }
 
-/* Loading indicator */
-.loading-indicator {
-  padding: 20px;
-  text-align: center;
+/* Add this to your CSS file to remove the cursor/caret from text elements */
+* {
+  caret-color: transparent;
 }
 
-.spinner-border {
-  margin: 0 auto;
-}
-
-/* Empty state */
-.empty-state {
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.empty-state h5 {
-  margin-bottom: 15px;
-  color: #666;
+/* If you need to keep the cursor in actual input fields, add this */
+input, textarea, [contenteditable="true"] {
+  caret-color: auto;
 }
 
 /* Product grid improvements */
@@ -1236,29 +1325,81 @@ hr.custom-hr {
   }
 }
 
-/* Button container on mobile */
-@media (max-width: 576px) {
-  .product-card-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .product-card-actions .see-more-button,
-  .product-card-actions .add-cart-button {
-    width: 100%;
-  }
+/* Loading indicator */
+.loading-indicator {
+  padding: 20px;
+  text-align: center;
 }
 
-/* Add this to your CSS file to remove the cursor/caret from text elements */
-* {
-  caret-color: transparent;
+.spinner-border {
+  margin: 0 auto;
 }
 
-/* If you need to keep the cursor in actual input fields, add this */
-input, textarea, [contenteditable="true"] {
-  caret-color: auto;
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
 }
+
+.empty-state h5 {
+  margin-bottom: 15px;
+  color: #666;
+}
+
+/* Updated Filter Styles - Fix for truncated text */
+.filter-option {
+  cursor: pointer;
+  padding: 5px 0;
+  transition: all 0.2s ease;
+  white-space: normal; /* Changed from nowrap to normal to allow wrapping */
+  overflow: visible; /* Changed from hidden to visible to show full text */
+  margin: 0; /* Remove default paragraph margin */
+  line-height: 1.5;
+  font-size: 14px; /* Slightly smaller font size */
+  width: 100%; /* Ensure it takes full width of container */
+  display: block; /* Ensure it's a block element */
+}
+
+.filter-option.active {
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* Ensure filter section has enough width */
+.filter-section {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.filter-section h6 {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+/* Adjust padding for filter container */
+.ps-2 {
+  padding-left: 0.5rem !important;
+}
+
+.active-filter-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  margin: 0 5px 5px 0;
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  font-size: 0.8rem;
+}
+
+.close-filters-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
 
 `, ""]);
 // Exports

@@ -127,10 +127,6 @@ const LogIn = () => {
                             )}
                         </button>
                     </form>
-                    
-                    <div className="login-footer">
-                        <p>Don't have an account? <a href="#">Contact us</a></p>
-                    </div>
                 </div>
             )}
         </div>

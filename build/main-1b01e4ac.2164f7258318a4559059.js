@@ -493,11 +493,7 @@ var LogIn = function LogIn() {
     disabled: isLoading
   }, isLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "spinner"
-  }) : 'Sign In')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "login-footer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Don't have an account? ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    href: "#"
-  }, "Contact us")))));
+  }) : 'Sign In'))));
 };
 var AdminRedirect = function AdminRedirect() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
