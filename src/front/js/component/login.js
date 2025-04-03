@@ -51,13 +51,13 @@ const LogIn = () => {
             ) : (
                 <div className="login-card">
                     <div className="login-header">
-                        <span className="login-subtitle">Sign in</span>
-                        <h1 className="login-title">Welcome back!</h1>
+                        <span className="login-subtitle">Iniciar sesión</span>
+                        <h1 className="login-title">Hola Bolaca!</h1>
                     </div>
                     
                     <form onSubmit={sendData} className="login-form">
                         <div className="form-group">
-                            <label htmlFor="email">Email address</label>
+                            <label htmlFor="email">Email</label>
                             <div className="input-group">
                                 <span className="input-icon">
                                     <FontAwesomeIcon icon={faEnvelope} />
@@ -68,7 +68,7 @@ const LogIn = () => {
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="form-control"
                                     id="email"
-                                    placeholder="Enter your email"
+                                    placeholder="Ingresa tu correo"
                                     required
                                 />
                             </div>
@@ -76,8 +76,8 @@ const LogIn = () => {
                         
                         <div className="form-group">
                             <div className="password-label-group">
-                                <label htmlFor="password">Password</label>
-                                <a href="#" className="forgot-password">Forgot password?</a>
+                                <label htmlFor="password">Contraseña</label>
+                                <a href="#" className="forgot-password">Olvidaste tu contraseña?</a>
                             </div>
                             <div className="input-group">
                                 <span className="input-icon">
@@ -89,7 +89,7 @@ const LogIn = () => {
                                     onChange={(e) => setPassword(e.target.value)}
                                     className="form-control"
                                     id="password"
-                                    placeholder="Enter your password"
+                                    placeholder="Ingresa tu constraseña"
                                     required
                                 />
                                 <button 
@@ -111,7 +111,7 @@ const LogIn = () => {
                         <div className="form-group remember-me">
                             <div className="custom-checkbox">
                                 <input type="checkbox" id="remember" />
-                                <label htmlFor="remember">Remember me</label>
+                                <label htmlFor="remember">Recuérdame</label>
                             </div>
                         </div>
                         
