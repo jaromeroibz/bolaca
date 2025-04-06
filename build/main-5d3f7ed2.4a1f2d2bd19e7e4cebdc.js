@@ -793,17 +793,17 @@ var Footer = function Footer() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .Link */ .N_, {
-    to: "/productos?category=Cartas Didacticas",
+    to: "/productos?category=Cartas didacticas",
     className: "text-decoration-none footer-link"
   }, "Cartas Did\xE1cticas")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .Link */ .N_, {
-    to: "/productos?category=Test",
+    to: "/productos?category=Juegos de Mesa",
     className: "text-decoration-none footer-link"
   }, "Juegos de Mesa")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "mb-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .Link */ .N_, {
-    to: "/productos?category=Libros Moviles",
+    to: "/productos?category=Libros",
     className: "text-decoration-none footer-link"
   }, "Libros")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-md-4 mb-4 mb-md-0 d-flex justify-content-center align-items-center"

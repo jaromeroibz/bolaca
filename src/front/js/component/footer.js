@@ -12,17 +12,17 @@ const Footer = () => {
             <h4 className="mb-3 fw-bold">Categorías</h4>
             <ul className="list-unstyled">
               <li className="mb-2">
-                <Link to={`/productos?category=Cartas Didacticas`} className="text-decoration-none footer-link">
+                <Link to={`/productos?category=Cartas didacticas`} className="text-decoration-none footer-link">
                   Cartas Didácticas
                 </Link>
               </li>
               <li className="mb-2">
-                <Link to={`/productos?category=Test`} className="text-decoration-none footer-link">
+                <Link to={`/productos?category=Juegos de Mesa`} className="text-decoration-none footer-link">
                   Juegos de Mesa
                 </Link>
               </li>
               <li className="mb-2">
-                <Link to={`/productos?category=Libros Moviles`} className="text-decoration-none footer-link">
+                <Link to={`/productos?category=Libros`} className="text-decoration-none footer-link">
                   Libros
                 </Link>
               </li>
