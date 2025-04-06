@@ -1441,9 +1441,11 @@ input, textarea, [contenteditable="true"] {
 
 @media (max-width: 576px) {
   .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: 1fr; 
+    gap: 15px; 
   }
 }
+
 
 /* Product card improvements */
 .product-card {
