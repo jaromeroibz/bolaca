@@ -1524,8 +1524,7 @@ var ShoppingCart = function ShoppingCart() {
       return _ref2.apply(this, arguments);
     };
   }();
-  var shippingPrice = 4000; // cambiar a shippingCost si se utiliza la promo
-  // const shippingPrice = itemsPrice > 20000 ? 0 : shippingCost;
+  var shippingPrice = 0; // Cambiar si quieren incluir costo de envío más adelante
   var totalPrice = itemsPrice + shippingPrice;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container"
