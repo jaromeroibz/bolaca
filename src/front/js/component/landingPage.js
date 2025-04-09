@@ -1,10 +1,6 @@
 import React, { useEffect, useContext, useRef } from "react";
 import { AppContext } from "../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
-import Carousel1 from "../../img/Carousel1.png";
-import Carousel2 from "../../img/Carousel2.png";
-import Carousel3 from "../../img/Carousel3.png";
-import Cursiva1 from "../../img/1-CURSIVA-small.jpg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SlickSlider from "react-slick";
@@ -108,17 +104,17 @@ const LandingPage = () => {
                         <div className="carousel-inner">
                             <div className="carousel-item active">
                                 <Link to="/productos/1">
-                                    <img src={Carousel1} className="d-block w-100" alt="Carousel1"></img>
+                                    <img src="https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169782/Carousel1_d054rp.png" className="d-block w-100" alt="Carousel1"></img>
                                 </Link>
                             </div>
                             <div className="carousel-item">
                                 <Link to="/productos/2">
-                                    <img src={Carousel2} className="d-block w-100" alt="Carousel2"></img>
+                                    <img src="https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169782/Carousel2_j8j9dn.png" className="d-block w-100" alt="Carousel2"></img>
                                 </Link>
                             </div>
                             <div className="carousel-item">
                                 <Link to="/productos/3">
-                                    <img src={Carousel3} className="d-block w-100" alt="Carousel3"></img>
+                                    <img src="https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169782/Carousel3_wwi1ob.png" className="d-block w-100" alt="Carousel3"></img>
                                 </Link>
                             </div>
                         </div>
@@ -197,7 +193,7 @@ const LandingPage = () => {
                                         }} 
                                         alt="category image" 
                                     />
-                                    <p>{item.category_name}</p>
+                                    <p className="py-1">{item.category_name}</p>
                                 </Link>
                             </div>
                         ))}

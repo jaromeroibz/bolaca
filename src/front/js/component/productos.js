@@ -39,19 +39,22 @@ const Productos = () => {
     });
 
     useEffect(() => {
-        // Retrieve query params on each change
         const searchParams = new URLSearchParams(location.search);
         const category = searchParams.get("category");
-
+    
         actions.getBrands();
         actions.getCategories();
-
+    
         if (category) {
-            setActiveFilter({
-                type: 'category',
-                value: category
-            });
-            actions.getProductByCategory(category);
+            // Find the category object to get its name
+            const categoryObj = store.categories.find(cat => cat.id.toString() === category);
+            if (categoryObj) {
+                setActiveFilter({
+                    type: 'category',
+                    value: categoryObj.category_name
+                });
+                actions.getProductByCategory(category);
+            }
         } else {
             setActiveFilter({
                 type: null,
@@ -60,10 +63,10 @@ const Productos = () => {
             actions.getProducts();
         }
         
-        // Reset pagination when filters change
         setPage(1);
         setHasMore(true);
-    }, [location.search]);
+    }, [location.search, store.categories]);
+    
     
     // Update displayed products when store.products changes or filters change
     useEffect(() => {
@@ -283,7 +286,7 @@ const Productos = () => {
                 <hr className="my-3" />
                 
                 <div className="filter-section">
-                    <h6 className="mb-2">Categoría</h6>
+                <h6 className="mb-2">Categoría</h6>
                     <div className="ps-2">
                         {store.categories.map((item, index) => (
                             <div
@@ -291,7 +294,13 @@ const Productos = () => {
                                 onClick={() => handleFilterClick(
                                     'category', 
                                     item.category_name, 
-                                    () => actions.getProductByCategory(item.id)
+                                    () => {
+                                        actions.getProductByCategory(item.id);
+                                        // Update URL with category ID
+                                        const searchParams = new URLSearchParams(location.search);
+                                        searchParams.set("category", item.id);
+                                        window.history.pushState({}, '', `?${searchParams.toString()}`);
+                                    }
                                 )}
                                 className={`filter-option ${isFilterActive('category', item.category_name) ? 'active' : ''}`}
                                 style={{ whiteSpace: 'normal', width: '100%' }}
@@ -301,6 +310,7 @@ const Productos = () => {
                         ))}
                     </div>
                 </div>
+
             </div>
         );
     };
