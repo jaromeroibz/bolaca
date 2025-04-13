@@ -1,13 +1,6 @@
 "use strict";
 (self["webpackChunkreact_hello_webapp"] = self["webpackChunkreact_hello_webapp"] || []).push([[807],{
 
-/***/ 3607:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "assets/images/bolaca-sin-borde-pequeña.886bf61e6fd9089da98f.jpg";
-
-/***/ }),
-
 /***/ 6690:
 /***/ ((__unused_webpack___webpack_module__, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
@@ -243,32 +236,20 @@ var ContactForm = function ContactForm() {
 
 /***/ }),
 
-/***/ 71:
+/***/ 6879:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  A: () => (/* binding */ creadores)
-});
-
-// UNUSED EXPORTS: CreadorCard
-
-// EXTERNAL MODULE: ./node_modules/react/index.js
-var react = __webpack_require__(6540);
-;// ./src/front/img/Angelo.png
-const Angelo_namespaceObject = __webpack_require__.p + "assets/images/Angelo.19d8724e85d89bb8a029.png";
-;// ./src/front/img/Natalia.png
-const Natalia_namespaceObject = __webpack_require__.p + "assets/images/Natalia.60dbd49b334cb90429cc.png";
-;// ./src/front/js/component/creadores.js
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   A: () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* unused harmony export CreadorCard */
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6540);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-
-
 
 
 // CreatorCard Component
@@ -281,27 +262,27 @@ var CreadorCard = function CreadorCard(_ref) {
     alignment = _ref.alignment;
   // Dynamic alignment style
   var alignmentStyle = alignment === "right" ? "row-reverse" : "row";
-  return /*#__PURE__*/react.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     style: _objectSpread(_objectSpread({}, styles.card), {}, {
       flexDirection: alignmentStyle
     })
-  }, /*#__PURE__*/react.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     style: _objectSpread(_objectSpread({}, styles.imageContainer), {}, {
       borderColor: borderColor
     })
-  }, /*#__PURE__*/react.createElement("img", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
     src: imageSrc,
     alt: name,
     style: styles.image
-  })), /*#__PURE__*/react.createElement("div", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     style: _objectSpread(_objectSpread({}, styles.content), {}, {
       textAlign: alignment === "right" ? "left" : "left"
     })
-  }, /*#__PURE__*/react.createElement("h2", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
     style: styles.name
-  }, name), /*#__PURE__*/react.createElement("p", {
+  }, name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
     style: styles.role
-  }, role), /*#__PURE__*/react.createElement("p", {
+  }, role), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
     style: styles.description
   }, description)));
 };
@@ -309,23 +290,23 @@ var CreadorCard = function CreadorCard(_ref) {
 // Creators Component
 var Creadores = function Creadores() {
   // Scroll to top when component mounts
-  (0,react.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     window.scrollTo(0, 0);
   }, [location.pathname]); // This will trigger when the route changes
 
-  return /*#__PURE__*/react.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     style: styles.container
-  }, /*#__PURE__*/react.createElement("h1", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", {
     style: styles.title
-  }, "Creadores"), /*#__PURE__*/react.createElement(CreadorCard, {
-    imageSrc: Angelo_namespaceObject,
+  }, "Creadores"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CreadorCard, {
+    imageSrc: "https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169801/Angelo_mwh3yl.png",
     borderColor: "#FFD93D",
     name: "Angelo Mendoza T.",
     role: "Trabajador Social de la Universidad Cat\xF3lica Silva Henr\xEDquez, actor de Teatro Espont\xE1neo, Playback y Teatro Debate, Mag\xEDster en \xC9tica Social y Desarrollo Humano de la Universidad Alberto Hurtado.",
     description: "Su experiencia profesional le ha permitido liderar diversos proyectos sociales para la promoci\xF3n de Derechos Humanos con ni\xF1eces, j\xF3venes, comunidades migrantes y personas en contexto de alta vulnerabilidad. Actualmente es capacitador y docente de educaci\xF3n superior en materias de \xE9tica, inteligencia emocional, liderazgo y trabajo colaborativo.",
     alignment: "left" // Image on the Left
-  }), /*#__PURE__*/react.createElement(CreadorCard, {
-    imageSrc: Natalia_namespaceObject,
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(CreadorCard, {
+    imageSrc: "https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169794/Natalia_o2ymg3.png",
     borderColor: "#E60012",
     name: "Natalia Romero A.",
     role: "Psic\xF3loga de la Universidad de Chile, con post\xEDtulo de especializaci\xF3n cl\xEDnica infanto juvenil en la Universidad Diego Portales, actualmente cursa el Mag\xEDster en Psicolog\xEDa Educacional de la Universidad Mayor.",
@@ -392,7 +373,7 @@ var styles = {
     paddingTop: "10px"
   }
 };
-/* harmony default export */ const creadores = (Creadores);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Creadores);
 
 
 /***/ }),
@@ -744,9 +725,7 @@ var ErrorBoundary = /*#__PURE__*/function (_Component) {
 /* harmony export */   A: () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6540);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4976);
-/* harmony import */ var _img_bolaca_sin_borde_peque_a_jpg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3607);
-
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4976);
 
 
 var Footer = function Footer() {
@@ -764,17 +743,17 @@ var Footer = function Footer() {
     className: "list-unstyled"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .Link */ .N_, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__/* .Link */ .N_, {
     to: "/productos?category=3",
     className: "text-decoration-none footer-link"
   }, "Cartas Did\xE1cticas")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .Link */ .N_, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__/* .Link */ .N_, {
     to: "/productos?category=1",
     className: "text-decoration-none footer-link"
   }, "Juegos de Mesa")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "mb-2"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .Link */ .N_, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__/* .Link */ .N_, {
     to: "/productos?category=2",
     className: "text-decoration-none footer-link"
   }, "Libros")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -782,7 +761,7 @@ var Footer = function Footer() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "footer-logo text-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    src: _img_bolaca_sin_borde_peque_a_jpg__WEBPACK_IMPORTED_MODULE_1__,
+    src: "https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169831/bolaca-sin-borde-peque%C3%B1a_f7etqg.jpg",
     alt: "Bolaca",
     className: "img-fluid footer-logo-img",
     style: {
@@ -799,7 +778,7 @@ var Footer = function Footer() {
     className: "col-md-4 text-center text-md-end"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
     className: "mb-3 fw-bold"
-  }, "Contactate con nosotros"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
+  }, "Cont\xE1ctate con nosotros"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
     className: "list-unstyled"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "mb-2 d-flex justify-content-md-end align-items-center"

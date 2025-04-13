@@ -41,17 +41,17 @@ const Productos = () => {
     useEffect(() => {
         // Retrieve query params on each change
         const searchParams = new URLSearchParams(location.search);
-        const category = searchParams.get("category");
+        const categoryName = store.categories.find(cat => cat.id === searchParams.get("category"))?.category_name;
 
         actions.getBrands();
         actions.getCategories();
 
-        if (category) {
+        if (categoryName) {
             setActiveFilter({
                 type: 'category',
-                value: category
+                value: categoryName
             });
-            actions.getProductByCategory(category);
+            actions.getProductByCategory(categoryName);
         } else {
             setActiveFilter({
                 type: null,

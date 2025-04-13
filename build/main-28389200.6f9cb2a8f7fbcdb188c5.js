@@ -1669,8 +1669,8 @@ var searchBarResults = __webpack_require__(2254);
 var login = __webpack_require__(1250);
 // EXTERNAL MODULE: ./src/front/js/component/logout.js
 var logout = __webpack_require__(3589);
-// EXTERNAL MODULE: ./src/front/js/component/creadores.js + 2 modules
-var creadores = __webpack_require__(71);
+// EXTERNAL MODULE: ./src/front/js/component/creadores.js
+var creadores = __webpack_require__(6879);
 // EXTERNAL MODULE: ./src/front/js/component/errorBoundary.js
 var errorBoundary = __webpack_require__(8247);
 // EXTERNAL MODULE: ./src/front/js/component/scrollToTop.js
