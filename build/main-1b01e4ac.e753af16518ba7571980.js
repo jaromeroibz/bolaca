@@ -781,15 +781,15 @@ var Productos = function Productos() {
   // Create a ref for the loading element
   var observer = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   var loadingRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (node) {
-    if (loading) return;
+    if (loading || !hasMore) return; // Prevent triggering when loading or no more products are available
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting && hasMore) {
-        loadMoreProducts();
+      if (entries[0].isIntersecting) {
+        loadMoreProducts(); // Trigger loading more products
       }
     });
     if (node) observer.current.observe(node);
-  }, [loading, hasMore]);
+  }, [loading, hasMore, loadMoreProducts]);
 
   // Filter states combined into a single state object
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
@@ -835,25 +835,25 @@ var Productos = function Productos() {
 
   // Update displayed products when store.products changes or filters change
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (filteredProducts.length > 0) {
-      setDisplayedProducts(filteredProducts.slice(0, page * productsPerPage));
-      setHasMore(filteredProducts.length > page * productsPerPage);
-    } else {
+    if (store.products.length === 0 || filteredProducts.length === 0) {
       setDisplayedProducts([]);
       setHasMore(false);
+      return;
     }
-  }, [store.products, activeFilter, page]);
-  var loadMoreProducts = function loadMoreProducts() {
+    var newDisplayedProducts = filteredProducts.slice(0, page * productsPerPage);
+    setDisplayedProducts(newDisplayedProducts);
+    setHasMore(filteredProducts.length > page * productsPerPage);
+  }, [store.products, filteredProducts, page]);
+  var loadMoreProducts = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
     if (loading || !hasMore) return;
     setLoading(true);
-    // Simulate a delay to show loading state (remove in production)
     setTimeout(function () {
       setPage(function (prevPage) {
         return prevPage + 1;
       });
       setLoading(false);
-    }, 500);
-  };
+    }, 500); // Simulated delay; adjust as needed
+  }, [loading, hasMore]);
 
   // Filter functions
   var filterProducts = function filterProducts(products) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState, useRef, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { AppContext } from "../store/appContext.js";
 
 const Productos = () => {
@@ -20,17 +20,17 @@ const Productos = () => {
     // Create a ref for the loading element
     const observer = useRef();
     const loadingRef = useCallback(node => {
-        if (loading) return;
+        if (loading || !hasMore) return; // Prevent triggering when loading or no more products are available
         if (observer.current) observer.current.disconnect();
-        
+
         observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
-                loadMoreProducts();
+            if (entries[0].isIntersecting) {
+                loadMoreProducts(); // Trigger loading more products
             }
         });
-        
+
         if (node) observer.current.observe(node);
-    }, [loading, hasMore]);
+    }, [loading, hasMore, loadMoreProducts]);
 
     // Filter states combined into a single state object
     const [activeFilter, setActiveFilter] = useState({
@@ -73,25 +73,26 @@ const Productos = () => {
     
     // Update displayed products when store.products changes or filters change
     useEffect(() => {
-        if (filteredProducts.length > 0) {
-            setDisplayedProducts(filteredProducts.slice(0, page * productsPerPage));
-            setHasMore(filteredProducts.length > page * productsPerPage);
-        } else {
+        if (store.products.length === 0 || filteredProducts.length === 0) {
             setDisplayedProducts([]);
             setHasMore(false);
+            return;
         }
-    }, [store.products, activeFilter, page]);
 
-    const loadMoreProducts = () => {
+        const newDisplayedProducts = filteredProducts.slice(0, page * productsPerPage);
+        setDisplayedProducts(newDisplayedProducts);
+        setHasMore(filteredProducts.length > page * productsPerPage);
+    }, [store.products, filteredProducts, page]);
+
+    const loadMoreProducts = useCallback(() => {
         if (loading || !hasMore) return;
-        
+
         setLoading(true);
-        // Simulate a delay to show loading state (remove in production)
         setTimeout(() => {
             setPage(prevPage => prevPage + 1);
             setLoading(false);
-        }, 500);
-    };
+        }, 500); // Simulated delay; adjust as needed
+    }, [loading, hasMore]);
 
     // Filter functions
     const filterProducts = (products) => {
