@@ -803,22 +803,17 @@ var Productos = function Productos() {
     activeFilter = _useState12[0],
     setActiveFilter = _useState12[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // Retrieve query params on each change
     var searchParams = new URLSearchParams(location.search);
     var category = searchParams.get("category");
     actions.getBrands();
     actions.getCategories();
     if (category) {
-      // Find the category object to get its name
-      var categoryObj = store.categories.find(function (cat) {
-        return cat.id.toString() === category;
+      setActiveFilter({
+        type: 'category',
+        value: category
       });
-      if (categoryObj) {
-        setActiveFilter({
-          type: 'category',
-          value: categoryObj.category_name
-        });
-        actions.getProductByCategory(category);
-      }
+      actions.getProductByCategory(category);
     } else {
       setActiveFilter({
         type: null,
@@ -826,9 +821,11 @@ var Productos = function Productos() {
       });
       actions.getProducts();
     }
+
+    // Reset pagination when filters change
     setPage(1);
     setHasMore(true);
-  }, [location.search, store.categories]);
+  }, [location.search]);
 
   // Update displayed products when store.products changes or filters change
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -1061,11 +1058,7 @@ var Productos = function Productos() {
         key: index,
         onClick: function onClick() {
           return handleFilterClick('category', item.category_name, function () {
-            actions.getProductByCategory(item.id);
-            // Update URL with category ID
-            var searchParams = new URLSearchParams(location.search);
-            searchParams.set("category", item.id);
-            window.history.pushState({}, '', "?".concat(searchParams.toString()));
+            return actions.getProductByCategory(item.id);
           });
         },
         className: "filter-option ".concat(isFilterActive('category', item.category_name) ? 'active' : ''),
