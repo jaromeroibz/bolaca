@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState, useRef, useCallback } from "react";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AppContext } from "../store/appContext.js";
 
 const Productos = () => {
@@ -41,17 +41,23 @@ const Productos = () => {
     useEffect(() => {
         // Retrieve query params on each change
         const searchParams = new URLSearchParams(location.search);
-        const categoryName = store.categories.find(cat => cat.id === searchParams.get("category"))?.category_name;
+        const categoryId = searchParams.get("category");
 
         actions.getBrands();
         actions.getCategories();
 
-        if (categoryName) {
-            setActiveFilter({
-                type: 'category',
-                value: categoryName
-            });
-            actions.getProductByCategory(categoryName);
+        if (categoryId) {
+            const categoryName = store.categories.find(cat => cat.id === parseInt(categoryId))?.category_name;
+
+            if (categoryName) {
+                setActiveFilter({
+                    type: 'category',
+                    value: categoryName
+                });
+                actions.getProductByCategory(categoryId);
+            } else {
+                console.error(`Category with ID ${categoryId} not found.`);
+            }
         } else {
             setActiveFilter({
                 type: null,
@@ -63,7 +69,7 @@ const Productos = () => {
         // Reset pagination when filters change
         setPage(1);
         setHasMore(true);
-    }, [location.search]);
+    }, [location.search, store.categories]);
     
     // Update displayed products when store.products changes or filters change
     useEffect(() => {
