@@ -17,7 +17,6 @@ const Productos = () => {
         window.scrollTo(0, 0);
     }, [location.pathname]);
 
-    // Track the IntersectionObserver instance
     const observer = useRef();
 
     const loadingRef = useCallback(
@@ -33,7 +32,7 @@ const Productos = () => {
 
             if (node) observer.current.observe(node);
         },
-        [loading, hasMore] // Dependencies
+        [loading, hasMore]
     );
 
     const [activeFilter, setActiveFilter] = useState({
@@ -186,7 +185,116 @@ const Productos = () => {
                 }`}
                 style={{ minWidth: "200px" }}
             >
-                {/* Add filters here */}
+                <div className="filter-section">
+                    <h6 className="mb-2">Precio</h6>
+                    <div className="ps-2">
+                        {priceRanges.map((range, index) => (
+                            <div
+                                key={index}
+                                onClick={() =>
+                                    handleFilterClick("price", range.range)
+                                }
+                                className={`filter-option ${
+                                    isFilterActive("price", range.range)
+                                        ? "active"
+                                        : ""
+                                }`}
+                                style={{ whiteSpace: "normal", width: "100%" }}
+                            >
+                                {range.label}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <hr className="my-3" />
+
+                <div className="filter-section">
+                    <h6 className="mb-2">Marca</h6>
+                    <div className="ps-2">
+                        {store.brands.map((brand, index) => (
+                            <div
+                                key={index}
+                                onClick={() =>
+                                    handleFilterClick(
+                                        "brand",
+                                        brand.name,
+                                        () =>
+                                            actions.getProductsByBrands(
+                                                brand.id
+                                            )
+                                    )
+                                }
+                                className={`filter-option ${
+                                    isFilterActive("brand", brand.name)
+                                        ? "active"
+                                        : ""
+                                }`}
+                                style={{ whiteSpace: "normal", width: "100%" }}
+                            >
+                                {brand.name}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <hr className="my-3" />
+
+                <div className="filter-section">
+                    <h6 className="mb-2">Edad mínima recomendada</h6>
+                    <div className="ps-2">
+                        {ageRanges.map((range, index) => (
+                            <div
+                                key={index}
+                                onClick={() =>
+                                    handleFilterClick("age", range.range)
+                                }
+                                className={`filter-option ${
+                                    isFilterActive("age", range.range)
+                                        ? "active"
+                                        : ""
+                                }`}
+                                style={{ whiteSpace: "normal", width: "100%" }}
+                            >
+                                {range.label}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <hr className="my-3" />
+
+                <div className="filter-section">
+                    <h6 className="mb-2">Categoría</h6>
+                    <div className="ps-2">
+                        {store.categories.map((item, index) => (
+                            <div
+                                key={index}
+                                onClick={() =>
+                                    handleFilterClick(
+                                        "category",
+                                        item.category_name,
+                                        () =>
+                                            actions.getProductByCategory(
+                                                item.id
+                                            )
+                                    )
+                                }
+                                className={`filter-option ${
+                                    isFilterActive(
+                                        "category",
+                                        item.category_name
+                                    )
+                                        ? "active"
+                                        : ""
+                                }`}
+                                style={{ whiteSpace: "normal", width: "100%" }}
+                            >
+                                {item.category_name}
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         );
     };
@@ -195,8 +303,21 @@ const Productos = () => {
         <>
             <div className="container">
                 <div className="productos">
-                    <h2>Productos</h2>
+                    <div className="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Productos</h2>
+                        <div className="d-md-none">
+                            <button
+                                className="btn btn-sm btn-outline-dark"
+                                onClick={() => setShowFilters(true)}
+                            >
+                                Filtros
+                            </button>
+                        </div>
+                    </div>
                     <div className="row">
+                        <div className="d-none d-md-block col-md-4 col-lg-3">
+                            {renderFilterSidebar()}
+                        </div>
                         <div className="col-12 col-md-8 col-lg-9">
                             <div className="product-grid">
                                 {displayedProducts.map((item) => (
@@ -204,12 +325,64 @@ const Productos = () => {
                                         className="card product-card"
                                         key={item.id}
                                     >
-                                        <div>{item.name}</div>
+                                        <img
+                                            className="card-img-top product-card-image"
+                                            loading="lazy"
+                                            src={item.image}
+                                            alt={item.name}
+                                        />
+                                        <div className="card-body product-card-body">
+                                            <h5 className="card-title product-card-title">
+                                                {item.name}
+                                            </h5>
+                                            {item.stock === 0 && (
+                                                <p className="text-danger fw-bold mb-2">
+                                                    Sin Stock
+                                                </p>
+                                            )}
+                                            <p className="card-text fw-bold mb-3">
+                                                ${item.price.toLocaleString()}
+                                            </p>
+                                            <div className="d-flex flex-column flex-sm-row gap-2 product-card-actions">
+                                                <Link
+                                                    to={`/detalleproductos/${item.id}`}
+                                                    style={{
+                                                        textDecoration: "none",
+                                                    }}
+                                                    className="flex-grow-1"
+                                                >
+                                                    <button className="see-more-button w-100">
+                                                        Ver Más
+                                                    </button>
+                                                </Link>
+                                                {item.stock >= 1 && (
+                                                    <button
+                                                        onClick={() =>
+                                                            actions.addToCart(
+                                                                item
+                                                            )
+                                                        }
+                                                        className="add-cart-button flex-grow-1"
+                                                    >
+                                                        Agregar
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
                                 ))}
                                 {hasMore && (
-                                    <div ref={loadingRef} className="loading">
-                                        {loading && <div>Loading...</div>}
+                                    <div
+                                        ref={loadingRef}
+                                        className="loading-indicator"
+                                    >
+                                        {loading ? (
+                                            <div className="spinner-border spinner-border-sm text-primary">
+                                                <span className="visually-hidden">
+                                                    Cargando...
+                                                </span>
+                                            </div>
+                                        ) : null}
                                     </div>
                                 )}
                             </div>

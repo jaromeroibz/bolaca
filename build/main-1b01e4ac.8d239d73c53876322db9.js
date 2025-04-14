@@ -735,6 +735,7 @@ var Navbar = function Navbar() {
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6540);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7767);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4976);
 /* harmony import */ var _store_appContext_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3398);
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -776,8 +777,6 @@ var Productos = function Productos() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     window.scrollTo(0, 0);
   }, [location.pathname]);
-
-  // Track the IntersectionObserver instance
   var observer = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   var loadingRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (node) {
     if (loading || !hasMore) return; // Prevent triggering when loading or no more products available
@@ -788,8 +787,7 @@ var Productos = function Productos() {
       }
     });
     if (node) observer.current.observe(node);
-  }, [loading, hasMore] // Dependencies
-  );
+  }, [loading, hasMore]);
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       type: null,
       // 'category', 'age', 'price', or 'brand'
@@ -930,15 +928,108 @@ var Productos = function Productos() {
       style: {
         minWidth: "200px"
       }
-    });
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "filter-section"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+      className: "mb-2"
+    }, "Precio"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "ps-2"
+    }, priceRanges.map(function (range, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        key: index,
+        onClick: function onClick() {
+          return handleFilterClick("price", range.range);
+        },
+        className: "filter-option ".concat(isFilterActive("price", range.range) ? "active" : ""),
+        style: {
+          whiteSpace: "normal",
+          width: "100%"
+        }
+      }, range.label);
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
+      className: "my-3"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "filter-section"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+      className: "mb-2"
+    }, "Marca"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "ps-2"
+    }, store.brands.map(function (brand, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        key: index,
+        onClick: function onClick() {
+          return handleFilterClick("brand", brand.name, function () {
+            return actions.getProductsByBrands(brand.id);
+          });
+        },
+        className: "filter-option ".concat(isFilterActive("brand", brand.name) ? "active" : ""),
+        style: {
+          whiteSpace: "normal",
+          width: "100%"
+        }
+      }, brand.name);
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
+      className: "my-3"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "filter-section"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+      className: "mb-2"
+    }, "Edad m\xEDnima recomendada"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "ps-2"
+    }, ageRanges.map(function (range, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        key: index,
+        onClick: function onClick() {
+          return handleFilterClick("age", range.range);
+        },
+        className: "filter-option ".concat(isFilterActive("age", range.range) ? "active" : ""),
+        style: {
+          whiteSpace: "normal",
+          width: "100%"
+        }
+      }, range.label);
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
+      className: "my-3"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "filter-section"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+      className: "mb-2"
+    }, "Categor\xEDa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "ps-2"
+    }, store.categories.map(function (item, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        key: index,
+        onClick: function onClick() {
+          return handleFilterClick("category", item.category_name, function () {
+            return actions.getProductByCategory(item.id);
+          });
+        },
+        className: "filter-option ".concat(isFilterActive("category", item.category_name) ? "active" : ""),
+        style: {
+          whiteSpace: "normal",
+          width: "100%"
+        }
+      }, item.category_name);
+    }))));
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "productos"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-flex justify-content-between align-items-center mb-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Productos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-md-none"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "btn btn-sm btn-outline-dark",
+    onClick: function onClick() {
+      return setShowFilters(true);
+    }
+  }, "Filtros"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "d-none d-md-block col-md-4 col-lg-3"
+  }, renderFilterSidebar()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-12 col-md-8 col-lg-9"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "product-grid"
@@ -946,11 +1037,43 @@ var Productos = function Productos() {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "card product-card",
       key: item.id
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, item.name));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
+      className: "card-img-top product-card-image",
+      loading: "lazy",
+      src: item.image,
+      alt: item.name
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "card-body product-card-body"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
+      className: "card-title product-card-title"
+    }, item.name), item.stock === 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+      className: "text-danger fw-bold mb-2"
+    }, "Sin Stock"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+      className: "card-text fw-bold mb-3"
+    }, "$", item.price.toLocaleString()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "d-flex flex-column flex-sm-row gap-2 product-card-actions"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__/* .Link */ .N_, {
+      to: "/detalleproductos/".concat(item.id),
+      style: {
+        textDecoration: "none"
+      },
+      className: "flex-grow-1"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+      className: "see-more-button w-100"
+    }, "Ver M\xE1s")), item.stock >= 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+      onClick: function onClick() {
+        return actions.addToCart(item);
+      },
+      className: "add-cart-button flex-grow-1"
+    }, "Agregar"))));
   }), hasMore && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     ref: loadingRef,
-    className: "loading"
-  }, loading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "Loading..."))))))));
+    className: "loading-indicator"
+  }, loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "spinner-border spinner-border-sm text-primary"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "visually-hidden"
+  }, "Cargando...")) : null)))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Productos);
 
