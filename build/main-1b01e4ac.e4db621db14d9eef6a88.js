@@ -735,7 +735,6 @@ var Navbar = function Navbar() {
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6540);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7767);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4976);
 /* harmony import */ var _store_appContext_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3398);
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -771,17 +770,17 @@ var Productos = function Productos() {
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState10 = _slicedToArray(_useState9, 2),
     showFilters = _useState10[0],
-    setShowFilters = _useState10[1]; // For mobile filter toggle
+    setShowFilters = _useState10[1];
 
-  // Scroll to top when component mounts
+  // Scroll to top when component mounts or route changes
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     window.scrollTo(0, 0);
-  }, [location.pathname]); // This will trigger when the route changes
+  }, [location.pathname]);
 
-  // Create a ref for the loading element
+  // Track the IntersectionObserver instance
   var observer = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   var loadingRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (node) {
-    if (loading || !hasMore) return; // Prevent triggering when loading or no more products are available
+    if (loading || !hasMore) return; // Prevent triggering when loading or no more products available
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(function (entries) {
       if (entries[0].isIntersecting) {
@@ -789,9 +788,8 @@ var Productos = function Productos() {
       }
     });
     if (node) observer.current.observe(node);
-  }, [loading, hasMore, loadMoreProducts]);
-
-  // Filter states combined into a single state object
+  }, [loading, hasMore] // Dependencies
+  );
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       type: null,
       // 'category', 'age', 'price', or 'brand'
@@ -801,7 +799,6 @@ var Productos = function Productos() {
     activeFilter = _useState12[0],
     setActiveFilter = _useState12[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // Retrieve query params on each change
     var searchParams = new URLSearchParams(location.search);
     var categoryId = searchParams.get("category");
     actions.getBrands();
@@ -813,7 +810,7 @@ var Productos = function Productos() {
       })) === null || _store$categories$fin === void 0 ? void 0 : _store$categories$fin.category_name;
       if (categoryName) {
         setActiveFilter({
-          type: 'category',
+          type: "category",
           value: categoryName
         });
         actions.getProductByCategory(categoryId);
@@ -832,8 +829,6 @@ var Productos = function Productos() {
     setPage(1);
     setHasMore(true);
   }, [location.search, store.categories]);
-
-  // Update displayed products when store.products changes or filters change
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (store.products.length === 0 || filteredProducts.length === 0) {
       setDisplayedProducts([]);
@@ -842,7 +837,7 @@ var Productos = function Productos() {
     }
     var newDisplayedProducts = filteredProducts.slice(0, page * productsPerPage);
     setDisplayedProducts(newDisplayedProducts);
-    setHasMore(filteredProducts.length > page * productsPerPage);
+    setHasMore(filteredProducts.length > newDisplayedProducts.length);
   }, [store.products, filteredProducts, page]);
   var loadMoreProducts = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
     if (loading || !hasMore) return;
@@ -852,32 +847,30 @@ var Productos = function Productos() {
         return prevPage + 1;
       });
       setLoading(false);
-    }, 500); // Simulated delay; adjust as needed
+    }, 500); // Simulated delay
   }, [loading, hasMore]);
-
-  // Filter functions
   var filterProducts = function filterProducts(products) {
     if (!activeFilter.type || !activeFilter.value) return products;
     switch (activeFilter.type) {
-      case 'age':
+      case "age":
         var _activeFilter$value = _slicedToArray(activeFilter.value, 2),
           minAge = _activeFilter$value[0],
           maxAge = _activeFilter$value[1];
         return products.filter(function (item) {
           return item.min_age >= minAge && item.max_age <= maxAge;
         });
-      case 'price':
+      case "price":
         var _activeFilter$value2 = _slicedToArray(activeFilter.value, 2),
           minPrice = _activeFilter$value2[0],
           maxPrice = _activeFilter$value2[1];
         return products.filter(function (item) {
           return item.price >= minPrice && item.price <= maxPrice;
         });
-      case 'brand':
+      case "brand":
         return products.filter(function (item) {
           return item.brand.name.toLowerCase() === activeFilter.value.toLowerCase();
         });
-      case 'category':
+      case "category":
         return products.filter(function (item) {
           return item.category_name.toLowerCase() === activeFilter.value.toLowerCase();
         });
@@ -885,11 +878,7 @@ var Productos = function Productos() {
         return products;
     }
   };
-
-  // Apply the active filter to products
   var filteredProducts = filterProducts(store.products);
-
-  // Filter option data
   var ageRanges = [{
     label: "0-2 años",
     range: [0, 2]
@@ -910,16 +899,11 @@ var Productos = function Productos() {
     label: "$20001 - $25000",
     range: [20001, 25000]
   }];
-
-  // Helper function to check if a filter is active
   var isFilterActive = function isFilterActive(type, value) {
     return activeFilter.type === type && (Array.isArray(activeFilter.value) && Array.isArray(value) ? activeFilter.value[0] === value[0] && activeFilter.value[1] === value[1] : activeFilter.value === value);
   };
-
-  // Handler for filter clicks
   var handleFilterClick = function handleFilterClick(type, value) {
     var apiCallFn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-    // If clicking the same filter that's already active, clear it
     if (isFilterActive(type, value)) {
       setActiveFilter({
         type: null,
@@ -927,265 +911,46 @@ var Productos = function Productos() {
       });
       actions.getProducts(); // Reset to all products
     } else {
-      // Set new active filter and clear others
       setActiveFilter({
         type: type,
         value: value
       });
-
-      // If there's an API call associated with this filter, make it
       if (apiCallFn) {
         apiCallFn();
       }
     }
-
-    // Reset pagination
     setPage(1);
-
-    // On mobile, close the filter sidebar after selection
     if (window.innerWidth < 768) {
       setShowFilters(false);
     }
   };
-
-  // Render the filter sidebar
   var renderFilterSidebar = function renderFilterSidebar() {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: window.innerWidth < 768 ? "filter-sidebar-mobile" + (showFilters ? " show" : "") : "col-md-4 col-lg-3 px-4",
+      className: "".concat(window.innerWidth < 768 ? "filter-sidebar-mobile" + (showFilters ? " show" : "") : "col-md-4 col-lg-3 px-4"),
       style: {
         minWidth: "200px"
       }
-    }, window.innerWidth < 768 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      className: "close-filters-btn",
-      onClick: function onClick() {
-        return setShowFilters(false);
-      },
-      "aria-label": "Close filters"
-    }, "\xD7"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "filter-section"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-      className: "mb-3"
-    }, "Filtros"), activeFilter.type && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "mb-3"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "d-flex align-items-center justify-content-between"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("small", {
-      className: "text-muted"
-    }, "Filtro activo:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      className: "btn btn-sm btn-outline-secondary filter-clear-btn",
-      onClick: function onClick() {
-        setActiveFilter({
-          type: null,
-          value: null
-        });
-        actions.getProducts();
-        setPage(1);
-      }
-    }, "Limpiar")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "mt-2"
-    }, activeFilter.type === 'price' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: "active-filter-badge"
-    }, "Precio: $", activeFilter.value[0], " - $", activeFilter.value[1]), activeFilter.type === 'brand' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: "active-filter-badge"
-    }, "Marca: ", activeFilter.value), activeFilter.type === 'age' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: "active-filter-badge"
-    }, "Edad: ", activeFilter.value[0], "-", activeFilter.value[1], " a\xF1os"), activeFilter.type === 'category' && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-      className: "active-filter-badge"
-    }, "Categor\xEDa: ", activeFilter.value)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "filter-section"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
-      className: "mb-2"
-    }, "Precio"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "ps-2"
-    }, priceRanges.map(function (range, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        key: index,
-        onClick: function onClick() {
-          return handleFilterClick('price', range.range);
-        },
-        className: "filter-option ".concat(isFilterActive('price', range.range) ? 'active' : ''),
-        style: {
-          whiteSpace: 'normal',
-          width: '100%'
-        }
-      }, range.label);
-    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
-      className: "my-3"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "filter-section"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
-      className: "mb-2"
-    }, "Marca"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "ps-2"
-    }, store.brands.map(function (brand, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        key: index,
-        onClick: function onClick() {
-          return handleFilterClick('brand', brand.name, function () {
-            return actions.getProductsByBrands(brand.id);
-          });
-        },
-        className: "filter-option ".concat(isFilterActive('brand', brand.name) ? 'active' : ''),
-        style: {
-          whiteSpace: 'normal',
-          width: '100%'
-        }
-      }, brand.name);
-    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
-      className: "my-3"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "filter-section"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
-      className: "mb-2"
-    }, "Edad m\xEDnima recomendada"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "ps-2"
-    }, ageRanges.map(function (range, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        key: index,
-        onClick: function onClick() {
-          return handleFilterClick('age', range.range);
-        },
-        className: "filter-option ".concat(isFilterActive('age', range.range) ? 'active' : ''),
-        style: {
-          whiteSpace: 'normal',
-          width: '100%'
-        }
-      }, range.label);
-    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
-      className: "my-3"
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "filter-section"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
-      className: "mb-2"
-    }, "Categor\xEDa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "ps-2"
-    }, store.categories.map(function (item, index) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        key: index,
-        onClick: function onClick() {
-          return handleFilterClick('category', item.category_name, function () {
-            return actions.getProductByCategory(item.id);
-          });
-        },
-        className: "filter-option ".concat(isFilterActive('category', item.category_name) ? 'active' : ''),
-        style: {
-          whiteSpace: 'normal',
-          width: '100%'
-        }
-      }, item.category_name);
-    }))));
+    });
   };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "productos"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "d-flex justify-content-between align-items-center mb-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Productos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "d-md-none"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "btn btn-sm btn-outline-dark",
-    onClick: function onClick() {
-      return setShowFilters(true);
-    }
-  }, "Filtros"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "d-flex justify-content-between align-items-center mb-4"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
-    className: "m-0"
-  }, filteredProducts.length, " resultados"), activeFilter.type && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "d-none d-md-block"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "btn btn-sm btn-outline-secondary",
-    onClick: function onClick() {
-      setActiveFilter({
-        type: null,
-        value: null
-      });
-      actions.getProducts();
-      setPage(1);
-    }
-  }, "Limpiar filtros"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "d-none d-md-block col-md-4 col-lg-3"
-  }, renderFilterSidebar()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-12 col-md-8 col-lg-9"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "product-grid"
-  }, store.products.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-center py-5"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Cargando productos...")) : filteredProducts.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "empty-state"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", null, "No hay productos que coincidan con el filtro seleccionado."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "btn btn-outline-primary mt-3",
-    onClick: function onClick() {
-      setActiveFilter({
-        type: null,
-        value: null
-      });
-      actions.getProducts();
-    }
-  }, "Ver todos los productos")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, displayedProducts.map(function (item) {
+  }, displayedProducts.map(function (item) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       className: "card product-card",
       key: item.id
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-      className: "card-img-top product-card-image",
-      loading: "lazy",
-      src: item.image,
-      alt: item.name
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "card-body product-card-body"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h5", {
-      className: "card-title product-card-title"
-    }, item.name), item.stock === 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-      className: "text-danger fw-bold mb-2"
-    }, "Sin Stock"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-      className: "card-text fw-bold mb-3"
-    }, "$", item.price.toLocaleString()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      className: "d-flex flex-column flex-sm-row gap-2 product-card-actions"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__/* .Link */ .N_, {
-      to: "/detalleproductos/".concat(item.id),
-      style: {
-        textDecoration: 'none'
-      },
-      className: "flex-grow-1"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      className: "see-more-button w-100"
-    }, "Ver M\xE1s")), item.stock >= 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-      onClick: function onClick() {
-        return actions.addToCart(item);
-      },
-      className: "add-cart-button flex-grow-1"
-    }, "Agregar"))));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, item.name));
   }), hasMore && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     ref: loadingRef,
-    className: "loading-indicator"
-  }, loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "spinner-border spinner-border-sm text-primary",
-    role: "status"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "visually-hidden"
-  }, "Cargando...")) : ""))))))), window.innerWidth < 768 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "filter-overlay".concat(showFilters ? " show" : ""),
-    onClick: function onClick() {
-      return setShowFilters(false);
-    }
-  }), renderFilterSidebar(), !showFilters && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-    className: "filter-toggle-btn",
-    onClick: function onClick() {
-      return setShowFilters(true);
-    },
-    "aria-label": "Show filters"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("svg", {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "24",
-    height: "24",
-    fill: "currentColor",
-    viewBox: "0 0 16 16"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("path", {
-    d: "M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
-  })))));
+    className: "loading"
+  }, loading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "Loading..."))))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Productos);
 
