@@ -12,10 +12,10 @@ const Productos = () => {
     const productsPerPage = 6;
     const [showFilters, setShowFilters] = useState(false); // For mobile filter toggle
     
-    // Scroll to top when component mounts
+    // Scroll to top when the route or query parameters change
     useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [location.pathname]); // This will trigger when the route changes
+        window.scrollTo(0, 0); // Scrolls to the top of the page
+    }, [location.pathname, location.search]);
     
     // Create a ref for the loading element
     const observer = useRef();

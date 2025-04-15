@@ -775,10 +775,10 @@ var Productos = function Productos() {
     showFilters = _useState10[0],
     setShowFilters = _useState10[1]; // For mobile filter toggle
 
-  // Scroll to top when component mounts
+  // Scroll to top when the route or query parameters change
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    window.scrollTo(0, 0);
-  }, [location.pathname]); // This will trigger when the route changes
+    window.scrollTo(0, 0); // Scrolls to the top of the page
+  }, [location.pathname, location.search]);
 
   // Create a ref for the loading element
   var observer = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
