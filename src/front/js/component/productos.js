@@ -39,31 +39,42 @@ const Productos = () => {
     });
 
     useEffect(() => {
-        // Retrieve query params on each change
-        const searchParams = new URLSearchParams(location.search);
-        const category = searchParams.get("category");
-
+        // Ensure categories and brands are fetched only once when the component mounts
         actions.getBrands();
         actions.getCategories();
-
-        if (category) {
-            setActiveFilter({
-                type: 'category',
-                value: category
-            });
-            actions.getProductByCategory(category);
+    }, []); // Empty dependency array ensures it only runs once on mount
+    
+    useEffect(() => {
+        // Retrieve query params and apply filters
+        const searchParams = new URLSearchParams(location.search);
+        const categoryId = searchParams.get("category");
+    
+        if (categoryId && store.categories.length > 0) {
+            const categoryName = store.categories.find(
+                (cat) => cat.id === parseInt(categoryId)
+            )?.category_name;
+    
+            if (categoryName) {
+                setActiveFilter({
+                    type: "category",
+                    value: categoryName,
+                });
+                actions.getProductByCategory(categoryId);
+            } else {
+                console.error(`Category with ID ${categoryId} not found.`);
+            }
         } else {
             setActiveFilter({
                 type: null,
-                value: null
+                value: null,
             });
             actions.getProducts();
         }
-        
+    
         // Reset pagination when filters change
         setPage(1);
         setHasMore(true);
-    }, [location.search]);
+    }, [location.search, store.categories.length]); // Only depend on `store.categories.length`
     
     // Update displayed products when store.products changes or filters change
     useEffect(() => {

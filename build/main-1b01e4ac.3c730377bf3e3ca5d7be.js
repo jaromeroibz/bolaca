@@ -803,17 +803,29 @@ var Productos = function Productos() {
     activeFilter = _useState12[0],
     setActiveFilter = _useState12[1];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // Retrieve query params on each change
-    var searchParams = new URLSearchParams(location.search);
-    var category = searchParams.get("category");
+    // Ensure categories and brands are fetched only once when the component mounts
     actions.getBrands();
     actions.getCategories();
-    if (category) {
-      setActiveFilter({
-        type: 'category',
-        value: category
-      });
-      actions.getProductByCategory(category);
+  }, []); // Empty dependency array ensures it only runs once on mount
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // Retrieve query params and apply filters
+    var searchParams = new URLSearchParams(location.search);
+    var categoryId = searchParams.get("category");
+    if (categoryId && store.categories.length > 0) {
+      var _store$categories$fin;
+      var categoryName = (_store$categories$fin = store.categories.find(function (cat) {
+        return cat.id === parseInt(categoryId);
+      })) === null || _store$categories$fin === void 0 ? void 0 : _store$categories$fin.category_name;
+      if (categoryName) {
+        setActiveFilter({
+          type: "category",
+          value: categoryName
+        });
+        actions.getProductByCategory(categoryId);
+      } else {
+        console.error("Category with ID ".concat(categoryId, " not found."));
+      }
     } else {
       setActiveFilter({
         type: null,
@@ -825,7 +837,7 @@ var Productos = function Productos() {
     // Reset pagination when filters change
     setPage(1);
     setHasMore(true);
-  }, [location.search]);
+  }, [location.search, store.categories.length]); // Only depend on `store.categories.length`
 
   // Update displayed products when store.products changes or filters change
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
