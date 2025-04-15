@@ -450,7 +450,7 @@ var DetalleProductos = function DetalleProductos() {
     _useState8 = _slicedToArray(_useState7, 2),
     currentImage = _useState8[0],
     setCurrentImage = _useState8[1];
-  var productImages = [product.image, product.image2, product.image3];
+  var productImages = [product.image, product.image2, product.image3].filter(Boolean); // Only include non-null images
 
   // Scroll to top when the component loads
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -492,7 +492,7 @@ var DetalleProductos = function DetalleProductos() {
     className: "product-card"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "row"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, productImages.length > 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "col-md-1 smallimages"
   }, productImages.map(function (image, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {

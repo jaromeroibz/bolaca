@@ -10,7 +10,7 @@ const DetalleProductos = () => {
     const [selectedQuantity, setSelectedQuantity] = useState(1);
     const [customQuantity, setCustomQuantity] = useState("");
     const [currentImage, setCurrentImage] = useState(0);
-    const productImages = [product.image, product.image2, product.image3];
+    const productImages = [product.image, product.image2, product.image3].filter(Boolean); // Only include non-null images
 
     // Scroll to top when the component loads
     useEffect(() => {
@@ -53,18 +53,20 @@ const DetalleProductos = () => {
                 </Link>
                 <div className="product-card">
                     <div className="row">
-                        {/* Product Image Gallery */}
-                        <div className="col-md-1 smallimages">
-                            {productImages.map((image, index) => (
-                                <img
-                                    key={index}
-                                    src={image}
-                                    onClick={() => setCurrentImage(index)}
-                                    alt="product thumbnail"
-                                    className={`image ${currentImage === index ? "active" : ""}`}
-                                />
-                            ))}
-                        </div>
+                        {/* Only show thumbnails if there is more than one image */}
+                        {productImages.length > 1 && (
+                            <div className="col-md-1 smallimages">
+                                {productImages.map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={image}
+                                        onClick={() => setCurrentImage(index)}
+                                        alt="product thumbnail"
+                                        className={`image ${currentImage === index ? "active" : ""}`}
+                                    />
+                                ))}
+                            </div>
+                        )}
 
                         {/* Main Product Image */}
                         <div className="col-md-6">
