@@ -451,6 +451,11 @@ var DetalleProductos = function DetalleProductos() {
     currentImage = _useState8[0],
     setCurrentImage = _useState8[1];
   var productImages = [product.image, product.image2, product.image3];
+
+  // Scroll to top when the component loads
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    window.scrollTo(0, 0);
+  }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     actions.getProducts();
   }, []);
@@ -476,27 +481,19 @@ var DetalleProductos = function DetalleProductos() {
       setSelectedQuantity(Number(customQuantity));
     }
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "detalle-producto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__/* .Link */ .N_, {
     to: "/productos",
-    style: {
-      textDecoration: "none"
-    }
+    className: "back-to-list"
   }, "Volver al listado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "product-card"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "card",
-    style: {
-      width: 1200,
-      height: 1200
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-1 smallimages"
+    className: "col-md-1 smallimages"
   }, productImages.map(function (image, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
       key: index,
@@ -504,61 +501,47 @@ var DetalleProductos = function DetalleProductos() {
       onClick: function onClick() {
         return setCurrentImage(index);
       },
-      alt: "product image",
-      className: "image"
+      alt: "product thumbnail",
+      className: "image ".concat(currentImage === index ? "active" : "")
     });
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-7"
+    className: "col-md-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "main-image-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
     src: productImages[currentImage],
-    height: 600,
-    width: 600,
-    alt: "Main product"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-4 product-info"
+    alt: "Main product",
+    className: "main-product-image"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "col-md-5 product-info"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "card"
+    className: "product-details-card"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "card-body"
   }, product.is_destacado && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
-    style: {
-      color: "grey"
-    }
+    className: "product-highlight"
   }, "Destacado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
-    className: "card-title",
-    style: {
-      fontWeight: "900"
-    }
+    className: "product-title"
   }, product.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", {
-    className: "card-price",
-    style: {
-      fontWeight: "400"
-    }
+    className: "product-price"
   }, "$", product.price), product.stock === 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
-    style: {
-      fontWeight: "300"
-    }
+    className: "stock-warning"
   }, "\xA1\xDAltima unidad disponible!") : product.stock === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
-    style: {
-      fontWeight: "300"
-    }
+    className: "stock-warning"
   }, "Sin Stock") : product.stock < 10 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", {
-    style: {
-      fontWeight: "300"
-    }
-  }, "\xA1Pocas unidades disponibles!") : '', product.stock >= 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "py-5"
+    className: "stock-warning"
+  }, "\xA1Pocas unidades disponibles!") : "", product.stock >= 1 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "quantity-section py-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
     className: "quantity-form"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
     htmlFor: "quantity-select",
     className: "quantity-label"
-  }, "Cantidad: ", " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+  }, "Cantidad:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "quantity-value"
   }, selectedQuantity === "more" ? customQuantity || "—" : selectedQuantity), " ", "unidades"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("select", {
     id: "quantity-select",
     className: "quantity-select",
-    "aria-label": "Select quantity",
     value: selectedQuantity === "more" ? "more" : selectedQuantity,
     onChange: handleQuantityChange,
     disabled: product.stock === 0
@@ -591,85 +574,47 @@ var DetalleProductos = function DetalleProductos() {
     className: "apply-button",
     onClick: handleCustomQuantityApply,
     disabled: !customQuantity || isNaN(customQuantity) || customQuantity < 7 || customQuantity > product.stock
-  }, "Aplicar")), product.stock > 10 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "stock-info"
-  }, "(+", product.stock, " disponibles)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "p-3"
+  }, "Aplicar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "action-buttons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__/* .Link */ .N_, {
-    to: "/cart",
-    style: {
-      textDecoration: 'none'
-    }
+    to: "/cart"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     onClick: function onClick() {
       return addToCart(product);
     },
     className: "buy-now-button",
     disabled: product.stock === 0
-  }, "Comprar ahora"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "px-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+  }, "Comprar ahora")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     onClick: function onClick() {
       return addToCart(product);
     },
     className: "add-cart-details-button",
     disabled: product.stock === 0
-  }, "Agregar al carrito"))) : '')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, "Agregar al carrito")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "row mt-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-1"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-7"
+    className: "col-md-8"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "card-body p-0"
+    className: "product-details"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
-    className: "fw-bold mb-3",
-    style: {
-      fontSize: '18px',
-      color: '#333'
-    }
+    className: "details-title"
   }, "Caracter\xEDsticas principales"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "mb-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "d-flex mb-1"
+    className: "details-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "fw-bold me-2",
-    style: {
-      fontSize: '14px',
-      color: '#555'
-    }
+    className: "details-label"
   }, "Marca:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    style: {
-      fontSize: '14px'
-    }
+    className: "details-value"
   }, product.brand.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "d-flex"
+    className: "details-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "fw-bold me-2",
-    style: {
-      fontSize: '14px',
-      color: '#555'
-    }
+    className: "details-label"
   }, "Nombre:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    style: {
-      fontSize: '14px'
-    }
-  }, product.name))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
-    className: "fw-bold mb-3",
-    style: {
-      fontSize: '18px',
-      color: '#333'
-    }
+    className: "details-value"
+  }, product.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
+    className: "details-title"
   }, "Descripci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-    style: {
-      fontSize: '14px',
-      lineHeight: '1.5',
-      color: '#333',
-      textAlign: 'justify'
-    }
-  }, product.description))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "col-4"
-  })))))));
+    className: "details-description"
+  }, product.description)))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DetalleProductos);
 
