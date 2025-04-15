@@ -1,4 +1,6 @@
 import React, {useEffect} from "react";
+import Angelo from "../../img/Angelo.png";
+import Natalia from "../../img/Natalia.png";
 
 // CreatorCard Component
 const CreadorCard = ({ imageSrc, borderColor, name, role, description, alignment }) => {
@@ -38,7 +40,7 @@ const Creadores = () => {
 
       {/* First Card - Image on the Left */}
       <CreadorCard
-        imageSrc="https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169801/Angelo_mwh3yl.png"
+        imageSrc={Angelo}
         borderColor="#FFD93D"
         name="Angelo Mendoza T."
         role="Trabajador Social de la Universidad Católica Silva Henríquez, actor
@@ -55,7 +57,7 @@ const Creadores = () => {
 
       {/* Second Card - Image on the Right */}
       <CreadorCard
-        imageSrc="https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169794/Natalia_o2ymg3.png"
+        imageSrc={Natalia}
         borderColor="#E60012"
         name="Natalia Romero A."
         role="Psicóloga de la Universidad de Chile, con postítulo de

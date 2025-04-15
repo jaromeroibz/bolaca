@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import bolacaLogo from "../../img/bolaca-sin-borde-pequeña.jpg";
 
 const Footer = () => {
   return (
@@ -32,7 +33,7 @@ const Footer = () => {
           <div className="col-md-4 mb-4 mb-md-0 d-flex justify-content-center align-items-center">
             <div className="footer-logo text-center">
               <img
-                src="https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169831/bolaca-sin-borde-peque%C3%B1a_f7etqg.jpg"
+                src={bolacaLogo}
                 alt="Bolaca"
                 className="img-fluid footer-logo-img"
                 style={{ maxWidth: '150px', borderRadius: '10px' }}
@@ -46,7 +47,7 @@ const Footer = () => {
 
           {/* Right Section - Contact */}
           <div className="col-md-4 text-center text-md-end">
-            <h4 className="mb-3 fw-bold">Contáctate con nosotros</h4>
+            <h4 className="mb-3 fw-bold">Contactate con nosotros</h4>
             <ul className="list-unstyled">
               <li className="mb-2 d-flex justify-content-md-end align-items-center">
                 <span className="me-2">bolaca</span>

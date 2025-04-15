@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import bolacaLogo from "../../img/bolaca-sin-borde-pequeña.jpg";
 import { AppContext } from "../store/appContext.js";
 
 const Navbar = () => {
@@ -64,7 +65,7 @@ const Navbar = () => {
                     {/* Logo - Responsive sizing */}
                     <Link className="navbar-brand d-flex align-items-center" to="/">
                         <img 
-                            src="https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169831/bolaca-sin-borde-peque%C3%B1a_f7etqg.jpg" 
+                            src={bolacaLogo} 
                             className="img-fluid" 
                             alt="Logo" 
                             style={{
