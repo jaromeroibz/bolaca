@@ -106,7 +106,7 @@ const DetalleProductos = () => {
                                             <form className="quantity-form">
                                                 <label htmlFor="quantity-select" className="quantity-label">
                                                     Cantidad:
-                                                    <span className="quantity-value">
+                                                    <span className="quantity-value px-1">
                                                         {selectedQuantity === "more"
                                                             ? customQuantity || "—"
                                                             : selectedQuantity}
@@ -202,17 +202,16 @@ const DetalleProductos = () => {
                         <div className="col-md-8">
                             <div className="product-details">
                                 <h6 className="details-title">Características principales</h6>
-                                <div className="details-item">
+                                <div className="details-item py-1">
                                     <span className="details-label">Marca:</span>
                                     <span className="details-value">{product.brand.name}</span>
                                 </div>
-                                <div className="details-item">
+                                <div className="details-item py-1">
                                     <span className="details-label">Nombre:</span>
                                     <span className="details-value">{product.name}</span>
                                 </div>
-
-                                <h6 className="details-title">Descripción</h6>
-                                <p className="details-description">{product.description}</p>
+                                <h6 className="details-title py-2">Descripción</h6>
+                                <p className="details-description py-1">{product.description}</p>
                             </div>
                         </div>
                     </div>

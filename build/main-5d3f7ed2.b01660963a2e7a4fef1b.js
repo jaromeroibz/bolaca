@@ -538,7 +538,7 @@ var DetalleProductos = function DetalleProductos() {
     htmlFor: "quantity-select",
     className: "quantity-label"
   }, "Cantidad:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-    className: "quantity-value"
+    className: "quantity-value px-1"
   }, selectedQuantity === "more" ? customQuantity || "—" : selectedQuantity), " ", "unidades"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("select", {
     id: "quantity-select",
     className: "quantity-select",
@@ -599,21 +599,21 @@ var DetalleProductos = function DetalleProductos() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
     className: "details-title"
   }, "Caracter\xEDsticas principales"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "details-item"
+    className: "details-item py-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "details-label"
   }, "Marca:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "details-value"
   }, product.brand.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "details-item"
+    className: "details-item py-1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "details-label"
   }, "Nombre:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "details-value"
   }, product.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h6", {
-    className: "details-title"
+    className: "details-title py-2"
   }, "Descripci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-    className: "details-description"
+    className: "details-description py-1"
   }, product.description)))))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DetalleProductos);

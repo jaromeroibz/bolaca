@@ -1069,7 +1069,7 @@ hr.custom-hr {
   display: flex;
   flex-direction: column;
   font-family: Arial, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   color: #333;
   gap: 8px;
 }
