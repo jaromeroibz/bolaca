@@ -53,24 +53,18 @@ const Footer = () => {
                 <span className="me-2">bolaca</span>
                 <i className="fa-brands fa-facebook"></i>
               </li>
-              <a href="https://www.instagram.com/bolacachile/" target="_blank" rel="noopener noreferrer">
-                <li className="mb-2 d-flex justify-content-md-end align-items-center">
-                  <span className="me-2">@bolacachile</span>
-                  <i className="fa-brands fa-instagram"></i>
-                </li>
-              </a>
-              <a href="https://api.whatsapp.com/send?phone=56931788964&text=Hola%21" target="_blank" rel="noopener noreferrer">
+              <li className="mb-2 d-flex justify-content-md-end align-items-center">
+                <span className="me-2">@bolacachile</span>
+                <i className="fa-brands fa-instagram"></i>
+              </li>
               <li className="mb-2 d-flex justify-content-md-end align-items-center">
                 <span className="me-2">+56 9 3240 8221</span>
                 <i className="fa-solid fa-phone"></i>
               </li>
-              </a>
-              <Link to="/contacto">
               <li className="mb-2 d-flex justify-content-md-end align-items-center">
                 <span className="me-2">bolacachile@gmail.com</span>
                 <i className="fa-solid fa-envelope"></i>
               </li>
-              </Link>
             </ul>
           </div>
         </div>

@@ -806,35 +806,25 @@ var Footer = function Footer() {
     className: "me-2"
   }, "bolaca"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
     className: "fa-brands fa-facebook"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    href: "https://www.instagram.com/bolacachile/",
-    target: "_blank",
-    rel: "noopener noreferrer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "mb-2 d-flex justify-content-md-end align-items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "me-2"
   }, "@bolacachile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
     className: "fa-brands fa-instagram"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", {
-    href: "https://api.whatsapp.com/send?phone=56931788964&text=Hola%21",
-    target: "_blank",
-    rel: "noopener noreferrer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "mb-2 d-flex justify-content-md-end align-items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "me-2"
   }, "+56 9 3240 8221"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
     className: "fa-solid fa-phone"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__/* .Link */ .N_, {
-    to: "/contacto"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "mb-2 d-flex justify-content-md-end align-items-center"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
     className: "me-2"
   }, "bolacachile@gmail.com"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("i", {
     className: "fa-solid fa-envelope"
-  })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", {
     className: "my-4"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "footer-bottom text-center"
