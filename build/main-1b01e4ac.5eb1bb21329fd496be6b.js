@@ -274,7 +274,7 @@ var LandingPage = function LandingPage() {
       className: "d-inline text-center m-3",
       key: item.id
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__/* .Link */ .N_, {
-      to: '/productos/' + item.id,
+      to: "/productos?category=".concat(item.id),
       style: {
         textDecoration: 'none'
       }

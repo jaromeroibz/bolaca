@@ -182,7 +182,7 @@ const LandingPage = () => {
                     <div className="container d-flex justify-content-center align-items-center" style={{ flexWrap: "wrap" }}>
                         {store.categories.map((item) => (
                             <div className="d-inline text-center m-3" key={item.id}>
-                                <Link to={'/productos/' + item.id} style={{ textDecoration: 'none' }}>
+                                <Link to={`/productos?category=${item.id}`} style={{ textDecoration: 'none' }}>
                                     <img 
                                         src={item.image} 
                                         style={{ 
