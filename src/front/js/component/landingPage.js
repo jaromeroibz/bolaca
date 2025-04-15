@@ -103,17 +103,17 @@ const LandingPage = () => {
                         </div>
                         <div className="carousel-inner">
                             <div className="carousel-item active">
-                                <Link to="/productos/1">
+                                <Link to={`/productos?category=1`}>
                                     <img src="https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169782/Carousel1_d054rp.png" className="d-block w-100" alt="Carousel1"></img>
                                 </Link>
                             </div>
                             <div className="carousel-item">
-                                <Link to="/productos/2">
+                                <Link to={`/productos?category=3`}>
                                     <img src="https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169782/Carousel2_j8j9dn.png" className="d-block w-100" alt="Carousel2"></img>
                                 </Link>
                             </div>
                             <div className="carousel-item">
-                                <Link to="/productos/3">
+                                <Link to={`/productos?category=2`}>
                                     <img src="https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169782/Carousel3_wwi1ob.png" className="d-block w-100" alt="Carousel3"></img>
                                 </Link>
                             </div>

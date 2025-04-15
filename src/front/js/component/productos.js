@@ -412,7 +412,7 @@ const Productos = () => {
                                                                     onClick={() => actions.addToCart(item)} 
                                                                     className="add-cart-button flex-grow-1"
                                                                 >
-                                                                    Agregar
+                                                                    Agregar al carrito
                                                                 </button>
                                                             )}
                                                         </div>

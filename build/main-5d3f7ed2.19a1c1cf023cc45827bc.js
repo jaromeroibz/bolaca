@@ -450,8 +450,7 @@ var DetalleProductos = function DetalleProductos() {
     _useState8 = _slicedToArray(_useState7, 2),
     currentImage = _useState8[0],
     setCurrentImage = _useState8[1];
-  var productImages = [product.image, product.image2, product.image3]; // Adjust based on AWS images
-
+  var productImages = [product.image, product.image2, product.image3];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     actions.getProducts();
   }, []);

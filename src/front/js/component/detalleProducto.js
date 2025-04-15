@@ -10,7 +10,7 @@ const DetalleProductos = () => {
     const [selectedQuantity, setSelectedQuantity] = useState(1);
     const [customQuantity, setCustomQuantity] = useState("");
     const [currentImage, setCurrentImage] = useState(0);
-    const productImages = [product.image, product.image2, product.image3]; // Adjust based on AWS images
+    const productImages = [product.image, product.image2, product.image3]; 
 
     useEffect(() => {
         actions.getProducts();

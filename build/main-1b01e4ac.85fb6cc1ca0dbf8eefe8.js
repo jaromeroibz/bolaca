@@ -157,7 +157,7 @@ var LandingPage = function LandingPage() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "carousel-item active"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__/* .Link */ .N_, {
-    to: "/productos/1"
+    to: "/productos?category=1"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
     src: "https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169782/Carousel1_d054rp.png",
     className: "d-block w-100",
@@ -165,7 +165,7 @@ var LandingPage = function LandingPage() {
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "carousel-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__/* .Link */ .N_, {
-    to: "/productos/2"
+    to: "/productos?category=3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
     src: "https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169782/Carousel2_j8j9dn.png",
     className: "d-block w-100",
@@ -173,7 +173,7 @@ var LandingPage = function LandingPage() {
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "carousel-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__/* .Link */ .N_, {
-    to: "/productos/3"
+    to: "/productos?category=2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
     src: "https://res.cloudinary.com/dkfgpjg30/image/upload/v1744169782/Carousel3_wwi1ob.png",
     className: "d-block w-100",
@@ -1163,7 +1163,7 @@ var Productos = function Productos() {
         return actions.addToCart(item);
       },
       className: "add-cart-button flex-grow-1"
-    }, "Agregar"))));
+    }, "Agregar al carrito"))));
   }), hasMore && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     ref: loadingRef,
     className: "loading-indicator"
