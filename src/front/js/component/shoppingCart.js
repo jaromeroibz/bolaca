@@ -159,10 +159,10 @@ const ShoppingCart = () => {
                     Volver al listado
                 </Link>
                 {store.cart.length === 0 ? (
-                    <div className="text-center mt-5">
+                    <div className="empty-cart">
                         <h1>Tu carrito está vacío</h1>
                         <p className="mt-3">Parece que no has agregado productos a tu carrito aún.</p>
-                        <Link to="/productos" className="btn btn-primary mt-3">
+                        <Link to="/productos" className="add-cart-button">
                             Seguir comprando
                         </Link>
                     </div>

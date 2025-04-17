@@ -1524,12 +1524,12 @@ var ShoppingCart = function ShoppingCart() {
     },
     className: "mb-3 d-inline-block"
   }, "Volver al listado"), store.cart.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "text-center mt-5"
+    className: "empty-cart"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Tu carrito est\xE1 vac\xEDo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
     className: "mt-3"
   }, "Parece que no has agregado productos a tu carrito a\xFAn."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
     to: "/productos",
-    className: "btn btn-primary mt-3"
+    className: "add-cart-button"
   }, "Seguir comprando")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "cart"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "Tu carrito"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {

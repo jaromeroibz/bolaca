@@ -451,6 +451,9 @@ li::marker{font-size:0;}
   flex-direction: column;
   gap: 20px; /* Add spacing between child elements */
 }
+.empty-cart{
+  padding-top: 20px;
+}
 
 .cart .row {
   flex-wrap: wrap; /* Ensure rows wrap properly for responsive design */
