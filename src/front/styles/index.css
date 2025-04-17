@@ -432,7 +432,7 @@ li::marker{font-size:0;}
   gap: 20px; /* Add spacing between child elements */
 }
 .empty-cart{
-  padding-top: 20px;
+  padding-top: 220px;
 }
 
 .cart .row {

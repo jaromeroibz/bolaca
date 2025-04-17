@@ -162,9 +162,11 @@ const ShoppingCart = () => {
                     <div className="empty-cart">
                         <h1>Tu carrito está vacío</h1>
                         <p className="mt-3">Parece que no has agregado productos a tu carrito aún.</p>
-                        <Link to="/productos" className="add-cart-button">
-                            Seguir comprando
-                        </Link>
+                        <div>
+                            <Link to="/productos" className="add-cart-button">
+                                Seguir comprando
+                            </Link>
+                        </div>
                     </div>
                 ) : (
                     <div className="cart">
