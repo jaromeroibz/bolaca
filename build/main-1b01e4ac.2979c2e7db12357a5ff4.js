@@ -1358,8 +1358,7 @@ var ShoppingCart = function ShoppingCart() {
   // Scroll to top when component mounts
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     window.scrollTo(0, 0);
-  }, [location.pathname]); // This will trigger when the route changes
-
+  }, [location.pathname]);
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       name: "",
       email: "",
@@ -1430,8 +1429,6 @@ var ShoppingCart = function ShoppingCart() {
       return _ref.apply(this, arguments);
     };
   }();
-
-  // Add MercadoPago Wallet customization
   var renderCheckoutButton = function renderCheckoutButton(preferenceId) {
     if (preferenceId) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mercadopago_sdk_react__WEBPACK_IMPORTED_MODULE_2__/* .Wallet */ .uW, {
@@ -1450,27 +1447,19 @@ var ShoppingCart = function ShoppingCart() {
       });
     }
   };
-
-  // Handle form input changes
   var handleInputChange = function handleInputChange(e) {
     var _e$target = e.target,
       id = _e$target.id,
       value = _e$target.value;
     setCustomerDetails(_objectSpread(_objectSpread({}, customerDetails), {}, _defineProperty({}, id, value)));
   };
-
-  // Handle form submission
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-
-    // Validate form
     if (!customerDetails.name || !customerDetails.email || !customerDetails.phone) {
       alert("Por favor complete todos los campos requeridos");
       return;
     }
     try {
-      // Add customer to the array of customers in the store
-      // If addCustomerDetails doesn't exist yet, use setCustomerDetails as fallback
       if (actions.addCustomerDetails) {
         var newOrder = actions.addCustomerDetails(customerDetails);
         setCurrentOrder(newOrder);
@@ -1482,20 +1471,14 @@ var ShoppingCart = function ShoppingCart() {
           items: store.cart
         }));
       }
-
-      // Proceed with payment
       handleBuy();
     } catch (error) {
       console.error("Error saving customer details:", error);
-
-      // Fallback: Store in localStorage if context update fails
       var orderData = _objectSpread(_objectSpread({}, customerDetails), {}, {
         orderId: "order-".concat(Date.now()),
         timestamp: new Date().toISOString(),
         items: store.cart
       });
-
-      // Try to append to existing orders
       try {
         var existingOrders = JSON.parse(localStorage.getItem('customerOrders') || '[]');
         existingOrders.push(orderData);
@@ -1530,7 +1513,7 @@ var ShoppingCart = function ShoppingCart() {
       return _ref2.apply(this, arguments);
     };
   }();
-  var shippingPrice = 0; // Cambiar si quieren incluir costo de envío más adelante
+  var shippingPrice = 0;
   var totalPrice = itemsPrice + shippingPrice;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "container"
@@ -1540,7 +1523,14 @@ var ShoppingCart = function ShoppingCart() {
       textDecoration: "none"
     },
     className: "mb-3 d-inline-block"
-  }, "Volver al listado"), store.cart.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Tu carrito est\xE1 vac\xEDo") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, "Volver al listado"), store.cart.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "text-center mt-5"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Tu carrito est\xE1 vac\xEDo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+    className: "mt-3"
+  }, "Parece que no has agregado productos a tu carrito a\xFAn."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__/* .Link */ .N_, {
+    to: "/productos",
+    className: "btn btn-primary mt-3"
+  }, "Seguir comprando")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "cart"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "Tu carrito"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "row py-3"

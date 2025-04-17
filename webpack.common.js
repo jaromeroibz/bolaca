@@ -51,9 +51,11 @@ export default {
     ],
   },
   plugins: [
+    // Load environment variables from .env file
     new Dotenv({
-      systemvars: true,
+      systemvars: true, // Load environment variables from system (e.g., process.env)
     }),
+    // HtmlWebpackPlugin to inject the final JS bundle into the HTML file
     new HtmlWebpackPlugin({
       template: 'template.html',
       inject: 'body',
@@ -63,14 +65,15 @@ export default {
         removeRedundantAttributes: true,
       } : false,
     }),
+    // Provide global access to 'process' for browser environments
     new webpack.ProvidePlugin({
       process: 'process/browser.js',
     }),
+    // Using Dotenv for all environment variables
     new webpack.DefinePlugin({
-      'process.env.BACKEND_URL': JSON.stringify(
-        process.env.BACKEND_URL || 'http://localhost:3001'
-      ),
+      'process.env.BACKEND_URL': JSON.stringify(process.env.BACKEND_URL || 'http://localhost:3001'),
     }),
+    // Optional bundle analyzer plugin
     ...(process.env.ANALYZE ? [new BundleAnalyzerPlugin()] : []),
   ],
   module: {
@@ -107,7 +110,7 @@ export default {
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     fallback: {
-      process: false
+      process: false, // Avoid issues with process in browser environments
     },
   },
 };

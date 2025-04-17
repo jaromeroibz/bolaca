@@ -13,8 +13,7 @@ const ShoppingCart = () => {
     // Scroll to top when component mounts
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, [location.pathname]); // This will trigger when the route changes
-
+    }, [location.pathname]);
 
     const [customerDetails, setCustomerDetails] = useState({
         name: "",
@@ -66,7 +65,6 @@ const ShoppingCart = () => {
         }
     };
 
-    // Add MercadoPago Wallet customization
     const renderCheckoutButton = (preferenceId) => {
         if (preferenceId) {
             return (
@@ -86,7 +84,6 @@ const ShoppingCart = () => {
         }
     };
     
-    // Handle form input changes
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setCustomerDetails({
@@ -95,19 +92,15 @@ const ShoppingCart = () => {
         });
     };
 
-    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        // Validate form
         if (!customerDetails.name || !customerDetails.email || !customerDetails.phone) {
             alert("Por favor complete todos los campos requeridos");
             return;
         }
         
         try {
-            // Add customer to the array of customers in the store
-            // If addCustomerDetails doesn't exist yet, use setCustomerDetails as fallback
             if (actions.addCustomerDetails) {
                 const newOrder = actions.addCustomerDetails(customerDetails);
                 setCurrentOrder(newOrder);
@@ -121,12 +114,10 @@ const ShoppingCart = () => {
                 });
             }
             
-            // Proceed with payment
             handleBuy();
         } catch (error) {
             console.error("Error saving customer details:", error);
             
-            // Fallback: Store in localStorage if context update fails
             const orderData = {
                 ...customerDetails,
                 orderId: `order-${Date.now()}`,
@@ -134,7 +125,6 @@ const ShoppingCart = () => {
                 items: store.cart
             };
             
-            // Try to append to existing orders
             try {
                 const existingOrders = JSON.parse(localStorage.getItem('customerOrders') || '[]');
                 existingOrders.push(orderData);
@@ -155,7 +145,7 @@ const ShoppingCart = () => {
         }
     };
 
-    const shippingPrice = 0; // Cambiar si quieren incluir costo de envío más adelante
+    const shippingPrice = 0;
     const totalPrice = itemsPrice + shippingPrice;
 
     return (
@@ -169,12 +159,17 @@ const ShoppingCart = () => {
                     Volver al listado
                 </Link>
                 {store.cart.length === 0 ? (
-                    <h1>Tu carrito está vacío</h1>
+                    <div className="text-center mt-5">
+                        <h1>Tu carrito está vacío</h1>
+                        <p className="mt-3">Parece que no has agregado productos a tu carrito aún.</p>
+                        <Link to="/productos" className="btn btn-primary mt-3">
+                            Seguir comprando
+                        </Link>
+                    </div>
                 ) : (
                     <div className="cart">
                         <h3>Tu carrito</h3>
                         <div className="row py-3">
-                            {/* Customer details form - ON LEFT SIDE */}
                             <div className="col-md-5 mb-3">
                                 <div className="card h-100">
                                     <div className="card-body">
