@@ -424,9 +424,19 @@ li::marker{font-size:0;}
     background: #ef9453;
     height: 400px;
 }
-.cart{
-    padding-top: 200px;
+.cart {
+  padding-top: 20px; /* Adjust padding as needed */
+  height: auto; /* Let the height adjust to the content */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Add spacing between child elements */
 }
+
+.cart .row {
+  flex-wrap: wrap; /* Ensure rows wrap properly for responsive design */
+  align-items: flex-start; /* Align items to the top */
+}
+
 .product-name {
   white-space: nowrap;
   overflow: hidden;
@@ -1301,33 +1311,26 @@ hr.custom-hr {
     }
 }
 
-/* Shopping Cart Mobile Responsiveness */
 @media (max-width: 576px) {
-  /* Adjust cart padding for mobile */
   .cart {
-    padding-top: 120px;
+    padding-top: 120px; /* Adjust padding for mobile */
   }
-  
-  /* Reorder columns only in the shopping cart component */
-  .cart .row.py-3 {
-    display: flex;
-    flex-direction: column;
+
+  .cart .row {
+    flex-direction: column; /* Stack items vertically */
   }
-  
-  /* Product list first on mobile */
-  .cart .row.py-3 > .col-md-7 {
-    order: 1;
+
+  .cart .row > .col-md-7 {
+    order: 1; /* Show product list first */
     margin-bottom: 15px;
   }
-  
-  /* Customer form second on mobile */
-  .cart .row.py-3 > .col-md-5 {
-    order: 2;
+
+  .cart .row > .col-md-5 {
+    order: 2; /* Show summary second */
   }
-  
-  /* Adjust cart card height for mobile */
+
   .cart .card {
-    height: auto;
+    height: auto; /* Ensure cards adjust height dynamically */
   }
 }
 
