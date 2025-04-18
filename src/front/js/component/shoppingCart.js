@@ -114,7 +114,7 @@ const ShoppingCart = () => {
     
             const result = await emailjs.send(
                 'service_hka0dgl',
-                'template_imglx3f',
+                'template_lgsyyua',
                 templateParams,
                 '9eLEwOaSBpnE8vl56'
             );

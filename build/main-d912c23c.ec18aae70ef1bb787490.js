@@ -753,7 +753,7 @@ var ShoppingCart = function ShoppingCart() {
               total_amount: "$".concat(totalPrice)
             };
             _context2.next = 6;
-            return _emailjs_browser__WEBPACK_IMPORTED_MODULE_3__/* ["default"].send */ .Ay.send('service_hka0dgl', 'template_imglx3f', templateParams, '9eLEwOaSBpnE8vl56');
+            return _emailjs_browser__WEBPACK_IMPORTED_MODULE_3__/* ["default"].send */ .Ay.send('service_hka0dgl', 'template_lgsyyua', templateParams, '9eLEwOaSBpnE8vl56');
           case 6:
             result = _context2.sent;
             if (!(result.status === 200)) {
