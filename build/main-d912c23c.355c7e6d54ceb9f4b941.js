@@ -733,24 +733,19 @@ var ShoppingCart = function ShoppingCart() {
   };
   var sendConfirmationEmail = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(customerDetails, cartItems, totalPrice) {
-      var formattedOrderDetails, templateParams, result;
+      var orderMessage, templateParams, result;
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
             setIsSendingEmail(true);
             _context2.prev = 1;
-            // Format order details with better spacing and structure
-            formattedOrderDetails = cartItems.map(function (item) {
-              return "\u2022 ".concat(item.name, "\n  Cantidad: ").concat(item.qty, "\n  Precio unitario: $").concat(item.price, "\n  Subtotal: $").concat(item.price * item.qty);
-            }).join('\n\n');
+            // Format the message with all the order and shipping details
+            orderMessage = "\n            Datos del cliente:\n            Nombre: ".concat(customerDetails.name, "\n            Email: ").concat(customerDetails.email, "\n            Tel\xE9fono: ").concat(customerDetails.phone, "\n            \n            Direcci\xF3n de env\xEDo:\n            ").concat(customerDetails.street, " ").concat(customerDetails.streetNumber, "\n            ").concat(customerDetails.city, ", ").concat(customerDetails.province, "\n            C\xF3digo Postal: ").concat(customerDetails.postalCode, "\n            \n            Detalle del pedido:\n            ").concat(cartItems.map(function (item) {
+              return "- ".concat(item.name, "\n            Cantidad: ").concat(item.qty, "\n            Precio unitario: $").concat(item.price, "\n            Subtotal: $").concat(item.price * item.qty);
+            }).join('\n\n'), "\n            \n            Total de la compra: $").concat(totalPrice);
             templateParams = {
-              user_name: customerDetails.name,
-              user_email: customerDetails.email,
-              shipping_address: "".concat(customerDetails.street, " ").concat(customerDetails.streetNumber, ", ").concat(customerDetails.city, ", ").concat(customerDetails.province),
-              postal_code: customerDetails.postalCode,
-              phone: customerDetails.phone,
-              order_details: formattedOrderDetails,
-              total_amount: "$".concat(totalPrice)
+              name: customerDetails.name,
+              message: orderMessage
             };
             _context2.next = 6;
             return _emailjs_browser__WEBPACK_IMPORTED_MODULE_3__/* ["default"].send */ .Ay.send('service_hka0dgl', 'template_lgsyyua', templateParams, '9eLEwOaSBpnE8vl56');

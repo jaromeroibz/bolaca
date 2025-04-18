@@ -97,19 +97,31 @@ const ShoppingCart = () => {
     const sendConfirmationEmail = async (customerDetails, cartItems, totalPrice) => {
         setIsSendingEmail(true);
         try {
-            // Format order details with better spacing and structure
-            const formattedOrderDetails = cartItems.map(item => 
-                `• ${item.name}\n  Cantidad: ${item.qty}\n  Precio unitario: $${item.price}\n  Subtotal: $${item.price * item.qty}`
-            ).join('\n\n');
+            // Format the message with all the order and shipping details
+            const orderMessage = `
+            Datos del cliente:
+            Nombre: ${customerDetails.name}
+            Email: ${customerDetails.email}
+            Teléfono: ${customerDetails.phone}
+            
+            Dirección de envío:
+            ${customerDetails.street} ${customerDetails.streetNumber}
+            ${customerDetails.city}, ${customerDetails.province}
+            Código Postal: ${customerDetails.postalCode}
+            
+            Detalle del pedido:
+            ${cartItems.map(item => 
+                `- ${item.name}
+            Cantidad: ${item.qty}
+            Precio unitario: $${item.price}
+            Subtotal: $${item.price * item.qty}`
+            ).join('\n\n')}
+            
+            Total de la compra: $${totalPrice}`;
     
             const templateParams = {
-                user_name: customerDetails.name,
-                user_email: customerDetails.email,
-                shipping_address: `${customerDetails.street} ${customerDetails.streetNumber}, ${customerDetails.city}, ${customerDetails.province}`,
-                postal_code: customerDetails.postalCode,
-                phone: customerDetails.phone,
-                order_details: formattedOrderDetails,
-                total_amount: `$${totalPrice}`
+                name: customerDetails.name,
+                message: orderMessage
             };
     
             const result = await emailjs.send(
