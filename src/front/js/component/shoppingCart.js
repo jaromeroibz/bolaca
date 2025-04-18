@@ -97,25 +97,28 @@ const ShoppingCart = () => {
     const sendConfirmationEmail = async (customerDetails, cartItems, totalPrice) => {
         setIsSendingEmail(true);
         try {
+            // Format order details with better spacing and structure
+            const formattedOrderDetails = cartItems.map(item => 
+                `• ${item.name}\n  Cantidad: ${item.qty}\n  Precio unitario: $${item.price}\n  Subtotal: $${item.price * item.qty}`
+            ).join('\n\n');
+    
             const templateParams = {
                 user_name: customerDetails.name,
                 user_email: customerDetails.email,
                 shipping_address: `${customerDetails.street} ${customerDetails.streetNumber}, ${customerDetails.city}, ${customerDetails.province}`,
                 postal_code: customerDetails.postalCode,
                 phone: customerDetails.phone,
-                order_details: cartItems.map(item =>
-                    `${item.name} - Cantidad: ${item.qty} - Precio: $${item.price * item.qty}`
-                ).join('\n'),
-                total_amount: totalPrice
+                order_details: formattedOrderDetails,
+                total_amount: `$${totalPrice}`
             };
-
+    
             const result = await emailjs.send(
                 'service_hka0dgl',
-                'template_lgsyyua',
+                'template_imglx3f',
                 templateParams,
                 '9eLEwOaSBpnE8vl56'
             );
-
+    
             if (result.status === 200) {
                 console.log('Confirmation email sent successfully');
                 return true;
@@ -127,7 +130,7 @@ const ShoppingCart = () => {
             setIsSendingEmail(false);
         }
     };
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 

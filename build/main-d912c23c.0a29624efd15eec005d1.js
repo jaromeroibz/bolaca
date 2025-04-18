@@ -733,50 +733,52 @@ var ShoppingCart = function ShoppingCart() {
   };
   var sendConfirmationEmail = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(customerDetails, cartItems, totalPrice) {
-      var templateParams, result;
+      var formattedOrderDetails, templateParams, result;
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
             setIsSendingEmail(true);
             _context2.prev = 1;
+            // Format order details with better spacing and structure
+            formattedOrderDetails = cartItems.map(function (item) {
+              return "\u2022 ".concat(item.name, "\n  Cantidad: ").concat(item.qty, "\n  Precio unitario: $").concat(item.price, "\n  Subtotal: $").concat(item.price * item.qty);
+            }).join('\n\n');
             templateParams = {
               user_name: customerDetails.name,
               user_email: customerDetails.email,
               shipping_address: "".concat(customerDetails.street, " ").concat(customerDetails.streetNumber, ", ").concat(customerDetails.city, ", ").concat(customerDetails.province),
               postal_code: customerDetails.postalCode,
               phone: customerDetails.phone,
-              order_details: cartItems.map(function (item) {
-                return "".concat(item.name, " - Cantidad: ").concat(item.qty, " - Precio: $").concat(item.price * item.qty);
-              }).join('\n'),
-              total_amount: totalPrice
+              order_details: formattedOrderDetails,
+              total_amount: "$".concat(totalPrice)
             };
-            _context2.next = 5;
-            return _emailjs_browser__WEBPACK_IMPORTED_MODULE_3__/* ["default"].send */ .Ay.send('service_hka0dgl', 'template_lgsyyua', templateParams, '9eLEwOaSBpnE8vl56');
-          case 5:
+            _context2.next = 6;
+            return _emailjs_browser__WEBPACK_IMPORTED_MODULE_3__/* ["default"].send */ .Ay.send('service_hka0dgl', 'template_imglx3f', templateParams, '9eLEwOaSBpnE8vl56');
+          case 6:
             result = _context2.sent;
             if (!(result.status === 200)) {
-              _context2.next = 9;
+              _context2.next = 10;
               break;
             }
             console.log('Confirmation email sent successfully');
             return _context2.abrupt("return", true);
-          case 9:
-            _context2.next = 15;
+          case 10:
+            _context2.next = 16;
             break;
-          case 11:
-            _context2.prev = 11;
+          case 12:
+            _context2.prev = 12;
             _context2.t0 = _context2["catch"](1);
             console.error('Error sending confirmation email:', _context2.t0);
             throw _context2.t0;
-          case 15:
-            _context2.prev = 15;
+          case 16:
+            _context2.prev = 16;
             setIsSendingEmail(false);
-            return _context2.finish(15);
-          case 18:
+            return _context2.finish(16);
+          case 19:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[1, 11, 15, 18]]);
+      }, _callee2, null, [[1, 12, 16, 19]]);
     }));
     return function sendConfirmationEmail(_x, _x2, _x3) {
       return _ref2.apply(this, arguments);
