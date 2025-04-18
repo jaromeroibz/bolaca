@@ -89,6 +89,12 @@ CORS(app, resources={
         "methods": ["POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
         "supports_credentials": True
+    },
+        r"/submit": {
+        "origins": allowed_origins,
+        "methods": ["POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True
     }
 })
 
@@ -105,7 +111,8 @@ def verify_recaptcha(token):
 
 @app.route('/submit', methods=['POST'])
 def handle_form():
-    token = request.form.get("g-recaptcha-response")
+    data = request.get_json()  # Changed from request.form
+    token = data.get("g-recaptcha-response")
     result = verify_recaptcha(token)
     
     if result["success"] and result["score"] > 0.5:
