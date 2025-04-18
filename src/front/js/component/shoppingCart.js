@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useRef } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { AppContext } from "../store/appContext.js";
 import { Link } from "react-router-dom";
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
@@ -9,6 +9,7 @@ const ShoppingCart = () => {
     const { store, actions } = useContext(AppContext);
     const [preferenceId, setPreferenceId] = useState(null);
     const [currentOrder, setCurrentOrder] = useState(null);
+    const [isSendingEmail, setIsSendingEmail] = useState(false);
     const itemsPrice = store.cart.reduce((a, c) => a + c.qty * c.price, 0);
 
     // Scroll to top when component mounts
@@ -35,27 +36,27 @@ const ShoppingCart = () => {
         try {
             const items = store.cart.map(item => ({
                 title: item.name,
-                quantity: parseInt(item.qty), 
+                quantity: parseInt(item.qty),
                 unit_price: parseFloat(item.price),
                 product_image: item.image,
                 description: item.description || item.name,
                 id: item.id || String(Math.random())
             }));
 
-            const response = await axios.post(`${process.env.BACKEND_URL}/create_preference`, 
-                { 
+            const response = await axios.post(`${process.env.BACKEND_URL}/create_preference`,
+                {
                     items,
                     customer: currentOrder
                 },
                 {
-                    withCredentials: true, 
+                    withCredentials: true,
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}` 
+                        "Authorization": `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}`
                     }
                 }
             );
-    
+
             if (response.data && response.data.id) {
                 setPreferenceId(response.data.id);
                 return response.data.id;
@@ -69,10 +70,10 @@ const ShoppingCart = () => {
     const renderCheckoutButton = (preferenceId) => {
         if (preferenceId) {
             return (
-                <Wallet 
+                <Wallet
                     initialization={{ preferenceId: preferenceId }}
                     customization={{
-                        texts: { 
+                        texts: {
                             valueProp: 'smart_option',
                         },
                         visual: {
@@ -84,7 +85,7 @@ const ShoppingCart = () => {
             );
         }
     };
-    
+
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setCustomerDetails({
@@ -93,15 +94,53 @@ const ShoppingCart = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const sendConfirmationEmail = async (customerDetails, cartItems, totalPrice) => {
+        setIsSendingEmail(true);
+        try {
+            const templateParams = {
+                user_name: customerDetails.name,
+                user_email: customerDetails.email,
+                shipping_address: `${customerDetails.street} ${customerDetails.streetNumber}, ${customerDetails.city}, ${customerDetails.province}`,
+                postal_code: customerDetails.postalCode,
+                phone: customerDetails.phone,
+                order_details: cartItems.map(item =>
+                    `${item.name} - Cantidad: ${item.qty} - Precio: $${item.price * item.qty}`
+                ).join('\n'),
+                total_amount: totalPrice
+            };
+
+            const result = await emailjs.send(
+                'service_hka0dgl',
+                'template_lgsyyua',
+                templateParams,
+                '9eLEwOaSBpnE8vl56'
+            );
+
+            if (result.status === 200) {
+                console.log('Confirmation email sent successfully');
+                return true;
+            }
+        } catch (error) {
+            console.error('Error sending confirmation email:', error);
+            throw error;
+        } finally {
+            setIsSendingEmail(false);
+        }
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!customerDetails.name || !customerDetails.email || !customerDetails.phone) {
             alert("Por favor complete todos los campos requeridos");
             return;
         }
-        
+
         try {
+            // First try to send the confirmation email
+            await sendConfirmationEmail(customerDetails, store.cart, totalPrice);
+
+            // If email sends successfully, proceed with order processing
             if (actions.addCustomerDetails) {
                 const newOrder = actions.addCustomerDetails(customerDetails);
                 setCurrentOrder(newOrder);
@@ -114,28 +153,11 @@ const ShoppingCart = () => {
                     items: store.cart
                 });
             }
-            
+
             handleBuy();
         } catch (error) {
-            console.error("Error saving customer details:", error);
-            
-            const orderData = {
-                ...customerDetails,
-                orderId: `order-${Date.now()}`,
-                timestamp: new Date().toISOString(),
-                items: store.cart
-            };
-            
-            try {
-                const existingOrders = JSON.parse(localStorage.getItem('customerOrders') || '[]');
-                existingOrders.push(orderData);
-                localStorage.setItem('customerOrders', JSON.stringify(existingOrders));
-            } catch (e) {
-                localStorage.setItem('currentOrder', JSON.stringify(orderData));
-            }
-            
-            setCurrentOrder(orderData);
-            handleBuy();
+            console.error("Error processing order:", error);
+            alert("Hubo un error al procesar tu orden. Por favor intenta de nuevo.");
         }
     };
 
@@ -190,10 +212,10 @@ const ShoppingCart = () => {
                                             <span className="fw-bold">Total:</span>
                                             <span className="fw-bold">${totalPrice}</span>
                                         </div>
-                                        
+
                                         <h4 className="card-title text-center mt-4 mb-3">Datos de contacto</h4>
                                         <hr />
-                                        
+
                                         <form onSubmit={handleSubmit}>
                                             <div className="mb-3">
                                                 <label htmlFor="name" className="form-label fw-bold">Nombre completo*</label>
@@ -206,7 +228,7 @@ const ShoppingCart = () => {
                                                     required
                                                 />
                                             </div>
-                                            
+
                                             <div className="mb-3">
                                                 <label htmlFor="email" className="form-label fw-bold">Email*</label>
                                                 <input
@@ -218,7 +240,7 @@ const ShoppingCart = () => {
                                                     required
                                                 />
                                             </div>
-                                            
+
                                             <div className="mb-3">
                                                 <label htmlFor="phone" className="form-label fw-bold">Teléfono*</label>
                                                 <input
@@ -230,7 +252,7 @@ const ShoppingCart = () => {
                                                     required
                                                 />
                                             </div>
-                                            
+
                                             <div className="row mb-3">
                                                 <div className="col-8">
                                                     <label htmlFor="street" className="form-label fw-bold">Calle*</label>
@@ -255,7 +277,7 @@ const ShoppingCart = () => {
                                                     />
                                                 </div>
                                             </div>
-                                            
+
                                             <div className="mb-3">
                                                 <label htmlFor="city" className="form-label fw-bold">Ciudad*</label>
                                                 <input
@@ -267,7 +289,7 @@ const ShoppingCart = () => {
                                                     required
                                                 />
                                             </div>
-                                            
+
                                             <div className="row mb-3">
                                                 <div className="col-6">
                                                     <label htmlFor="province" className="form-label fw-bold">Comuna*</label>
@@ -292,10 +314,14 @@ const ShoppingCart = () => {
                                                     />
                                                 </div>
                                             </div>
-                                            
+
                                             {!preferenceId ? (
-                                                <button type="submit" className="btn btn-dark w-100 mt-3">
-                                                    Ir a pagar
+                                                <button 
+                                                    type="submit" 
+                                                    className="btn btn-dark w-100 mt-3"
+                                                    disabled={isSendingEmail}
+                                                >
+                                                    {isSendingEmail ? 'Procesando...' : 'Ir a pagar'}
                                                 </button>
                                             ) : (
                                                 <div className="mt-3">
@@ -306,7 +332,7 @@ const ShoppingCart = () => {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div className="col-md-7 mb-3">
                                 <div className="card h-100">
                                     <div className="card-body">
