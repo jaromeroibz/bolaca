@@ -1,8 +1,9 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import { AppContext } from "../store/appContext.js";
 import { Link } from "react-router-dom";
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 import axios from "axios";
+import emailjs from '@emailjs/browser';
 
 const ShoppingCart = () => {
     const { store, actions } = useContext(AppContext);

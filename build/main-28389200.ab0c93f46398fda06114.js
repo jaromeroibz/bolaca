@@ -2506,32 +2506,6 @@ var getState = function getState(_ref) {
         }
         return createPreference;
       }(),
-      // filterProducts: (query) => {
-      //     const store = getStore();
-      //     const lowerCaseQuery = query.toLowerCase();
-
-      // 	console.log("Current store:", store); // Check initial state
-      // 	console.log("Search query:", lowerCaseQuery);
-
-      // 	// First, make sure products exist in your store
-      // 	if (!store.products) {
-      // 		console.error("No products found in store");
-      // 		return;
-      // 	}
-      //     const filtered = store.products.filter(product => {
-      // 		console.log("Checking product:", product);
-      //         return (
-      //             product.name.toLowerCase().includes(lowerCaseQuery) ||
-      //             product.description.toLowerCase().includes(lowerCaseQuery) ||
-      //             product.category_name.toLowerCase().includes(lowerCaseQuery)
-      //         );
-      //     });
-      // 	console.log("Filtered results:", filtered);
-
-      //     setStore({ ...store, filteredProducts: filtered });
-
-      // 	console.log("Updated store:", getStore());
-      // },
       filterProducts: function filterProducts(query) {
         var store = getStore();
         var lowerCaseQuery = query.toLowerCase();

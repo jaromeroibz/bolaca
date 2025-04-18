@@ -60,13 +60,14 @@
 		"webpack-merge": "^6.0.1"
 	},
 	"dependencies": {
+		"@emailjs/browser": "^4.4.1",
 		"@fortawesome/fontawesome-svg-core": "^6.7.2",
 		"@fortawesome/free-solid-svg-icons": "^6.7.2",
 		"@fortawesome/react-fontawesome": "^0.2.2",
 		"@mercadopago/sdk-react": "^0.0.22",
 		"@sentry/react": "^8.50.0",
 		"@sentry/webpack-plugin": "^3.0.0",
-		"axios": "^1.7.9",
+		"axios": "^1.8.4",
 		"bootstrap": "^5.3.3",
 		"cors": "^2.8.5",
 		"express": "^4.21.2",
